@@ -14,5 +14,7 @@ package com.PauWare.PauWare_view;
  * A loyout is an object that olds a mapping of "Elements" to a 2D positionning.
  */
 public interface ILayoutProcessor {
-    void init();
+    void init(IChart chart);
+    
+    ILayout getLayout();
 }
