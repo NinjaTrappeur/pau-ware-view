@@ -21,7 +21,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
     
     public Statechart_monitor_viewer()
     {
-        _state = new State(10,10,"coucou");
+        _state = new State(100,80,"coucou");
     }
     
     @Override
@@ -75,7 +75,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         // Cette méthode est appelée en boucle par Processing.
         background(200);
         if (_trace != null) {
-            text(_trace, 40, 40);
+           _state.draw(this);
         }
     }
 }

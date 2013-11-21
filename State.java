@@ -14,14 +14,25 @@ public class State extends AbstractElement
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
+    
+    float _boxRadius;
+    float _textSize;
+    
     public State(float length, float width, String name)
     {
         super(name,length,width);
+        _boxRadius = _width/5;
+        _textSize = _boxRadius - 4;
     }
 
     @Override
     public void draw(processing.core.PApplet applet)
     {
-        applet.rect(10,10,10,10);
+        applet.rect(0,0,_length,_width,_boxRadius);
+        applet.line(0, 20, _length, 20);
+        applet.fill(0, 0, 0);
+        applet.textSize(_textSize);
+        applet.text(_name, _boxRadius, _boxRadius/2+_textSize/2);
+        applet.fill(255);
     }
 }
