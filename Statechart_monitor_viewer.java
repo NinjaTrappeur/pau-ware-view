@@ -17,6 +17,13 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
      */
     javax.swing.JFrame _state_machine_view;
 
+    State _state;
+    
+    public Statechart_monitor_viewer()
+    {
+        _state = new State(10,10,"coucou");
+    }
+    
     @Override
     public void initialize(com.pauware.pauware_engine._Core.AbstractStatechart_monitor state_machine) {
         // Cette méthode est appelée une seule fois à l'initialisation de la 'state machine'.
