@@ -24,6 +24,13 @@ public class State extends AbstractElement
         _boxRadius = _width/5;
         _textSize = _boxRadius - 4;
     }
+    
+    public State(String name)
+    {
+        super(name, 10, 10);
+        _boxRadius = _width/5;
+        _textSize = _boxRadius - 4;
+    }
 
     @Override
     public void draw(processing.core.PApplet applet)
