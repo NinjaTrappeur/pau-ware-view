@@ -6,7 +6,7 @@
 package com.PauWare.PauWare_view;
 
 
-public class StartState extends AbstractElement {
+public class StartState extends State {
      /**
      * This class represents a graphic start state.
      * 
