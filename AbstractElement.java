@@ -12,12 +12,45 @@ package com.PauWare.PauWare_view;
  * 
  */
 public abstract class AbstractElement implements Drawable {
+    protected String _name;
     protected float _length;
     protected float _width;
 
-    public AbstractElement(float length, float width){
+    public AbstractElement(String name, float length, float width)
+    {
+        _name = name;
         _length = length;
         _width = width;
+    }
+    
+    public void setName(String name)
+    {
+        _name = name;
+    }
+    
+    public void setLength(float length)
+    {
+        _length = length;
+    }
+    
+    public void setWidth(float width)
+    {
+        _width = width;
+    }
+    
+    public String name()
+    {
+        return _name;
+    }
+    
+    public float length()
+    {
+        return _length;
+    }
+    
+    public float width()
+    {
+        return _width;
     }
     
     @Override
