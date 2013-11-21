@@ -11,12 +11,15 @@ package com.PauWare.PauWare_view;
  * @param length Length of the rectangle representing the element.
  * 
  */
-public abstract class AbstractElement {
+public abstract class AbstractElement implements Drawable {
+    protected float _length;
+    protected float _width;
+
     public AbstractElement(float length, float width){
         _length = length;
         _width = width;
     }
-    public abstract void draw();
-    protected float _length;
-    protected float _width;
+    
+    @Override
+    public abstract void draw(processing.core.PApplet applet);
 }
