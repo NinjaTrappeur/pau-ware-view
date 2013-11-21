@@ -15,9 +15,22 @@ public abstract class AbstractElement implements Drawable {
     protected String _name;
     protected float _length;
     protected float _width;
+    
+    private void _preSetMetric(float metric, String metricName, String methodName) throws IllegalArgumentException
+    {
+        if(metric < 0){
+            throw new IllegalArgumentException("AbstractElement._preSetMetric (for "+
+                    methodName+
+                    "): "+ metricName+
+                    " can not be negative");
+        }
+    }
 
     public AbstractElement(String name, float length, float width)
     {
+        _preSetMetric(length, "constructor", "length");
+        _preSetMetric(width, "constructor", "width");
+
         _name = name;
         _length = length;
         _width = width;
@@ -30,11 +43,13 @@ public abstract class AbstractElement implements Drawable {
     
     public void setLength(float length)
     {
+        _preSetMetric(length, "setLength", "length");
         _length = length;
     }
     
     public void setWidth(float width)
     {
+        _preSetMetric(width, "setWidth", "width");
         _width = width;
     }
     

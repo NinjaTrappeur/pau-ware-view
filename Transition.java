@@ -12,6 +12,21 @@ public class Transition {
     private AbstractElement _origin;
     private AbstractElement _target;
     
+    private void _preSetLength()
+    {
+        
+    }
+    
+    private void _preSetWidth()
+    {
+        
+    }
+    
+    private void _preSet()
+    {
+        
+    }
+    
     public Transition(AbstractElement origin, AbstractElement target)
     {
         _origin = origin;

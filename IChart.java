@@ -15,12 +15,16 @@ import java.util.Collection;
  */
 public interface IChart
 {
-    void addState(AbstractElement state);
-    void removeState(AbstractElement state);
+    void addElement(AbstractElement state);
+    void removeElement(AbstractElement state);
     
     void addTransition(Transition trans);
+    void addTransition(AbstractElement origin, AbstractElement target);
     void removeTransition(Transition trans);
+    void removeTransition(AbstractElement origin, AbstractElement target);
     
-    Collection<Transition> getStates();
-    Collection<Transition> getTransitions();
+    Collection<AbstractElement> elements();
+    Collection<Transition> transitions();
+    
+    boolean isTransition(AbstractElement origin, AbstractElement target);
 }
