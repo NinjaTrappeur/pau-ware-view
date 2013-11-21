@@ -16,14 +16,7 @@ public class State extends AbstractElement
      */
     public State(float length, float width, String name)
     {
-        super(length,width);
-        _name = name;
+        super(name,length,width);
     }
     
-    
-    
-    /**
-     * Name of the state.
-     */
-    protected String _name;
 }
