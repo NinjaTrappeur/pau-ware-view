@@ -7,14 +7,12 @@ package com.PauWare.PauWare_view;
 
 /**
  * Abstract graphic element.
- * @param width Width of the rectangle representing the element.
- * @param length Length of the rectangle representing the element.
  * 
  */
 public abstract class AbstractElement implements Drawable {
     protected String _name;
-    protected float _length;
-    protected float _width;
+    protected float _length; /**!< bounding recteangle length */
+    protected float _width; /**!< bounding recteangle width */
     
     private void _preSetMetric(float metric, String metricName, String methodName) throws IllegalArgumentException
     {
@@ -26,6 +24,12 @@ public abstract class AbstractElement implements Drawable {
         }
     }
 
+    /**
+     * 
+     * @param name label of the element
+     * @param length metric for graphical display
+     * @param width metric for graphical display
+     */
     public AbstractElement(String name, float length, float width)
     {
         _preSetMetric(length, "constructor", "length");
@@ -34,6 +38,17 @@ public abstract class AbstractElement implements Drawable {
         _name = name;
         _length = length;
         _width = width;
+    }
+
+    /**
+     * 
+     * @param name label of the element
+     */
+    public AbstractElement(String name)
+    {
+        _name = name;
+        _length = 0;
+        _width = 0;
     }
     
     public void setName(String name)
@@ -68,6 +83,6 @@ public abstract class AbstractElement implements Drawable {
         return _width;
     }
     
-    @Override
-    public abstract void draw(processing.core.PApplet applet);
+    /*@Override
+    public abstract void draw(processing.core.PApplet applet);*/
 }
