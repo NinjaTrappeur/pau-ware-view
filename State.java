@@ -18,5 +18,10 @@ public class State extends AbstractElement
     {
         super(name,length,width);
     }
-    
+
+    @Override
+    public void draw(processing.core.PApplet applet)
+    {
+        //
+    }
 }
