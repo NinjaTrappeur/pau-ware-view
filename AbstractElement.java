@@ -16,7 +16,8 @@ public abstract class AbstractElement implements Drawable {
     
     private void _preSetMetric(float metric, String metricName, String methodName) throws IllegalArgumentException
     {
-        if(metric < 0){
+        if(metric < 0)
+        {
             throw new IllegalArgumentException("AbstractElement._preSetMetric (for "+
                     methodName+
                     "): "+ metricName+
