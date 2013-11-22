@@ -17,5 +17,12 @@ public class StartState extends State {
       public StartState()
     {
         super(30,30,"");
-    }  
+    }
+      
+      @Override
+      public void draw(processing.core.PApplet applet)
+      {
+          applet.fill(0, 0, 0);
+          applet.ellipse(0, 0, _width, _length);
+      }
 }

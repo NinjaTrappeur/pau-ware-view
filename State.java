@@ -27,7 +27,7 @@ public class State extends AbstractElement
     
     public State(String name)
     {
-        super(name, 10, 10);
+        super(name, 200, 100);
         _boxRadius = _width/5;
         _textSize = _boxRadius - 4;
     }
@@ -35,6 +35,7 @@ public class State extends AbstractElement
     @Override
     public void draw(processing.core.PApplet applet)
     {
+        applet.fill(255,255,255);
         applet.rect(0,0,_length,_width,_boxRadius);
         applet.line(0, _boxRadius, _length, _boxRadius);
         applet.fill(0, 0, 0);
@@ -42,6 +43,5 @@ public class State extends AbstractElement
         applet.textAlign(applet.CENTER);
         applet.text(_name, _boxRadius/2+_textSize/3, _boxRadius/10, 
                 _length-2*_boxRadius, _boxRadius);
-        applet.fill(255);
     }
 }
