@@ -14,8 +14,8 @@ public class StartState extends State {
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
-      public StartState(float length, float width, String name)
+      public StartState()
     {
-        super(length,width,name);
+        super(30,30,"");
     }  
 }

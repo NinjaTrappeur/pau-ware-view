@@ -14,8 +14,8 @@ public class EndState extends State{
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
-      public EndState(float length, float width, String name)
+      public EndState()
     {
-        super(length,width,name);
+        super(30,30,"");
     }  
 }

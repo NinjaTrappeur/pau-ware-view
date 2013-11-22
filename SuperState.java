@@ -22,6 +22,16 @@ public class SuperState extends State{
         _subGraphs = subgraphs;
     }
     
+    public SuperState(String name)
+    {
+        super(name);
+    }
+    
+    public void addComponent(AbstractElement element)
+    {
+        //
+    }
+
     /**
      * Graphs of states countained in this superstate.
      */

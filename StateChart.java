@@ -22,40 +22,48 @@ public class StateChart extends AbstractElement implements IChart {
     private AbstractElement _addState(com.pauware.pauware_engine._Core.AbstractStatechart state) {
         AbstractElement added;
 
-        if (state.leaf()) {
-            added = new State(state.name());
-        } else //compositeState
+        if (state.leaf())
         {
+            added = new State(state.name());
+        }
+        
+        else //compositeState
+        {
+            SuperState compo;
             com.pauware.pauware_engine._Core.AbstractStatechart l, r;
             AbstractElement left, right;
 
-            added = new SuperState(state.name());
+            compo = new SuperState(state.name());
             // add CompositeState components : use left() and right
             l = state.left();
             r = state.right();
             left = _addState(l);
-            added.addComponent(left);
+            compo.addComponent(left);
             while( r.name().equals("pseudo-state") )
             {
                 l = r.left();
                 r = r.right();
                 
                 left = _addState(l);
-                added.addComponent(left);
+                compo.addComponent(left);
             }
             right = _addState(r);
-            added.addComponent(right);
+            compo.addComponent(right);
             
+            added = compo;
         }
 
         _elements.add(added);
 
-        if (state.isInputState()) {
+        if (state.isInputState())
+        {
             AbstractElement start = new StartState();
 
             _elements.add(start);
             _transitions.add(new Transition(start, added));
-        } else if (state.isOutputState()) {
+        }
+        else if (state.isOutputState())
+        {
             AbstractElement end = new EndState();
 
             _elements.add(end);
