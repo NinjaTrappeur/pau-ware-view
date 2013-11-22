@@ -36,10 +36,12 @@ public class State extends AbstractElement
     public void draw(processing.core.PApplet applet)
     {
         applet.rect(0,0,_length,_width,_boxRadius);
-        applet.line(0, 20, _length, 20);
+        applet.line(0, _boxRadius, _length, _boxRadius);
         applet.fill(0, 0, 0);
         applet.textSize(_textSize);
-        applet.text(_name, _boxRadius, _boxRadius/2+_textSize/2);
+        applet.textAlign(applet.CENTER);
+        applet.text(_name, _boxRadius/2+_textSize/3, _boxRadius/10, 
+                _length-2*_boxRadius, _boxRadius);
         applet.fill(255);
     }
 }
