@@ -4,8 +4,6 @@
  */
 package com.PauWare.PauWare_view;
 
-import java.util.Objects;
-
 /**
  *
  * @author jaron
@@ -54,7 +52,7 @@ public class Transition
         }
         else
         {
-            Transition elt = ((Transition) obj);
+            AbstractElement elt = ((AbstractElement) obj);
             return (this._origin.equals(elt) &&
                     this._target.equals(elt)
                     );
@@ -64,8 +62,8 @@ public class Transition
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this._origin);
-        hash = 53 * hash + Objects.hashCode(this._target);
+        hash = 53 * hash + this._origin.hashCode();
+        hash = 53 * hash + this._target.hashCode();
         return hash;
     }
 }

@@ -5,8 +5,6 @@
  */
 package com.PauWare.PauWare_view;
 
-import java.util.Objects;
-
 /**
  * Abstract graphic element.
  *
@@ -109,9 +107,9 @@ public abstract class AbstractElement
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 23 * hash + Objects.hashCode(this._name);
-        hash = 23 * hash + Float.floatToIntBits(this._length);
-        hash = 23 * hash + Float.floatToIntBits(this._width);
+        hash = 23 * hash + this._name.hashCode();
+        hash = 23 * hash + String.valueOf(this._length).hashCode();
+        hash = 23 * hash + String.valueOf(this._width).hashCode();
         return hash;
     }
 
