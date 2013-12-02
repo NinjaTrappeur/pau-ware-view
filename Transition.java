@@ -4,11 +4,14 @@
  */
 package com.PauWare.PauWare_view;
 
+import java.util.Objects;
+
 /**
  *
  * @author jaron
  */
-public class Transition {
+public class Transition
+{
     private AbstractElement _origin;
     private AbstractElement _target;
     
@@ -36,5 +39,33 @@ public class Transition {
     public AbstractElement target()
     {
         return _target;
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(!(obj instanceof Transition))
+        {
+            return false;
+        }
+        else if(obj == this)
+        {
+            return true;
+        }
+        else
+        {
+            Transition elt = ((Transition) obj);
+            return (this._origin.equals(elt) &&
+                    this._target.equals(elt)
+                    );
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this._origin);
+        hash = 53 * hash + Objects.hashCode(this._target);
+        return hash;
     }
 }

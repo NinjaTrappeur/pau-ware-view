@@ -29,28 +29,28 @@ public class StateChart extends AbstractElement implements IChart {
         
         else //compositeState
         {
-            SuperState compo;
+            SuperState composite;
             com.pauware.pauware_engine._Core.AbstractStatechart l, r;
             AbstractElement left, right;
 
-            compo = new SuperState(state.name());
-            // add CompositeState components : use left() and right
+            composite = new SuperState(state.name());
+            // add CompositeState components : use left() and right()
             l = state.left();
             r = state.right();
             left = _addState(l);
-            compo.addComponent(left);
+            composite.addComponent(left);
             while( r.name().equals("pseudo-state") )
             {
                 l = r.left();
                 r = r.right();
                 
                 left = _addState(l);
-                compo.addComponent(left);
+                composite.addComponent(left);
             }
             right = _addState(r);
-            compo.addComponent(right);
+            composite.addComponent(right);
             
-            added = compo;
+            added = composite;
         }
 
         _elements.add(added);
@@ -150,10 +150,5 @@ public class StateChart extends AbstractElement implements IChart {
     public boolean isTransition(AbstractElement origin, AbstractElement target) {
         Transition trans = new Transition(origin, target);
         return _transitions.contains(trans);
-    }
-
-    @Override
-    public void draw(processing.core.PApplet applet) {
-        //
     }
 }

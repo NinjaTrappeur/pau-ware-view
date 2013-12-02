@@ -5,7 +5,7 @@
  */
 package com.PauWare.PauWare_view;
 
-public class State extends AbstractElement 
+public class State extends AbstractElement implements Drawable
 {
     /**
      * This class represents a graphic state.
@@ -41,7 +41,7 @@ public class State extends AbstractElement
         applet.fill(0, 0, 0);
         applet.textSize(_textSize);
         applet.textAlign(applet.CENTER);
-        applet.text(_name, _boxRadius/2+_textSize/3, _boxRadius/10, 
+        applet.text(_name, _boxRadius/2+_textSize/3, _boxRadius/10,
                 _length-2*_boxRadius, _boxRadius);
     }
 }

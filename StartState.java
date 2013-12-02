@@ -6,7 +6,8 @@
 package com.PauWare.PauWare_view;
 
 
-public class StartState extends State {
+public class StartState extends State
+{
      /**
      * This class represents a graphic start state.
      * 
@@ -18,6 +19,7 @@ public class StartState extends State {
     {
         super(30,30,"");
     }
+
       
       @Override
       public void draw(processing.core.PApplet applet)
