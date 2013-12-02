@@ -5,8 +5,6 @@
  */
 package com.PauWare.PauWare_view;
 
-import java.util.Objects;
-
 /**
  * Abstract graphic element.
  *
