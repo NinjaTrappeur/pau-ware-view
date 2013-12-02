@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.SortedMap;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,6 +20,7 @@ public class StateChart extends AbstractElement implements IChart {
 
     HashSet<AbstractElement> _elements;
     HashSet<Transition> _transitions;
+    SortedMap<Integer, ArrayList<AbstractElement> > _nestingLevels;
 
     private AbstractElement _addState(com.pauware.pauware_engine._Core.AbstractStatechart state) {
         AbstractElement added;
@@ -136,6 +139,11 @@ public class StateChart extends AbstractElement implements IChart {
         _transitions.remove(trans);
     }
 
+    @Override
+    public SortedMap<Integer, ArrayList<AbstractElement>> getNestingLevels()
+    {
+        return _nestingLevels;
+    }
     @Override
     public Collection<AbstractElement> elements() {
         return _elements;

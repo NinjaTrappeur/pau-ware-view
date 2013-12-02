@@ -14,6 +14,12 @@ public abstract class AbstractElement
 
     protected String _name;
     protected float _length;
+    protected int _id;
+    
+    static protected int _currentId;
+    static{
+        _currentId = 0;
+    }
     /**
      * !< bounding recteangle length
      */
@@ -45,6 +51,9 @@ public abstract class AbstractElement
         _name = name;
         _length = length;
         _width = width;
+        
+        _id = _currentId;
+        ++_currentId;
     }
 
     /**
@@ -81,6 +90,11 @@ public abstract class AbstractElement
 
     public float width() {
         return _width;
+    }
+    
+    public int id()
+    {
+        return _id;
     }
 
     @Override
