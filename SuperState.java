@@ -6,6 +6,7 @@
 package com.PauWare.PauWare_view;
 
 import java.util.Collection;
+import java.util.ArrayList;
     /**
      * This class represents a graphic super state.
      * 
@@ -14,26 +15,46 @@ import java.util.Collection;
      * @param name Name of the state.
      * @param subgraphs Subgraphs contained in this super state.
      */
-public class SuperState extends State{
+public class SuperState extends State
+{
     public SuperState(float length, float width, String name,
-            Collection subgraphs)
+            Collection<State> subStates)
     {
         super(length,width,name);
-        _subGraphs = subgraphs;
+        this._subStates = new ArrayList();
+        _subStates.addAll(subStates);
     }
     
     public SuperState(String name)
     {
         super(name);
+        this._subStates = new ArrayList();
     }
     
-    public void addComponent(AbstractElement element)
+    public void addComponent(AbstractElement state)
     {
-        //
+        _subStates.add(state);
     }
 
+    public void removeComponent(AbstractElement state)
+    {
+        _subStates.remove(state);
+    }
+
+    public Collection<AbstractElement> substates()
+    {
+        return _subStates;
+    }
+ 
+    /*
+    @Override
+        public void draw(processing.core.PApplet applet)
+    {
+    }
+    */
+        
     /**
      * Graphs of states countained in this superstate.
      */
-    protected Collection _subGraphs;
+    protected ArrayList<AbstractElement> _subStates;
 }

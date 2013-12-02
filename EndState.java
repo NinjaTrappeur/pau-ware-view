@@ -6,7 +6,8 @@
 package com.PauWare.PauWare_view;
 
 
-public class EndState extends State{
+public class EndState extends State
+{
      /**
      * This class represents a graphic end state.
      * 
@@ -17,5 +18,14 @@ public class EndState extends State{
       public EndState()
     {
         super(30,30,"");
-    }  
+    }
+
+      @Override
+      public void draw(processing.core.PApplet applet)
+      {
+          applet.fill(0, 0, 0);
+          applet.ellipse(0, 0, _width-12, _length-12);
+          applet.noFill();
+          applet.ellipse(0,0,_width,_length);
+      }
 }
