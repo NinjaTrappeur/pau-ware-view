@@ -27,7 +27,7 @@ public class State extends AbstractElement
     
     public State(String name)
     {
-        super(name, 200, 100);
+        super(name, 150, 100);
         _boxRadius = _width/5;
         _textSize = _boxRadius - 4;
     }

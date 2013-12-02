@@ -21,7 +21,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
     
     public Statechart_monitor_viewer()
     {
-        _state = new EndState();
+        _state = new State("iuetsrcauetscauestcauestcaue");
     }
     
     @Override
@@ -32,7 +32,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         _state_machine = state_machine;
         if (_state_machine != null) {
             _state_machine_view = new javax.swing.JFrame(_state_machine.name());
-            _state_machine_view.setSize(600, 800);
+            _state_machine_view.setSize(900, 900);
             _state_machine_view.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 //            javax.swing.JPanel panel = new javax.swing.JPanel();
 //            panel.setBounds(20, 20, 600, 800);
