@@ -9,8 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.SortedMap;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -20,11 +19,31 @@ public class StateChart extends AbstractElement implements IChart {
 
     HashSet<AbstractElement> _elements;
     HashSet<Transition> _transitions;
-    SortedMap<Integer, ArrayList<AbstractElement> > _nestingLevels;
+    HashMap<Integer, HashSet<AbstractElement> > _nestingLevels;
+    
+    private void _registerNestLevel(AbstractElement added, Integer nestLevel)
+    {
+        if(_nestingLevels.containsKey(nestLevel))
+        {
+            _nestingLevels.get(nestLevel).add(added);
+        }
+        
+        else
+        {
+            HashSet<AbstractElement> elements = new HashSet();
+            elements.add(added);
+            _nestingLevels.put(nestLevel, elements);
+        }
+    }
 
-    private AbstractElement _addState(com.pauware.pauware_engine._Core.AbstractStatechart state) {
+    private AbstractElement _addState(com.pauware.pauware_engine._Core.AbstractStatechart state,
+            Integer parentNestLevel)
+    {
         AbstractElement added;
+        Integer childNestLevel;
 
+        childNestLevel = parentNestLevel + 1;
+        
         if (state.leaf())
         {
             added = new State(state.name());
@@ -35,28 +54,30 @@ public class StateChart extends AbstractElement implements IChart {
             SuperState composite;
             com.pauware.pauware_engine._Core.AbstractStatechart l, r;
             AbstractElement left, right;
+            Integer granChildNestLevel = childNestLevel + 1;
 
             composite = new SuperState(state.name());
             // add CompositeState components : use left() and right()
             l = state.left();
             r = state.right();
-            left = _addState(l);
+            left = _addState(l, granChildNestLevel);
             composite.addComponent(left);
             while( r.name().equals("pseudo-state") )
             {
                 l = r.left();
                 r = r.right();
                 
-                left = _addState(l);
+                left = _addState(l, granChildNestLevel);
                 composite.addComponent(left);
             }
-            right = _addState(r);
+            right = _addState(r, granChildNestLevel);
             composite.addComponent(right);
             
             added = composite;
         }
 
         _elements.add(added);
+        _registerNestLevel(added, childNestLevel);
 
         if (state.isInputState())
         {
@@ -64,6 +85,7 @@ public class StateChart extends AbstractElement implements IChart {
 
             _elements.add(start);
             _transitions.add(new Transition(start, added));
+            _registerNestLevel(start, childNestLevel);
         }
         else if (state.isOutputState())
         {
@@ -71,6 +93,7 @@ public class StateChart extends AbstractElement implements IChart {
 
             _elements.add(end);
             _transitions.add(new Transition(added, end));
+            _registerNestLevel(end, childNestLevel);
         }
 
         return added;
@@ -79,6 +102,8 @@ public class StateChart extends AbstractElement implements IChart {
     public StateChart(com.pauware.pauware_engine._Core.AbstractStatechart_monitor state_machine,
             String name, float length, float width) {
         super(name, length, width);
+        
+        Integer nestLevel;
 
         Set<com.pauware.pauware_engine._Core.Transition> transitions;
         com.pauware.pauware_engine._Core.Transition edge;
@@ -86,6 +111,8 @@ public class StateChart extends AbstractElement implements IChart {
         AbstractElement origin, target;
 
         transitions = state_machine.transitions().keySet();
+        
+        nestLevel = 0;
 
         Iterator<com.pauware.pauware_engine._Core.Transition> it = transitions.iterator();
         while (it.hasNext()) {
@@ -93,8 +120,8 @@ public class StateChart extends AbstractElement implements IChart {
             from = edge.from();
             to = edge.to();
 
-            origin = _addState(from);
-            target = _addState(to);
+            origin = _addState(from, nestLevel);
+            target = _addState(to, nestLevel);
 
             _transitions.add(new Transition(origin, target));
         }
@@ -140,7 +167,7 @@ public class StateChart extends AbstractElement implements IChart {
     }
 
     @Override
-    public SortedMap<Integer, ArrayList<AbstractElement>> getNestingLevels()
+    public HashMap<Integer, HashSet<AbstractElement>> getNestingLevels()
     {
         return _nestingLevels;
     }

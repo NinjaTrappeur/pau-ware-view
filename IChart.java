@@ -4,9 +4,9 @@
  */
 package com.PauWare.PauWare_view;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Collection;
-import java.util.SortedMap;
+import java.util.HashMap;
 
 /**
  *
@@ -25,7 +25,7 @@ public interface IChart
     void removeTransition(Transition trans);
     void removeTransition(AbstractElement origin, AbstractElement target);
     
-    public SortedMap<Integer, ArrayList<AbstractElement>> getNestingLevels();
+    public HashMap<Integer, HashSet<AbstractElement>> getNestingLevels();
     
     Collection<AbstractElement> elements();
     Collection<Transition> transitions();
