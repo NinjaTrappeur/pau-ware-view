@@ -15,9 +15,14 @@ public class EndState extends State
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
+      public EndState(String name)
+    {
+        super(30,30,name);
+    }
+
       public EndState()
     {
-        super(30,30,"");
+        super(30,30,"End");
     }
       @Override
       public void draw(processing.core.PApplet applet)

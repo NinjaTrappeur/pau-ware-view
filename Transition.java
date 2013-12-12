@@ -46,15 +46,17 @@ public class Transition
         {
             return false;
         }
+
         else if(obj == this)
         {
             return true;
         }
+
         else
         {
-            AbstractElement elt = ((AbstractElement) obj);
-            return (this._origin.equals(elt) &&
-                    this._target.equals(elt)
+            Transition trans = ((Transition) obj);
+            return (this._origin.equals(trans._origin) &&
+                    this._target.equals(trans._target)
                     );
         }
     }

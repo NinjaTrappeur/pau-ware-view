@@ -15,11 +15,15 @@ public class StartState extends State
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
-      public StartState()
+      public StartState(String name)
     {
-        super(30,30,"");
+        super(30,30,name);
     }
 
+      public StartState()
+    {
+        super(30,30,"Start");
+    }
       
       @Override
       public void draw(processing.core.PApplet applet)
