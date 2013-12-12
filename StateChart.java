@@ -167,7 +167,7 @@ public class StateChart extends AbstractElement implements IChart {
     }
 
     @Override
-    public HashMap<Integer, HashSet<AbstractElement>> getNestingLevels()
+    public HashMap<Integer, HashSet<AbstractElement>> nestingLevels()
     {
         return _nestingLevels;
     }

@@ -25,7 +25,7 @@ public interface IChart
     void removeTransition(Transition trans);
     void removeTransition(AbstractElement origin, AbstractElement target);
     
-    public HashMap<Integer, HashSet<AbstractElement>> getNestingLevels();
+    public HashMap<Integer, HashSet<AbstractElement>> nestingLevels();
     
     Collection<AbstractElement> elements();
     Collection<Transition> transitions();
