@@ -27,8 +27,5 @@ public interface IChart
     
     public HashMap<Integer, HashSet<AbstractElement>> nestingLevels();
     
-    Collection<AbstractElement> elements();
-    Collection<Transition> transitions();
-    
     boolean isTransition(AbstractElement origin, AbstractElement target);
 }

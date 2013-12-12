@@ -10,10 +10,14 @@ package com.PauWare.PauWare_view;
  */
 public class JungLayout implements ILayoutProcessor{
     
+    UndirectedGraph<Integer, AbstractElement> _graph;
+    
+    
     ILayout _layout;
     
     public JungLayout(){
         _layout= new Layout();
+        _graph = new UndirectedSparseGraph();
     }
     
     @Override
