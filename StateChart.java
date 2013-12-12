@@ -5,11 +5,14 @@
  */
 package com.PauWare.PauWare_view;
 
+import com.pauware.pauware_engine._Exception.Statechart_state_based_exception;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +22,7 @@ public class StateChart extends AbstractElement implements IChart {
 
     HashSet<AbstractElement> _elements;
     HashSet<Transition> _transitions;
+    HashMap<com.pauware.pauware_engine._Core.AbstractStatechart, AbstractElement> _fromOriginal;
     HashMap<Integer, HashSet<AbstractElement> > _nestingLevels;
     
     private void _registerNestLevel(AbstractElement added, Integer nestLevel)
@@ -46,6 +50,13 @@ public class StateChart extends AbstractElement implements IChart {
             added = new State(state.name());
         }
         
+        else if(state.name().equals("pseudo-state"))
+        {
+            added = null;
+            _addState(state.left(), nestLevel);
+            _addState(state.right(), nestLevel);
+        }
+        
         else //compositeState
         {
             SuperState composite;
@@ -68,13 +79,17 @@ public class StateChart extends AbstractElement implements IChart {
                 composite.addComponent(left);
             }
             right = _addState(r, childNestLevel);
-            composite.addComponent(right);
             
+            composite.addComponent(right);
+
             added = composite;
         }
 
-        _elements.add(added);
-        _registerNestLevel(added, nestLevel);
+        if(added != null){
+            _elements.add(added);
+            _fromOriginal.put(state, added);
+            _registerNestLevel(added, nestLevel);
+        }
 
         if (state.isInputState())
         {
@@ -100,34 +115,42 @@ public class StateChart extends AbstractElement implements IChart {
     {
         _elements = new HashSet();
         _transitions = new HashSet() ;
+        _fromOriginal = new HashMap();
         _nestingLevels = new HashMap();
     }
 
     public StateChart(com.pauware.pauware_engine._Core.AbstractStatechart_monitor state_machine,
-            String name, float length, float width) {
-        super(name, length, width);
-        
-        Integer nestLevel;
+            String name, float length, float width) throws IllegalStateException
+    {
+        super(name, length, width);        
+        _init();
 
         Set<com.pauware.pauware_engine._Core.Transition> transitions;
         com.pauware.pauware_engine._Core.Transition edge;
-        com.pauware.pauware_engine._Core.AbstractStatechart from, to;
-        AbstractElement origin, target;
+        com.pauware.pauware_engine._Core.AbstractStatechart left, right, from, to;
+        AbstractElement myLeft, myRight, origin, target;
         
-        _init();
-
+        //add States
+        left = state_machine.left();
+        right = state_machine.right();
+        
+        myLeft = _addState(left, 0);
+        myRight = _addState(right, 0);
+        
+        _fromOriginal.put(left, myLeft);
+        _fromOriginal.put(right, myRight);
+        
+        //Add Transitions
         transitions = state_machine.transitions().keySet();
         
-        nestLevel = 0;
-
         Iterator<com.pauware.pauware_engine._Core.Transition> it = transitions.iterator();
         while (it.hasNext()) {
             edge = it.next();
             from = edge.from();
             to = edge.to();
 
-            origin = _addState(from, nestLevel);
-            target = _addState(to, nestLevel);
+            origin = _fromOriginal.get(from);
+            target = _fromOriginal.get(to);
 
             _transitions.add(new Transition(origin, target));
         }
