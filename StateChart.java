@@ -5,20 +5,18 @@
  */
 package com.PauWare.PauWare_view;
 
-import com.pauware.pauware_engine._Exception.Statechart_state_based_exception;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author josuah
  */
-public class StateChart extends AbstractElement implements IChart {
+public class StateChart extends AbstractElement implements IChart
+{
 
     HashSet<AbstractElement> _elements;
     HashSet<Transition> _transitions;
@@ -144,7 +142,8 @@ public class StateChart extends AbstractElement implements IChart {
         transitions = state_machine.transitions().keySet();
         
         Iterator<com.pauware.pauware_engine._Core.Transition> it = transitions.iterator();
-        while (it.hasNext()) {
+        while (it.hasNext())
+        {
             edge = it.next();
             from = edge.from();
             to = edge.to();
@@ -154,9 +153,12 @@ public class StateChart extends AbstractElement implements IChart {
 
             _transitions.add(new Transition(origin, target));
         }
+        
+        //we can empty _fromOriginal now
     }
 
-    public StateChart(String name, float length, float width) {
+    public StateChart(String name, float length, float width)
+    {
         super(name, length, width);
     }
 
@@ -165,32 +167,38 @@ public class StateChart extends AbstractElement implements IChart {
     }
 
     @Override
-    public void addElement(AbstractElement state) {
+    public void addElement(AbstractElement state)
+    {
         _elements.add(state);
     }
 
     @Override
-    public void removeElement(AbstractElement state) {
+    public void removeElement(AbstractElement state)
+    {
         _elements.remove(state);
     }
 
     @Override
-    public void addTransition(Transition trans) {
+    public void addTransition(Transition trans)
+    {
         _transitions.add(trans);
     }
 
     @Override
-    public void addTransition(AbstractElement origin, AbstractElement target) {
+    public void addTransition(AbstractElement origin, AbstractElement target)
+    {
         _transitions.add(new Transition(origin, target));
     }
 
     @Override
-    public void removeTransition(Transition trans) {
+    public void removeTransition(Transition trans)
+    {
         _transitions.remove(trans);
     }
 
     @Override
-    public void removeTransition(AbstractElement origin, AbstractElement target) {
+    public void removeTransition(AbstractElement origin, AbstractElement target)
+    {
         Transition trans = new Transition(origin, target);
         _transitions.remove(trans);
     }
@@ -201,17 +209,20 @@ public class StateChart extends AbstractElement implements IChart {
         return _nestingLevels;
     }
     @Override
-    public Collection<AbstractElement> elements() {
+    public Collection<AbstractElement> elements()
+    {
         return _elements;
     }
 
     @Override
-    public Collection<Transition> transitions() {
+    public Collection<Transition> transitions()
+    {
         return _transitions;
     }
 
     @Override
-    public boolean isTransition(AbstractElement origin, AbstractElement target) {
+    public boolean isTransition(AbstractElement origin, AbstractElement target)
+    {
         Transition trans = new Transition(origin, target);
         return _transitions.contains(trans);
     }
