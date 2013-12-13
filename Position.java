@@ -14,7 +14,8 @@ public class Position {
     float _y;
     
     public void Position(float x, float y){
-        
+        _x=x;
+        _y=y;
     }
     
     public void setX(float x){
