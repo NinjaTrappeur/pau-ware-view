@@ -9,12 +9,14 @@ package com.PauWare.PauWare_view;
  * @author jaron
  * A simple representaiton 2D coordinates
  */
-public class Position {
+public class Position
+{
     float _x;
     float _y;
     
     public void Position(float x, float y){
-        
+        _x = x;
+        _y = y;
     }
     
     public void setX(float x){
