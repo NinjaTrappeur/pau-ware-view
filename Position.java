@@ -14,9 +14,15 @@ public class Position
     float _x;
     float _y;
     
+<<<<<<< HEAD
     public void Position(float x, float y){
         _x = x;
         _y = y;
+=======
+    public Position(float x, float y){
+      _x=x;
+      _y=y;
+>>>>>>> aa2dbf1a09bcdd48b64112a66e8cfd3c4d27d79d
     }
     
     public void setX(float x){
