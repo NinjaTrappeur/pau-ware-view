@@ -13,7 +13,8 @@ package com.PauWare.PauWare_view;
  * a layout.
  * A loyout is an object that olds a mapping of "Elements" to a 2D positionning.
  */
-public interface ILayoutProcessor {
+public interface ILayoutProcessor
+{
     void init(IChart chart);
     
     ILayout getLayout();
