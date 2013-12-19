@@ -29,6 +29,6 @@ public class StartState extends State
       public void draw(processing.core.PApplet applet)
       {
           applet.fill(0, 0, 0);
-          applet.ellipse(0, 0, _width, _length);
+          applet.ellipse(15, 15, _width, _length);
       }
 }
