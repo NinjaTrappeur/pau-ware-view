@@ -17,7 +17,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
      */
     javax.swing.JFrame _state_machine_view;
 
-    State _state;
+    Painter _painter;
     
     public Statechart_monitor_viewer()
     {
@@ -63,9 +63,15 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         size(600, 800);
         background(200);
         if (_state_machine != null) {
+            TestChart chart = new TestChart();
             Layout lay = new Layout();
-            lay.addPosition(new StartState(), new Position(10,10));
-            lay.addPosition(_state, null);
+            StartState start= new StartState();
+            EndState end = new EndState();
+            chart.addElement(start);
+            chart.addElement(end);
+            lay.addPosition(start, new Position(29,29));
+            lay.addPosition(end,new Position(300,300));
+            _painter = new Painter(chart,lay,this);
         }
         // Inutile de redessiner l'écran s'il ne se passe rien dans la machine à états :
         noLoop();
@@ -76,7 +82,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         // Cette méthode est appelée en boucle par Processing.
         background(200);
         if (_trace != null) {
-           _state.draw(this);
+           _painter.paint();
         }
     }
 }

@@ -12,6 +12,10 @@ import java.util.HashMap;
 public class Layout implements ILayout{
     HashMap<AbstractElement, Position> _map;
     
+    public Layout()
+    {
+        _map = new HashMap();
+    }
     
     @Override
     public void addPosition(AbstractElement elem, Position pos){
@@ -33,5 +37,4 @@ public class Layout implements ILayout{
     public Position getPosition(AbstractElement elem){
         return _map.get(elem);
     }
-    
 }
