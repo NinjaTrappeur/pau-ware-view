@@ -21,7 +21,6 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
     
     public Statechart_monitor_viewer()
     {
-        _state = new State("iuetsrcauetscauestcauestcaue");
     }
     
     @Override
@@ -64,7 +63,9 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         size(600, 800);
         background(200);
         if (_state_machine != null) {
-            // Votre code ici :
+            Layout lay = new Layout();
+            lay.addPosition(new StartState(), new Position(10,10));
+            lay.addPosition(_state, null);
         }
         // Inutile de redessiner l'écran s'il ne se passe rien dans la machine à états :
         noLoop();
