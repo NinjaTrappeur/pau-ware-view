@@ -25,21 +25,20 @@ public class Painter {
     
     public void paint(){
         AbstractElement elem;
-        State state;
+        Drawable drawableState;
         for(Iterator<AbstractElement> it=_chart.elements().iterator();
                 it.hasNext();)
         {
             elem = it.next();
-            if(elem instanceof State)
+            if(!(elem instanceof SuperState))
             {
-                state = (State) elem;
                 Position pos  = _chartLayout.getPosition(elem);
                 _displayApplet.pushMatrix();
                 _displayApplet.translate(pos.x(), pos.y());
-                state.draw(_displayApplet);
+                drawableState = (Drawable)elem;
+                drawableState.draw(_displayApplet);
                 _displayApplet.popMatrix();
             }
-            
         }
     }
 }
