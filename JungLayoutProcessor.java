@@ -19,7 +19,8 @@ public class JungLayoutProcessor implements ILayoutProcessor
 {
     private ILayout _layout;
     private Graph<AbstractElement, Integer> _graph;
-    private AggregateLayout<String,Integer> _clusteringLayout;
+    private IChart _chart;
+    private AggregateLayout<AbstractElement,Integer> _clusteringLayout;
     
     private void _verticesFrom(IChart chart)
     {
@@ -54,6 +55,19 @@ public class JungLayoutProcessor implements ILayoutProcessor
         }
     }
     
+    private void _convertLayout()
+    {
+        for(AbstractElement elem: _graph.getVertices())
+        {
+            if(!(elem instanceof SuperState))
+            {
+                float x = (float)_clusteringLayout.transform(elem).getX();
+                float y = (float)_clusteringLayout.transform(elem).getY();
+                _layout.addPosition(elem, new Position(x,y));
+            }
+        }
+    }
+    
     private void _subLayoutsFrom(IChart chart)
     {   
         HashSet<AbstractElement> nestingLevelElements;
@@ -75,9 +89,11 @@ public class JungLayoutProcessor implements ILayoutProcessor
         _clusteringLayout.setDelegate(layout);
     }
 
-    public JungLayoutProcessor() {
+    public JungLayoutProcessor(IChart chart) {
         _layout = new Layout();
+        _chart = chart;
         _graph = new DirectedSparseGraph();
+        _verticesFrom(chart);
         _clusteringLayout = new AggregateLayout(new FRLayout(_graph));
     }
 
@@ -91,7 +107,8 @@ public class JungLayoutProcessor implements ILayoutProcessor
     
     @Override
     public ILayout getLayout()
-    {
+    {   
+        _convertLayout();
         return _layout;
     }
     
