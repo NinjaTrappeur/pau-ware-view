@@ -18,4 +18,6 @@ public interface ILayoutProcessor
     void init(IChart chart);
     
     ILayout getLayout();
+    
+    void processLayout();
 }
