@@ -89,17 +89,16 @@ public class JungLayoutProcessor implements ILayoutProcessor
         _clusteringLayout.setDelegate(layout);
     }
 
-    public JungLayoutProcessor(IChart chart) {
+    public JungLayoutProcessor() {
         _layout = new Layout();
-        _chart = chart;
         _graph = new DirectedSparseGraph();
-        _verticesFrom(chart);
         _clusteringLayout = new AggregateLayout(new FRLayout(_graph));
     }
 
     @Override
     public void init(IChart chart)
     {
+        _chart = chart;
         _verticesFrom(chart);
         _edgesFrom(chart);
         _subLayoutsFrom(chart);

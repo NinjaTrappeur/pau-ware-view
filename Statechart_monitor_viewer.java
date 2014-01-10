@@ -64,7 +64,9 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         background(200);
         if (_state_machine != null) {
             IChart chart = new StateChart(_state_machine,"StateChart",300,300);
-            ILayoutProcessor layoutProcessor = new JungLayoutProcessor(chart);
+            ILayoutProcessor layoutProcessor = new JungLayoutProcessor();
+            layoutProcessor.init(chart);
+            layoutProcessor.processLayout();
             ILayout layout = layoutProcessor.getLayout();
             _painter = new Painter(chart,layout,this);
         }
