@@ -63,15 +63,10 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         size(600, 800);
         background(200);
         if (_state_machine != null) {
-            TestChart chart = new TestChart();
-            Layout lay = new Layout();
-            StartState start= new StartState();
-            EndState end = new EndState();
-            chart.addElement(start);
-            chart.addElement(end);
-            lay.addPosition(start, new Position(29,29));
-            lay.addPosition(end,new Position(300,300));
-            _painter = new Painter(chart,lay,this);
+            IChart chart = new StateChart(_state_machine,"StateChart",300,300);
+            ILayoutProcessor layoutProcessor = new JungLayoutProcessor(chart);
+            ILayout layout = layoutProcessor.getLayout();
+            _painter = new Painter(chart,layout,this);
         }
         // Inutile de redessiner l'écran s'il ne se passe rien dans la machine à états :
         noLoop();
