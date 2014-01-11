@@ -10,6 +10,7 @@ import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.AggregateLayout;
 import edu.uci.ics.jung.graph.Graph;
 import java.awt.geom.Point2D;
+import java.awt.Dimension;
 import java.util.HashSet;
 /**
  *
@@ -52,7 +53,16 @@ public class JungLayoutProcessor implements ILayoutProcessor
                 SuperState superState = (SuperState) subState;
                 _processSuperState(superState);
             }
+            else{
+                graph.addVertex(subState);
+            }
         }
+        FRLayout layout = new FRLayout(graph);
+        int dimX = graph.getVertices().size() * (150 + 30);
+        int dimY = graph.getVertices().size() * (100+30);
+        layout.setSize(new Dimension(dimX,dimY));
+        _clusteringLayout.put(layout, new Point2D.Double(0,0));
+        _clusteringLayout.setDelegate(layout);
     }
     
     private void _convertLayout()
@@ -85,6 +95,9 @@ public class JungLayoutProcessor implements ILayoutProcessor
             }
         }
         layout = new FRLayout(graph);
+        int dimX = graph.getVertices().size() * (150 + 30);
+        int dimY = graph.getVertices().size() * (100+30);
+        layout.setSize(new Dimension(dimX,dimY));
         _clusteringLayout.put(layout, new Point2D.Double(0, 0));
         _clusteringLayout.setDelegate(layout);
     }
@@ -93,6 +106,7 @@ public class JungLayoutProcessor implements ILayoutProcessor
         _layout = new Layout();
         _graph = new DirectedSparseGraph();
         _clusteringLayout = new AggregateLayout(new FRLayout(_graph));
+        _clusteringLayout.setSize(new Dimension(900,900));
     }
 
     @Override

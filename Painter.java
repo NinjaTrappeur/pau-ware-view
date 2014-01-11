@@ -30,10 +30,11 @@ public class Painter {
                 it.hasNext();)
         {
             elem = it.next();
-            if(!(elem instanceof SuperState))
+            if(!(elem instanceof SuperState) && elem!=null)
             {
                 Position pos  = _chartLayout.getPosition(elem);
                 _displayApplet.pushMatrix();
+                System.err.println(pos);
                 _displayApplet.translate(pos.x(), pos.y());
                 drawableState = (Drawable)elem;
                 drawableState.draw(_displayApplet);
