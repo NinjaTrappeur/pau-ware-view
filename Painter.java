@@ -34,7 +34,6 @@ public class Painter {
             {
                 Position pos  = _chartLayout.getPosition(elem);
                 _displayApplet.pushMatrix();
-                System.err.println(pos);
                 _displayApplet.translate(pos.x(), pos.y());
                 drawableState = (Drawable)elem;
                 drawableState.draw(_displayApplet);
