@@ -73,7 +73,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
             _painter = new Painter(_chart,_layout,this);
         }
         // Inutile de redessiner l'écran s'il ne se passe rien dans la machine à états :
-        noLoop();
+        //noLoop();
     }
 
     @Override
@@ -81,6 +81,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         // Cette méthode est appelée en boucle par Processing.
         background(200);
         if (_trace != null) {
+            System.out.print("coucou");
             _layoutProcessor.processLayout();
             _layout=_layoutProcessor.getLayout();
             _painter.paint();
