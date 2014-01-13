@@ -67,8 +67,9 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         background(200);
         if (_state_machine != null) {
             _chart = new StateChart(_state_machine,"StateChart",300,300);
-            _layoutProcessor = new JungLayoutProcessor();
+            _layoutProcessor = new BasicLayoutProcessor();
             _layoutProcessor.init(_chart);
+            _layoutProcessor.processLayout();
             _layout = _layoutProcessor.getLayout();
             _painter = new Painter(_chart,_layout,this);
         }
@@ -81,9 +82,6 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         // Cette méthode est appelée en boucle par Processing.
         background(200);
         if (_trace != null) {
-            System.out.print("coucou");
-            _layoutProcessor.processLayout();
-            _layout=_layoutProcessor.getLayout();
             _painter.paint();
         }
     }

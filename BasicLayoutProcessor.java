@@ -7,6 +7,8 @@
 package com.PauWare.PauWare_view;
 
 import java.util.HashSet;
+import java.util.Collection;
+import java.util.HashMap;
 import java.awt.Dimension;
 /**
  *
@@ -15,52 +17,69 @@ import java.awt.Dimension;
 public class BasicLayoutProcessor implements ILayoutProcessor{
    
     IChart _chart;
+    float _margin;
+    HashMap<AbstractElement,Position> _positionMap;
     
-    private void _handleSuperState(Position pos, Dimension size){
+    private void _computeSubLayout(Collection<AbstractElement> elemSet,
+            Position pos, Dimension size){
         
+        int nbStates = elemSet.size();
+        Position newPos;
+        Dimension newSize;
+        int stateNumber = 1;
+        
+        for(AbstractElement elem: elemSet){
+            newSize = new Dimension();
+            if(nbStates == 1){
+                newSize.setSize(size.getWidth() - 2*_margin,
+                        size.getHeight() - 2*_margin);
+                newPos = new Position(pos.x()+_margin,pos.y()+_margin);
+            }
+            else{
+                float heightState = (float) (size.getHeight()/Math.ceil(nbStates/2)+2*Math.ceil(nbStates/2));
+                newSize.setSize(size.getWidth()/2 - 4*_margin, 
+                        heightState);
+                newPos = new Position(pos.x()+(_margin + (2*_margin +(float) size.getWidth())*nbStates%2),
+                                    pos.y()+(float)(Math.floor(stateNumber/2)*(heightState+_margin)));
+            }
+            elem.setLength((float)newSize.getHeight());
+            elem.setWidth((float)newSize.getWidth());
+            _positionMap.put(elem, newPos);
+            if(elem instanceof SuperState){
+                SuperState superState = (SuperState) elem;
+                _computeSubLayout(superState.substates(), newPos, newSize);
+                        }
+            stateNumber++; 
+        }
+    }
+    
+    public BasicLayoutProcessor(){
+        _margin = 20;
     }
     
     @Override
     public void init(IChart chart){
-        HashSet<AbstractElement> nestingLevel;
-        int nbStates, stateNumber;
-        float width = 900, height = 900;
-        Dimension size;
-        float margin = 20;
-        Position pos;
-        _chart = chart;
-        
-        nestingLevel = _chart.nestingLevels().get(0);
-        nbStates = nestingLevel.size();
-        stateNumber = 1;
-        for(AbstractElement elem: nestingLevel){
-            size = new Dimension();
-            if(nbStates == 1){
-                size.setSize(width - 2*margin, height - 2*margin);
-                pos = new Position(margin,margin);
-            }
-            else{
-                float heightState = (float) (height/Math.ceil(nbStates/2)+2*Math.ceil(nbStates/2));
-                size.setSize(width/2 - 4*margin, 
-                        heightState);
-                pos = new Position(margin + (2*margin + width)*nbStates%2,
-                                    (float)(Math.floor(stateNumber/2)*(heightState+margin)));
-            }
-            if(elem instanceof SuperState)
-                _handleSuperState(pos,size);
-           stateNumber++; 
-        }
+        _chart = chart; 
+        _positionMap = new HashMap();
     }
     
     @Override
     public ILayout getLayout(){
         ILayout layout = new Layout();
+        for(AbstractElement elem :_chart.elements())
+        {
+            layout.addPosition(elem, _positionMap.get(elem));
+        }
         return layout;
     }
     
     @Override
     public void processLayout(){
-        
+        HashSet<AbstractElement> nestingLevel;
+        Dimension size = new Dimension(900, 900);
+        Position pos = new Position(0, 0);
+        nestingLevel = _chart.nestingLevels().get(0);
+        _computeSubLayout(nestingLevel, pos, size);
     }
 
 }
