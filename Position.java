@@ -42,6 +42,6 @@ public class Position
     }
     
     public float y(){
-        return _x;
+        return _y;
     }
 }

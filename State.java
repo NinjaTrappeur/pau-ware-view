@@ -28,16 +28,23 @@ public class State extends AbstractElement implements Drawable
     public State(String name)
     {
         super(name, 150, 100);
-        _boxRadius = _width/5;
+        _boxRadius = _length/5;
         _textSize = _boxRadius - 4;
+    }
+    
+    @Override
+    public void setLength(float length){
+        _length = length;
+        _boxRadius = _length/5;
+        _textSize = 23;
     }
 
     @Override
     public void draw(processing.core.PApplet applet)
     {
         applet.fill(255,255,255);
-        applet.rect(0,0,_length,_width,_boxRadius);
-        applet.line(0, _boxRadius, _length, _boxRadius);
+        applet.rect(0,0,_width,_length,_boxRadius);
+        applet.line(0, _boxRadius, _width, _boxRadius);
         applet.fill(0, 0, 0);
         applet.textSize(_textSize);
         applet.textAlign(applet.CENTER);

@@ -26,6 +26,17 @@ public class StartState extends State
     }
       
       @Override
+      public void setWidth(float width){
+          
+      }
+      
+      @Override
+      public void setLength(float length){
+          
+      }
+      
+      
+      @Override
       public void draw(processing.core.PApplet applet)
       {
           applet.fill(0, 0, 0);

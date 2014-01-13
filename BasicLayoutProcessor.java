@@ -36,11 +36,11 @@ public class BasicLayoutProcessor implements ILayoutProcessor{
                 newPos = new Position(pos.x()+_margin,pos.y()+_margin);
             }
             else{
-                float heightState = (float) (size.getHeight()/Math.ceil(nbStates/2)+2*Math.ceil(nbStates/2));
-                newSize.setSize(size.getWidth()/2 - 4*_margin, 
-                        heightState);
-                newPos = new Position(pos.x()+(_margin + (2*_margin +(float) size.getWidth())*nbStates%2),
-                                    pos.y()+(float)(Math.floor(stateNumber/2)*(heightState+_margin)));
+                newSize.setSize(size.getWidth()/2 - 2*_margin, 
+                        size.getHeight()/nbStates - 2*_margin);
+                newPos = new Position( ((stateNumber%2)*((float)size.getWidth()/2)+_margin+pos.x()),
+                        (float)Math.floor((stateNumber-1)/2) * 
+                                ((float)size.getHeight() / (float)Math.ceil(nbStates/2)) +_margin);
             }
             elem.setLength((float)newSize.getHeight());
             elem.setWidth((float)newSize.getWidth());
@@ -49,12 +49,14 @@ public class BasicLayoutProcessor implements ILayoutProcessor{
                 SuperState superState = (SuperState) elem;
                 _computeSubLayout(superState.substates(), newPos, newSize);
                         }
-            stateNumber++; 
+            System.out.println("State number = "+stateNumber);
+            stateNumber++;
+            System.out.println("Taille de "+elem.name()+" "+elem.width()+"x"+elem.length()+" à "+newPos.x()+"/" + newPos.y());
         }
     }
     
     public BasicLayoutProcessor(){
-        _margin = 20;
+        _margin = 3;
     }
     
     @Override

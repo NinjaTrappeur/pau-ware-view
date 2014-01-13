@@ -82,6 +82,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         // Cette méthode est appelée en boucle par Processing.
         background(200);
         if (_trace != null) {
+            if(_painter!=null)
             _painter.paint();
         }
     }

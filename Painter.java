@@ -33,11 +33,13 @@ public class Painter {
             if(!(elem instanceof SuperState) && elem!=null)
             {
                 Position pos  = _chartLayout.getPosition(elem);
+                if(pos!=null){
                 _displayApplet.pushMatrix();
                 _displayApplet.translate(pos.x(), pos.y());
                 drawableState = (Drawable)elem;
                 drawableState.draw(_displayApplet);
                 _displayApplet.popMatrix();
+                }
             }
         }
     }
