@@ -7,6 +7,20 @@ package com.PauWare.PauWare_view;
 
 public class State extends AbstractElement implements Drawable
 {
+    float _boxRadius;
+    float _textSize;
+    float _headerInnerTopMargin;
+    
+    private void _setDerived()
+    {
+        _boxRadius = _length/5;
+        _textSize = 12 * (_length/100);
+        /* Why this formula for textsize is just I found
+            textsize 12 fine for length=100, so just keep the ratio
+        */
+        _headerInnerTopMargin = _boxRadius * 0.1F;
+    }
+    
     /**
      * This class represents a graphic state.
      * 
@@ -14,29 +28,22 @@ public class State extends AbstractElement implements Drawable
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
-    
-    float _boxRadius;
-    float _textSize;
-    
     public State(float length, float width, String name)
     {
         super(name,length,width);
-        _boxRadius = _width/5;
-        _textSize = _boxRadius - 4;
+        _setDerived();
     }
     
     public State(String name)
     {
-        super(name, 150, 100);
-        _boxRadius = _length/5;
-        _textSize = _boxRadius - 4;
+        super(name, 100, 150); //length (y axis), width (x axis)
+        _setDerived();
     }
     
     @Override
     public void setLength(float length){
         super.setLength(length);
-        _boxRadius = _length/5;
-        _textSize = 23;
+        _setDerived();
     }
 
     @Override
@@ -49,8 +56,8 @@ public class State extends AbstractElement implements Drawable
         applet.fill(0, 0, 0);
         applet.textSize(_textSize);
         applet.textAlign(applet.CENTER);
-        applet.text(_name, _boxRadius/2+_textSize/3, _boxRadius/10,
-                _length-2*_boxRadius, _boxRadius);
+        applet.text(_name, 0, 0+_headerInnerTopMargin,
+                _width, _boxRadius);
         applet.popMatrix();
     }
 }
