@@ -11,17 +11,12 @@ package com.PauWare.PauWare_view;
  */
 public class Position
 {
-    float _x;
-    float _y;
-    
-    public void Position(float x, float y){
-        _x = x;
-        _y = y;
-    }
+    protected float _x;
+    protected float _y;
     
     public Position(float x, float y){
-      _x=x;
-      _y=y;
+      _x = x;
+      _y = y;
     }
     
     public void setX(float x){
