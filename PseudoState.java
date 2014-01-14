@@ -19,6 +19,6 @@ public class PseudoState extends AbstractElement
      */
       public PseudoState(String name)
     {
-        super(name,30,30);
+        super(name, 30, 30);
     }
 }

@@ -28,9 +28,9 @@ public class State extends AbstractElement implements Drawable
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
-    public State(float length, float width, String name)
+    public State(String name, float width, float length)
     {
-        super(name,width,length);
+        super(name, width, length);
         _setDerived();
     }
     

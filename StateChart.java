@@ -118,9 +118,9 @@ public class StateChart extends AbstractElement implements IChart
     }
 
     public StateChart(com.pauware.pauware_engine._Core.AbstractStatechart_monitor state_machine,
-            String name, float length, float width) throws IllegalStateException
+            String name, float width, float length) throws IllegalStateException
     {
-        super(name, length, width);        
+        super(name, width, length);        
         _init();
 
         Set<com.pauware.pauware_engine._Core.Transition> transitions;
@@ -157,13 +157,13 @@ public class StateChart extends AbstractElement implements IChart
         //we can empty _fromOriginal now
     }
 
-    public StateChart(String name, float length, float width)
+    public StateChart(String name, float width, float length)
     {
-        super(name, length, width);
+        super(name, width, length);
     }
 
     public StateChart(String name) {
-        super(name, 100, 80);
+        super(name, 300, 300);
     }
 
     @Override

@@ -17,10 +17,10 @@ import java.util.ArrayList;
      */
 public class SuperState extends State
 {
-    public SuperState(float length, float width, String name,
+    public SuperState(String name, float width, float length,
             Collection<State> subStates)
     {
-        super(length,width,name);
+        super(name, width, length);
         this._subStates = new ArrayList();
         _subStates.addAll(subStates);
     }
