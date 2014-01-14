@@ -42,8 +42,11 @@ public class BasicLayoutProcessor implements ILayoutProcessor{
                         (float)Math.floor((stateNumber-1)/2) * 
                                 ((float)size.getHeight() / (float)Math.ceil(nbStates/2)) +_margin);
             }
-            elem.setLength((float)newSize.getHeight());
-            elem.setWidth((float)newSize.getWidth());
+            if(!(elem instanceof PseudoState))
+            {
+                elem.setLength((float)newSize.getHeight());
+                elem.setWidth((float)newSize.getWidth());
+            }
             _positionMap.put(elem, newPos);
             if(elem instanceof SuperState){
                 SuperState superState = (SuperState) elem;

@@ -26,13 +26,16 @@ public class Painter {
     public void paint(){
         AbstractElement elem;
         Drawable drawableState;
+        int p = 0;
         for(Iterator<AbstractElement> it=_chart.elements().iterator();
                 it.hasNext();)
         {
             elem = it.next();
             if(!(elem instanceof SuperState) && elem!=null)
             {
-                Position pos  = _chartLayout.getPosition(elem);
+//                Position pos  = _chartLayout.getPosition(elem);
+                Position pos  = new Position(p,p);
+                p = p+150;
                 if(pos!=null){
                 _displayApplet.pushMatrix();
                 _displayApplet.translate(pos.x(), pos.y());

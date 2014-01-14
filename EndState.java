@@ -6,30 +6,30 @@
 package com.PauWare.PauWare_view;
 
 
-public class EndState extends State
+public class EndState extends PseudoState implements Drawable
 {
      /**
      * This class represents a graphic end state.
      * 
-     * @param length Length of the rectangle representing the state.
-     * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
      */
       public EndState(String name)
     {
-        super(30,30,name);
+        super(name);
     }
 
       public EndState()
     {
-        super(30,30,"End");
+        super("End");
     }
       @Override
       public void draw(processing.core.PApplet applet)
       {
+          applet.pushMatrix();
           applet.fill(0, 0, 0);
-          applet.ellipse(0, 0, _width-12, _length-12);
+          applet.ellipse(15, 15, _width-12, _length-12);
           applet.noFill();
-          applet.ellipse(0,0,_width,_length);
+          applet.ellipse(15,15,_width,_length);
+          applet.popMatrix();
       }
 }

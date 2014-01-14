@@ -34,7 +34,7 @@ public class State extends AbstractElement implements Drawable
     
     @Override
     public void setLength(float length){
-        _length = length;
+        super.setLength(length);
         _boxRadius = _length/5;
         _textSize = 23;
     }
@@ -42,6 +42,7 @@ public class State extends AbstractElement implements Drawable
     @Override
     public void draw(processing.core.PApplet applet)
     {
+        applet.pushMatrix();
         applet.fill(255,255,255);
         applet.rect(0,0,_width,_length,_boxRadius);
         applet.line(0, _boxRadius, _width, _boxRadius);
@@ -50,5 +51,6 @@ public class State extends AbstractElement implements Drawable
         applet.textAlign(applet.CENTER);
         applet.text(_name, _boxRadius/2+_textSize/3, _boxRadius/10,
                 _length-2*_boxRadius, _boxRadius);
+        applet.popMatrix();
     }
 }
