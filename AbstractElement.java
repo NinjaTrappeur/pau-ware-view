@@ -13,21 +13,14 @@ public abstract class AbstractElement
 {
 
     protected String _name;
-    protected float _length;
+    protected float _width; /** !< bounding rectangle width (x axis) */
+    protected float _length; /** !< bounding rectangle length (y axis) */
     protected int _id;
     
     static protected int _currentId;
     static{
         _currentId = 0;
     }
-    /**
-     * !< bounding recteangle length
-     */
-    protected float _width;
-
-    /**
-     * !< bounding recteangle width
-     */
 
     private void _preSetMetric(float metric, String metricName, String methodName) throws IllegalArgumentException {
         if (metric < 0) {
@@ -44,13 +37,13 @@ public abstract class AbstractElement
      * @param length metric for graphical display
      * @param width metric for graphical display
      */
-    public AbstractElement(String name, float length, float width) {
-        _preSetMetric(length, "constructor", "length");
+    public AbstractElement(String name, float width, float length) {
         _preSetMetric(width, "constructor", "width");
+        _preSetMetric(length, "constructor", "length");
 
         _name = name;
-        _length = length;
         _width = width;
+        _length = length;
         
         _id = _currentId;
         ++_currentId;
@@ -70,26 +63,26 @@ public abstract class AbstractElement
         _name = name;
     }
 
-    public void setLength(float length) {
-        _preSetMetric(length, "setLength", "length");
-        _length = length;
-    }
-
     public void setWidth(float width) {
         _preSetMetric(width, "setWidth", "width");
         _width = width;
+    }
+
+    public void setLength(float length) {
+        _preSetMetric(length, "setLength", "length");
+        _length = length;
     }
 
     public String name() {
         return _name;
     }
 
-    public float length() {
-        return _length;
-    }
-
     public float width() {
         return _width;
+    }
+
+    public float length() {
+        return _length;
     }
     
     public int id()

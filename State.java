@@ -16,7 +16,7 @@ public class State extends AbstractElement implements Drawable
         _boxRadius = _length/5;
         _textSize = 12 * (_length/100);
         /* Why this formula for textsize is just I found
-            textsize 12 fine for length=100, so just keep the ratio
+            textsize=12 fine for length=100, so just keep the ratio
         */
         _headerInnerTopMargin = _boxRadius * 0.1F;
     }
@@ -30,13 +30,13 @@ public class State extends AbstractElement implements Drawable
      */
     public State(float length, float width, String name)
     {
-        super(name,length,width);
+        super(name,width,length);
         _setDerived();
     }
     
     public State(String name)
     {
-        super(name, 100, 150); //length (y axis), width (x axis)
+        super(name, 150, 100); //length (y axis), width (x axis)
         _setDerived();
     }
     
