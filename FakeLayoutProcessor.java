@@ -6,9 +6,6 @@
 
 package com.PauWare.PauWare_view;
 
-import com.pauware.pauware_engine._Core.AbstractStatechart_monitor;
-import com.pauware.pauware_engine._Exception.Statechart_exception;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -28,37 +25,23 @@ public class FakeLayoutProcessor implements ILayoutProcessor
     {
         _layout = new Layout();
         _states = new HashMap();
-        try
-        {
-            SampleChart sample = new SampleChart();
-            AbstractStatechart_monitor monitor = sample.getStateMachine();
-            _chart = new StateChart(monitor, "SampleChart", 800, 800);
-            
-            for(AbstractElement state : _chart.elements())
-            {
-                _states.put(state.name(), state);
-            }
-        }
-        catch(Statechart_exception e)
-        {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void init(IChart chart)
     {
+        _chart = chart;
+
+        for(AbstractElement state : _chart.elements())
+        {
+            _states.put(state.name(), state);
+        }
     }
     
     @Override
     public ILayout getLayout()
     {
         return _layout;
-    }
-    
-    public IChart getChart()
-    {
-        return _chart;
     }
     
     @Override
@@ -82,11 +65,12 @@ public class FakeLayoutProcessor implements ILayoutProcessor
     private void _layIt(String stateName, float x, float y)
     {
         AbstractElement state;
-        float ratio;
+        float ratio = 1.F;
         
         state = _states.get(stateName);
-        ratio = (state.deepContentSize()+1)/state.container().deepContentSize();
+        if(state.container().deepContentSize() != 0)
+            ratio = ((float)(state.deepContentSize()+1))/state.container().deepContentSize();
         state.setSize(ratio*state.container().width(), ratio*state.container().length());
-        _layout.addPosition(state, 620, 210);
+        _layout.addPosition(state, x, y);
     }
 }

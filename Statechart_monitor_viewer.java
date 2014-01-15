@@ -5,6 +5,11 @@
  */
 package com.PauWare.PauWare_view;
 
+import com.pauware.pauware_engine._Exception.Statechart_exception;
+import com.pauware.pauware_engine._Exception.Statechart_state_based_exception;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Statechart_monitor_viewer extends processing.core.PApplet implements com.pauware.pauware_engine._Core.Statechart_monitor_listener {
 
     /**
@@ -61,28 +66,27 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
     }
 
     @Override
-    public void setup() {
+    public void setup()
+    {
         // Cette méthode est appelée à la création de la fenêtre Processing.
         size(600, 800);
         background(200);
+//        if (_state_machine != null) {
+//            _chart = new StateChart(_state_machine,"StateChart",300,300);
+//            _layoutProcessor = new BasicLayoutProcessor();
+//            _layoutProcessor.init(_chart);
+//            _layoutProcessor.processLayout();
+//            _layout = _layoutProcessor.getLayout();
+//            _painter = new Painter(_chart,_layout,this);
+//        }
         if (_state_machine != null) {
-            _chart = new StateChart(_state_machine,"StateChart",300,300);
-            _layoutProcessor = new BasicLayoutProcessor();
+            _chart = new StateChart(_state_machine, "StateChart", 800,800);
+            _layoutProcessor = new FakeLayoutProcessor();
             _layoutProcessor.init(_chart);
             _layoutProcessor.processLayout();
             _layout = _layoutProcessor.getLayout();
             _painter = new Painter(_chart,_layout,this);
         }
-//        if (_state_machine != null) {
-//            FakeLayoutProcessor fake = new FakeLayoutProcessor();
-//            _chart = fake.getChart();
-//            _layoutProcessor = fake;
-//            fake.processLayout();
-//            _layout = fake.getLayout();
-//            _painter = new Painter(_chart,_layout,this);
-//        }
-        // Inutile de redessiner l'écran s'il ne se passe rien dans la machine à états :
-        //noLoop();
     }
 
     @Override
