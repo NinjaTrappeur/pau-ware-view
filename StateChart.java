@@ -37,6 +37,18 @@ public class StateChart extends AbstractElement implements IChart
             _nestingLevels.put(nestLevel, elements);
         }
     }
+    
+    private Integer _clusterize(com.pauware.pauware_engine._Core.AbstractStatechart l,
+                             com.pauware.pauware_engine._Core.AbstractStatechart r,
+                             Integer cluster)
+    {
+        if(l.isAndWith(r))
+        {
+            ++cluster;
+        }
+        
+        return cluster;
+    }
 
     private AbstractElement _addState(com.pauware.pauware_engine._Core.AbstractStatechart state,
             Integer nestLevel, AbstractElement container)
@@ -61,24 +73,27 @@ public class StateChart extends AbstractElement implements IChart
             com.pauware.pauware_engine._Core.AbstractStatechart l, r;
             AbstractElement left, right;
             Integer childNestLevel = nestLevel + 1;
+            Integer cluster = 0;
 
             composite = new SuperState(state.name(), container);
             // add CompositeState components : use left() and right()
             l = state.left();
             r = state.right();
             left = _addState(l, childNestLevel, composite);
-            composite.addSubState(left);
+            composite.addSubState(left, cluster);
+            cluster = _clusterize(l, r, cluster);
             while( r.name().equals("pseudo-state") )
             {
                 l = r.left();
                 r = r.right();
                 
                 left = _addState(l, childNestLevel, composite);
-                composite.addSubState(left);
+                composite.addSubState(left, cluster);
+                cluster = _clusterize(l, r, cluster);
             }
             right = _addState(r, childNestLevel, composite);
             
-            composite.addSubState(right);
+            composite.addSubState(right, cluster);
 
             added = composite;
         }
@@ -93,7 +108,7 @@ public class StateChart extends AbstractElement implements IChart
         {
             AbstractElement start = new StartState("start_to_"+state.name(), container);
 
-            this.addElement(start);
+            this.addElement(start, container);
             _transitions.add(new Transition(start, added));
             _registerNestLevel(start, nestLevel);
         }
@@ -101,7 +116,7 @@ public class StateChart extends AbstractElement implements IChart
         {
             AbstractElement end = new EndState("end_from_"+state.name(), container);
 
-            this.addElement(end);
+            this.addElement(end, container);
             _transitions.add(new Transition(added, end));
             _registerNestLevel(end, nestLevel);
         }
@@ -296,16 +311,20 @@ public class StateChart extends AbstractElement implements IChart
     
     private void _preContainer(AbstractElement container) throws IllegalArgumentException
     {
-        if(!this.hasElement(container) && container != this)
-        {
-            throw new IllegalArgumentException("StateChart._preContainer:"+
-                    " given containg element is not in the chart");
-        }
+//        if(!this.hasElement(container) && container != this)
+//        {
+//            throw new IllegalArgumentException("StateChart._preContainer:"+
+//                    " given container is not in the chart"+
+//                    "\n\t given container is "+container.name()
+//            );
+//        }
 
         if(! (container instanceof SuperState || container instanceof StateChart))
         {
             throw new IllegalArgumentException("StateChart._preContainer:"+
-                    " given containg element is not a container");
+                    " given container is not a container"+
+                    "\n\t given container is "+container.name()
+            );
         }
     }
 }

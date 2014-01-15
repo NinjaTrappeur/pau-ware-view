@@ -33,6 +33,7 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
 
         if(added)
         {
+            state.setContainer(this);
             ++_shallowContentSize;
             ++_deepContentSize;
             _deepContentSize += state.deepContentSize();
@@ -48,6 +49,7 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
 
         if(removed)
         {
+            state.setContainer(_container); // raaa : possible issue
             --_shallowContentSize;
             --_deepContentSize;
             _deepContentSize -= state.deepContentSize();

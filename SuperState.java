@@ -59,7 +59,7 @@ public class SuperState extends State implements Drawable
         boolean added = _clusters.get(cluster).addState(state);
         if(added)
         {
-            state.setContainer(this);
+            //setting the container is done by the cluster (see above)
             ++_shallowContentSize;
             ++_deepContentSize;
             _deepContentSize += state.deepContentSize();
@@ -85,7 +85,6 @@ public class SuperState extends State implements Drawable
         boolean removed = _clusters.get(cluster).removeState(state);
         if(removed)
         {
-            state.setContainer(this.container()); //raaa : possible issue
             --_shallowContentSize;
             --_deepContentSize;
             _deepContentSize -= state.deepContentSize();
