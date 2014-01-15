@@ -67,18 +67,18 @@ public class StateChart extends AbstractElement implements IChart
             l = state.left();
             r = state.right();
             left = _addState(l, childNestLevel);
-            composite.addComponent(left);
+            composite.addSubState(left);
             while( r.name().equals("pseudo-state") )
             {
                 l = r.left();
                 r = r.right();
                 
                 left = _addState(l, childNestLevel);
-                composite.addComponent(left);
+                composite.addSubState(left);
             }
             right = _addState(r, childNestLevel);
             
-            composite.addComponent(right);
+            composite.addSubState(right);
 
             added = composite;
         }
