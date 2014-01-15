@@ -36,7 +36,7 @@ public class State extends AbstractElement implements Drawable
     
     public State(String name)
     {
-        super(name, 150, 100); //length (y axis), width (x axis)
+        super(name, 150, 100);
         _setDerived();
     }
     
