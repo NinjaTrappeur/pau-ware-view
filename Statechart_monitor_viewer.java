@@ -73,6 +73,14 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
             _layout = _layoutProcessor.getLayout();
             _painter = new Painter(_chart,_layout,this);
         }
+//        if (_state_machine != null) {
+//            FakeLayoutProcessor fake = new FakeLayoutProcessor();
+//            _chart = fake.getChart();
+//            _layoutProcessor = fake;
+//            fake.processLayout();
+//            _layout = fake.getLayout();
+//            _painter = new Painter(_chart,_layout,this);
+//        }
         // Inutile de redessiner l'écran s'il ne se passe rien dans la machine à états :
         //noLoop();
     }

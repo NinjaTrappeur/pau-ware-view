@@ -100,6 +100,12 @@ public abstract class AbstractElement
         _length = length;
     }
     
+    public void setSize(float width, float length)
+    {
+        setWidth(width);
+        setLength(length);
+    }
+    
     public void setContainer(AbstractElement container)
     {
         _preReference(container, "setContainer", "container");
