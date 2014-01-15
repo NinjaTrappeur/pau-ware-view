@@ -8,6 +8,7 @@ package com.PauWare.PauWare_view;
 
 import java.util.Collection;
 import java.util.HashSet;
+import processing.core.PApplet;
 
 /**
  *
@@ -17,6 +18,12 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
 {
     protected HashSet<AbstractElement> _subStates;
     
+    public enum ClusterDrawSwitch {TOP, RIGHT, BOTTOM, LEFT, ALL};
+    boolean _drawTop;
+    boolean _drawRight;
+    boolean _drawBottom;
+    boolean _drawLeft;
+    
     public ConcurrencyCluster(AbstractElement superstate)
     {
         super("cluster", superstate);
@@ -24,6 +31,11 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
         
         _subStates = new HashSet();
         setName("cluster_"+String.valueOf(_id)+"_"+superstate.name());
+        
+        _drawTop = true;
+        _drawRight = true;
+        _drawBottom = true;
+        _drawLeft = true;
     }
     
     public boolean addState(AbstractElement state)
@@ -57,6 +69,55 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
         
         return removed;
     }
+    
+    public void setDrawSwitch(ClusterDrawSwitch s)
+    {
+        switch(s)
+        {
+            case ALL:
+                _drawTop = true;
+                _drawRight = true;
+                _drawBottom = true;
+                _drawLeft = true;
+                break;
+
+            case TOP:
+                _drawTop = true;
+                break;
+
+            case RIGHT:
+                _drawRight = true;
+                break;
+
+            case BOTTOM:
+                _drawBottom = true;
+                break;
+
+            case LEFT:
+                _drawLeft = true;
+        }
+    }
+    
+    public void setDrawSwitch(ClusterDrawSwitch s1, ClusterDrawSwitch s2, ClusterDrawSwitch s3, ClusterDrawSwitch s4)
+    {
+        setDrawSwitch(s1);
+        setDrawSwitch(s2);
+        setDrawSwitch(s3);
+        setDrawSwitch(s4);
+    }
+    
+    public void setDrawSwitch(ClusterDrawSwitch s1, ClusterDrawSwitch s2, ClusterDrawSwitch s3)
+    {
+        setDrawSwitch(s1);
+        setDrawSwitch(s2);
+        setDrawSwitch(s3);
+    }
+    
+    public void setDrawSwitch(ClusterDrawSwitch s1, ClusterDrawSwitch s2)
+    {
+        setDrawSwitch(s1);
+        setDrawSwitch(s2);
+    }
 
     public Collection<AbstractElement> substates()
     {
@@ -66,7 +127,49 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
     @Override
     public void draw(processing.core.PApplet applet)
     {
-        // à faire
+        float dashMargin;
+        
+        dashMargin = 10F;
+
+        applet.pushMatrix();
+        applet.fill(30,30,30);
+        if(_drawTop)
+        {
+            _drawDottedLine(applet, 0, 0, _width, 0, dashMargin);
+        }
+
+        if(_drawRight)
+        {
+            _drawDottedLine(applet, _width, 0, _width, _length, dashMargin);
+        }
+
+        if(_drawBottom)
+        {
+            _drawDottedLine(applet, 0, _length, _width, _length, dashMargin);
+        }
+
+        if(_drawLeft)
+        {
+            _drawDottedLine(applet, 0, 0, 0, _length, dashMargin);
+        }
+
+        applet.popMatrix();
+    }
+    
+    private void _drawDottedLine(processing.core.PApplet applet, float startX, float startY, float stopX, float stopY, float dashMargin)
+    {
+        float x, y;
+        float lineLength;
+        int nbDash;
+
+        lineLength = (float)Math.sqrt(Math.pow(stopX-startX, 2)+ Math.pow(stopY-startY, 2));
+        nbDash = (int)Math.floor(lineLength / dashMargin);
+        for(int i=0; i < nbDash; ++i)
+        {
+            x = PApplet.lerp(startX, stopX, dashMargin);
+            y = PApplet.lerp(startY, stopY, dashMargin);
+            applet.point(x,y);
+        }
     }
     
     private void _preInitReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException
