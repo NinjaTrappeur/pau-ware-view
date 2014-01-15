@@ -61,6 +61,7 @@ public class SuperState extends State implements Drawable
         {
             state.setContainer(this);
             ++_shallowContentSize;
+            ++_deepContentSize;
             _deepContentSize += state.deepContentSize();
         }
     }
@@ -86,6 +87,7 @@ public class SuperState extends State implements Drawable
         {
             state.setContainer(this.container()); //raaa : possible issue
             --_shallowContentSize;
+            --_deepContentSize;
             _deepContentSize -= state.deepContentSize();
         }
 

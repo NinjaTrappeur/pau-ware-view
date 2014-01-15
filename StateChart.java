@@ -178,6 +178,7 @@ public class StateChart extends AbstractElement implements IChart
         if(added)
         {
             ++_shallowContentSize;
+            ++_deepContentSize;
             _deepContentSize += state.deepContentSize();
         }
     }
@@ -198,6 +199,7 @@ public class StateChart extends AbstractElement implements IChart
         {
             state.setContainer(null);
             --_shallowContentSize;
+            --_deepContentSize;
             _deepContentSize -= state.deepContentSize();
         }
         
