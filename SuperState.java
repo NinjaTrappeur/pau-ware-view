@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Dr Who
  */
-public class SuperState extends State
+public class SuperState extends State implements Drawable
 {
     protected ArrayList<ConcurrencyCluster> _clusters;
     
@@ -37,31 +37,78 @@ public class SuperState extends State
     
     public void addSubState(AbstractElement state, int cluster)
     {
+        _preAddSubState(state, cluster);
+        if(cluster == _clusters.size())
+        {
+            _clusters.add(new ConcurrencyCluster(this));
+        }
         
+        _clusters.get(cluster).addState(state);
+        ++_shallowContentSize;
+        _deepContentSize += state.deepContentSize();
     }
     
     public void addSubState(AbstractElement state, ConcurrencyCluster cluster)
     {
+        _preReference(cluster, "addSubState(AbstractElement, ConcurrencyCluster)", "cluster");
+        int icluster = _clusters.indexOf(cluster);
+        addSubState(state, icluster);
     }
     
     public void addSubState(AbstractElement state)
     {
+        _preReference(state, "addSubState(AbstractElement)", "state");
+        addSubState(state, 0);
     }
 
     public boolean removeSubState(AbstractElement state, int cluster)
     {
-        return false;
+        _preRemoveSubState(state, cluster);
+        boolean removed = _clusters.get(cluster).removeState(state);
+        if(removed)
+        {
+            --_shallowContentSize;
+            _deepContentSize -= state.deepContentSize();
+        }
+
+        return removed;
+    }
+    
+    public boolean removeSubState(AbstractElement state, ConcurrencyCluster cluster)
+    {
+        _preRemoveSubState(state, cluster);
+        int icluster = _clusters.indexOf(cluster);
+        return removeSubState(state, icluster);
     }
 
     public boolean removeSubState(AbstractElement state)
     {
-        return false;
+        _preReference(state, "removeSubState(AbstractElement)", "state");
+        boolean removed;
+        int cluster;
+        
+        removed = false;
+        cluster = 0;
+        while(cluster < _clusters.size() && !removed)
+        {
+            removed = removeSubState(state, cluster);
+            ++cluster;
+        }
+        
+        return removed;
     }
 
     public Collection<AbstractElement> substates()
     {
-        // à faire
-        return new ArrayList();
+        ArrayList<AbstractElement> all;
+        
+        all = new ArrayList();
+        for(ConcurrencyCluster cluster : _clusters)
+        {
+            all.addAll(cluster._subStates);
+        }
+
+        return all;
     }
 
     public Collection<ConcurrencyCluster> clusters()
@@ -69,13 +116,11 @@ public class SuperState extends State
         return _clusters;
     }
  
-    /*
     @Override
-        public void draw(processing.core.PApplet applet)
+    public void draw(processing.core.PApplet applet)
     {
+        // à faire
     }
-    */
-    
     
     private void _preReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException
     {
@@ -90,7 +135,7 @@ public class SuperState extends State
     private void _preAddSubState(AbstractElement state, int cluster) throws IllegalArgumentException
     {
         _preReference(state, "_preAddSubState(AbstractElement,int)", "state");
-        if(cluster > _clusters.size())
+        if(cluster < 0 || cluster > _clusters.size())
         {
             throw new IllegalArgumentException("SuperState._preAddSubState:"+
                     " ConcurrencyCluster num out of range [0, nbClusters] = [0,"+String.valueOf(_clusters.size())+"]");
@@ -106,12 +151,18 @@ public class SuperState extends State
 
     private void _preRemoveSubState(AbstractElement state, int cluster)
     {
-        _preReference(state, "_preRemoveSubState(AbstractElement,ConcurrencyCluster)", "state");
-        if(cluster >= _clusters.size())
+        _preReference(state, "_preRemoveSubState(AbstractElement,int)", "state");
+        if(cluster < 0 || cluster >= _clusters.size())
         {
-            throw new IllegalArgumentException("SuperState._preAddSubState:"+
+            throw new IllegalArgumentException("SuperState._preRemoveSubState:"+
                     " ConcurrencyCluster num out of range [0, nbClusters-1] = [0,"+String.valueOf(_clusters.size()-1)+"]");
             
         }
+    }
+    
+    private void _preRemoveSubState(AbstractElement state, ConcurrencyCluster cluster) throws IllegalArgumentException
+    {
+        _preReference(state, "_preRemoveSubState(AbstractElement,ConcurrencyCluster)", "state");
+        _preReference(cluster, "_preRemoveSubState(AbstractElement,ConcurrencyCluster)", "cluster");
     }
 }

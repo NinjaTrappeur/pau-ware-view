@@ -13,7 +13,7 @@ import java.util.Collection;
  *
  * @author josuah
  */
-public class ConcurrencyCluster extends AbstractElement
+public class ConcurrencyCluster extends AbstractElement implements Drawable
 {
     protected AbstractElement _superstate;
     protected ArrayList<AbstractElement> _subStates;
@@ -32,17 +32,34 @@ public class ConcurrencyCluster extends AbstractElement
     {
         _preInitReference(state, "addState", "State to be added");
         _subStates.add(state);
+
+        ++_shallowContentSize;
+        _deepContentSize += state.deepContentSize();
     }
 
-    public void removeState(AbstractElement state)
+    public boolean removeState(AbstractElement state)
     {
         _preInitReference(state, "removeState", "State to be removed");
-        _subStates.remove(state);
+        boolean removed = _subStates.remove(state);
+
+        if(removed)
+        {
+            --_shallowContentSize;
+            _deepContentSize -= state.deepContentSize();
+        }
+        
+        return removed;
     }
 
     public Collection<AbstractElement> substates()
     {
         return _subStates;
+    }
+ 
+    @Override
+    public void draw(processing.core.PApplet applet)
+    {
+        // à faire
     }
     
     private void _preInitReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException

@@ -16,6 +16,8 @@ public abstract class AbstractElement
     protected float _width; /** !< bounding rectangle width (x axis) */
     protected float _length; /** !< bounding rectangle length (y axis) */
     protected int _id;
+    protected int _shallowContentSize;
+    protected int _deepContentSize;
     
     static protected int _currentId;
     static{
@@ -47,6 +49,9 @@ public abstract class AbstractElement
         
         _id = _currentId;
         ++_currentId;
+        
+        _shallowContentSize = 0;
+        _deepContentSize = 0;
     }
 
     /**
@@ -88,6 +93,16 @@ public abstract class AbstractElement
     public int id()
     {
         return _id;
+    }
+    
+    public int shallowContentSize()
+    {
+        return _shallowContentSize;
+    }
+    
+    public int deepContentSize()
+    {
+        return _deepContentSize;
     }
 
     @Override
