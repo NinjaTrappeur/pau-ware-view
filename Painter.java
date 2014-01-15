@@ -10,14 +10,11 @@ public class Painter {
     IChart _chart;
     ILayout _chartLayout;
     processing.core.PApplet _displayApplet;
-    int _p; //TEST ONLY, DELETE ASAP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     private void _displayElement(AbstractElement elem){
         Drawable drawableState;
         if (!(elem instanceof SuperState) && elem != null) {
-//          Position pos  = _chartLayout.getPosition(elem);
-            Position pos = new Position(_p, _p);
-            _p = _p + 150;
+          Position pos  = _chartLayout.getPosition(elem);
             if (pos != null) {
                 _displayApplet.pushMatrix();
                 _displayApplet.translate(pos.x(), pos.y());
@@ -47,7 +44,6 @@ public class Painter {
     
     
     public void paint(){
-        _p=0;
         //transitions display
         for(Transition trans:_chart.transitions())
         {

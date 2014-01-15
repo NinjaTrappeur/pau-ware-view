@@ -47,6 +47,10 @@ public class FakeLayoutProcessor implements ILayoutProcessor
     @Override
     public void processLayout()
     {
+        AbstractElement chart = _states.get("Idle").container();
+        System.err.println("FakeLayoutProcessor.init: Chart size is "+chart.width()+","+chart.length());
+        System.err.println("FakeLayoutProcessor.init: deepContentSize of Chart size is "+chart.deepContentSize());
+
         _layIt("Idle", 620, 210);
         _layIt("Busy", 50, 50);
         
@@ -65,12 +69,25 @@ public class FakeLayoutProcessor implements ILayoutProcessor
     private void _layIt(String stateName, float x, float y)
     {
         AbstractElement state;
+        float width, length;
         float ratio = 1.F;
         
         state = _states.get(stateName);
         if(state.container().deepContentSize() != 0)
             ratio = ((float)(state.deepContentSize()+1))/state.container().deepContentSize();
-        state.setSize(ratio*state.container().width(), ratio*state.container().length());
+
+        System.err.println("FakeProcessor: deepContentSize for "+state.name()+" is "+state.deepContentSize());
+        System.err.println("FakeProcessor: ratio for "+state.name()+" is "+String.valueOf(state.deepContentSize()+1)+"/"+state.container().deepContentSize()+"="+ratio);
+
+        width  = ratio * AbstractElement._coveredAreaRatio * state.container().width();
+        length = ratio * AbstractElement._coveredAreaRatio * state.container().length();
+        
+        state.setSize(width, length);
+        if(state instanceof SuperState)
+            ((SuperState)state).computeAllClustersSize();
+        System.err.println("FakeProcessor: Setting size of "+state.name()+" to "+String.valueOf(width)+","+String.valueOf(length));
+
         _layout.addPosition(state, x, y);
+        System.err.println("FakeProcessor: Setting position of "+state.name()+" to "+String.valueOf(x)+","+String.valueOf(y));
     }
 }

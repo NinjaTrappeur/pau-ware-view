@@ -23,7 +23,7 @@ public abstract class AbstractElement
     protected static final float _coveredAreaRatio;
     protected static int _currentId;
     static{
-        _coveredAreaRatio = 0.6F;
+        _coveredAreaRatio = 0.8F;
         _currentId = 0;
     }
     

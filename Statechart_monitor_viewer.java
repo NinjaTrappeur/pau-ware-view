@@ -71,16 +71,9 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         // Cette méthode est appelée à la création de la fenêtre Processing.
         size(600, 800);
         background(200);
-//        if (_state_machine != null) {
-//            _chart = new StateChart(_state_machine,"StateChart",300,300);
-//            _layoutProcessor = new BasicLayoutProcessor();
-//            _layoutProcessor.init(_chart);
-//            _layoutProcessor.processLayout();
-//            _layout = _layoutProcessor.getLayout();
-//            _painter = new Painter(_chart,_layout,this);
-//        }
         if (_state_machine != null) {
-            _chart = new StateChart(_state_machine, "StateChart", 800,800);
+            _chart = new StateChart(_state_machine,"StateChart",800,800);
+//            _layoutProcessor = new BasicLayoutProcessor();
             _layoutProcessor = new FakeLayoutProcessor();
             _layoutProcessor.init(_chart);
             _layoutProcessor.processLayout();
