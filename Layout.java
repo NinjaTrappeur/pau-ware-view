@@ -4,7 +4,7 @@
  */
 package com.PauWare.PauWare_view;
 import java.util.HashMap;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.awt.geom.Point2D;
 
 /**
@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  */
 public class Layout implements ILayout{
     HashMap<AbstractElement, Position> _statesMap;
-    HashMap<Transition, Collection<Point2D>> _transitionsMap;
+    HashMap<Transition, ArrayList<Point2D>> _transitionsMap;
     
     
     public Layout()
@@ -43,12 +43,12 @@ public class Layout implements ILayout{
     }
     
     @Override
-    public Collection<Point2D> getTransitionPath(Transition transition){
+    public ArrayList<Point2D> getTransitionPath(Transition transition){
         return _transitionsMap.get(transition);
     }
     
     @Override
-    public void addTransitionPath(Transition trans, Collection<Point2D> path){
+    public void addTransitionPath(Transition trans, ArrayList<Point2D> path){
         _transitionsMap.put(trans, path);
     }
     

@@ -4,7 +4,7 @@
  */
 package com.PauWare.PauWare_view;
 import java.awt.geom.Point2D;
-import java.util.Collection;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,9 +16,9 @@ public interface ILayout {
     void addPosition(AbstractElement elem, Position pos);
     void addPosition(AbstractElement elem, float x, float y);
     void removePosition(AbstractElement elem);
-    void addTransitionPath(Transition transition, Collection<Point2D> path);
+    void addTransitionPath(Transition transition, ArrayList<Point2D> path);
     void removeTransitionPath(Transition transition);
     
-    Collection<Point2D> getTransitionPath(Transition transition);
+    ArrayList<Point2D> getTransitionPath(Transition transition);
     Position getPosition(AbstractElement elem);
 }
