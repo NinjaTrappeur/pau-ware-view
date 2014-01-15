@@ -294,7 +294,7 @@ public class StateChart extends AbstractElement implements IChart
     
     private void _preContainer(AbstractElement container) throws IllegalArgumentException
     {
-        if(! this.hasElement(container))
+        if(!this.hasElement(container) && container != this)
         {
             throw new IllegalArgumentException("StateChart._preContainer:"+
                     " given containg element is not in the chart");
