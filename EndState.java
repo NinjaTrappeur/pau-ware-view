@@ -12,15 +12,21 @@ public class EndState extends PseudoState implements Drawable
      * This class represents a graphic end state.
      * 
      * @param name Name of the state.
+     * @param container optional container (like superstate or statechart)
      */
+      public EndState(String name, AbstractElement container)
+    {
+        super(name, container);
+    }
+
       public EndState(String name)
     {
         super(name);
     }
 
-      public EndState()
+      public EndState(AbstractElement container)
     {
-        super("End");
+        super("End", container);
     }
       @Override
       public void draw(processing.core.PApplet applet)

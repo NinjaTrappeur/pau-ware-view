@@ -22,10 +22,23 @@ public class SuperState extends State implements Drawable
      * @param length Length of the rectangle representing the state.
      * @param width Width of the rectangle representing the state.
      * @param name Name of the state.
+     * @param container optional container (like superstate or statechart)
      */
+    public SuperState(String name, float width, float length, AbstractElement container)
+    {
+        super(name, width, length, container);
+        this._clusters = new ArrayList();
+    }
+    
     public SuperState(String name, float width, float length)
     {
         super(name, width, length);
+        this._clusters = new ArrayList();
+    }
+    
+    public SuperState(String name, AbstractElement container)
+    {
+        super(name, container);
         this._clusters = new ArrayList();
     }
     
@@ -46,6 +59,7 @@ public class SuperState extends State implements Drawable
         boolean added = _clusters.get(cluster).addState(state);
         if(added)
         {
+            state.setContainer(this);
             ++_shallowContentSize;
             _deepContentSize += state.deepContentSize();
         }
@@ -70,6 +84,7 @@ public class SuperState extends State implements Drawable
         boolean removed = _clusters.get(cluster).removeState(state);
         if(removed)
         {
+            state.setContainer(this.container()); //raaa : possible issue
             --_shallowContentSize;
             _deepContentSize -= state.deepContentSize();
         }

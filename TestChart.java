@@ -14,11 +14,18 @@ import java.util.HashSet;
  *
  * @author ninjatrappeur
  */
-public class TestChart implements IChart {
+public class TestChart implements IChart
+{
     HashSet<AbstractElement> _states;
     
     public TestChart(){
     _states = new HashSet();
+    }
+    
+    @Override
+    public void addElement(AbstractElement state, AbstractElement container){
+        System.out.println(state.toString());
+        _states.add(state);
     }
     
     @Override

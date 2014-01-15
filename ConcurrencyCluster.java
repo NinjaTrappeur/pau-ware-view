@@ -15,14 +15,12 @@ import java.util.HashSet;
  */
 public class ConcurrencyCluster extends AbstractElement implements Drawable
 {
-    protected AbstractElement _superstate;
     protected HashSet<AbstractElement> _subStates;
     
     public ConcurrencyCluster(AbstractElement superstate)
     {
-        super("cluster");
+        super("cluster", superstate);
         _preInitReference(superstate, "constructor", "SuperState container");
-        _superstate = superstate;
         
         _subStates = new HashSet();
         setName("cluster_"+String.valueOf(_id)+"_"+superstate.name());

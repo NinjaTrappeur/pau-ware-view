@@ -17,6 +17,7 @@ import java.util.HashMap;
  */
 public interface IChart
 {
+    void addElement(AbstractElement state, AbstractElement container);
     void addElement(AbstractElement state);
     boolean removeElement(AbstractElement state);
     

@@ -18,30 +18,17 @@ public abstract class AbstractElement
     protected int _id;
     protected int _shallowContentSize;
     protected int _deepContentSize;
+    protected AbstractElement _container;
     
     static protected int _currentId;
     static{
         _currentId = 0;
     }
-
-    private void _preSetMetric(float metric, String metricName, String methodName) throws IllegalArgumentException {
-        if (metric < 0) {
-            throw new IllegalArgumentException("AbstractElement._preSetMetric (for "
-                    + methodName
-                    + "): " + metricName
-                    + " can not be negative");
-        }
-    }
-
-    /**
-     *
-     * @param name label of the element
-     * @param length metric for graphical display
-     * @param width metric for graphical display
-     */
-    public AbstractElement(String name, float width, float length) {
-        _preSetMetric(width, "constructor", "width");
-        _preSetMetric(length, "constructor", "length");
+    
+    private void _init(String name, float width, float length, AbstractElement container)
+    {
+        _preSetMetric(width, "constructor, in init()", "width");
+        _preSetMetric(length, "constructor, in init()", "length");
 
         _name = name;
         _width = width;
@@ -52,16 +39,49 @@ public abstract class AbstractElement
         
         _shallowContentSize = 0;
         _deepContentSize = 0;
+        _container = container;
+    }
+
+    /**
+     *
+     * @param name label of the element
+     * @param length metric for graphical display
+     * @param width metric for graphical display
+     * @param container optional container (like superstate or statechart)
+     */
+    public AbstractElement(String name, float width, float length, AbstractElement container)
+    {
+        _init(name, width, length, container);
+    }
+
+    /**
+     *
+     * @param name label of the element
+     * @param length metric for graphical display
+     * @param width metric for graphical display
+     */
+    public AbstractElement(String name, float width, float length)
+    {
+        _init(name, width, length, null);
+    }
+
+    /**
+     *
+     * @param name label of the element
+     * @param container optional containg Element.
+     */
+    public AbstractElement(String name, AbstractElement container)
+    {
+        _init(name, 0F, 0F, container);
     }
 
     /**
      *
      * @param name label of the element
      */
-    public AbstractElement(String name) {
-        _name = name;
-        _length = 0;
-        _width = 0;
+    public AbstractElement(String name)
+    {
+        _init(name, 0F, 0F, null);
     }
 
     public void setName(String name) {
@@ -76,6 +96,12 @@ public abstract class AbstractElement
     public void setLength(float length) {
         _preSetMetric(length, "setLength", "length");
         _length = length;
+    }
+    
+    public void setContainer(AbstractElement container)
+    {
+        _preReference(container, "setContainer", "container");
+        _container = container;
     }
 
     public String name() {
@@ -103,6 +129,11 @@ public abstract class AbstractElement
     public int deepContentSize()
     {
         return _deepContentSize;
+    }
+    
+    public AbstractElement container()
+    {
+        return _container;
     }
 
     @Override
@@ -134,5 +165,23 @@ public abstract class AbstractElement
         hash = 23 * hash + String.valueOf(this._width).hashCode();
         return hash;
     }
+    
+    private void _preReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException
+    {
+        if(ref == null)
+        {
+            throw new IllegalArgumentException("AbstractElement._preInitReference (for "
+                    + methodName
+                    + "): null pointer given gor initilization of " + argName);
+        }
+    }
 
+    private void _preSetMetric(float metric, String metricName, String methodName) throws IllegalArgumentException {
+        if (metric < 0) {
+            throw new IllegalArgumentException("AbstractElement._preSetMetric (for "
+                    + methodName
+                    + "): " + metricName
+                    + " can not be negative");
+        }
+    }
 }
