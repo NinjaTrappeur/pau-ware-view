@@ -19,6 +19,7 @@ public class Layout implements ILayout{
     public Layout()
     {
         _statesMap = new HashMap();
+        _transitionsMap = new HashMap();
     }
     
     @Override

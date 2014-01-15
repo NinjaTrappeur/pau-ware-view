@@ -51,7 +51,7 @@ public class Painter {
         //transitions display
         for(Transition trans:_chart.transitions())
         {
-            _displayTransition(trans);
+            //_displayTransition(trans);
         }
         
         //states display
