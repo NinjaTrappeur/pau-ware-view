@@ -15,6 +15,25 @@ public class Layout implements ILayout{
     HashMap<AbstractElement, Position> _statesMap;
     HashMap<Transition, ArrayList<Point2D>> _transitionsMap;
     
+    private void _preReferencePosition(Position ref, String methodName, String argName) throws IllegalArgumentException
+    {
+        if(ref == null)
+        {
+            throw new IllegalArgumentException("Transition._preReference (for "
+                    + methodName
+                    + "): null pointer given for parameter of " + argName);
+        }
+    }
+    
+    private void _preReferenceTransition(ArrayList<Point2D> ref, String methodName, String argName) throws IllegalArgumentException
+    {
+        if(ref == null)
+        {
+            throw new IllegalArgumentException("Transition._preReference (for "
+                    + methodName
+                    + "): null pointer given for parameter of " + argName);
+        }
+    }
     
     public Layout()
     {
@@ -40,12 +59,17 @@ public class Layout implements ILayout{
     
     @Override
     public Position getPosition(AbstractElement elem){
-        return _statesMap.get(elem);
+        Position pos = _statesMap.get(elem);
+        _preReferencePosition(pos, "getPosition", "elem");
+        return pos;
     }
     
     @Override
     public ArrayList<Point2D> getTransitionPath(Transition transition){
-        return _transitionsMap.get(transition);
+        ArrayList<Point2D> path;
+        path=_transitionsMap.get(transition);
+        _preReferenceTransition(path, "getTransitionPath", "transition");
+        return path;
     }
     
     @Override
