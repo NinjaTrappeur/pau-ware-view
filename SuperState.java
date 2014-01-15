@@ -138,7 +138,32 @@ public class SuperState extends State implements Drawable
     @Override
     public void draw(processing.core.PApplet applet)
     {
-        // à faire
+        float clusterWidth;
+        float offset = 0;
+        float ratio = 1;
+        
+        super.draw(applet);
+        
+        //Dessin des clusters
+        // Définir la taille des clusters et dessiner chacun d'eux
+        applet.pushMatrix();
+        for(ConcurrencyCluster cluster : _clusters)
+        {
+            if(this.deepContentSize() != 0)
+            {
+                ratio = cluster.deepContentSize() / this.deepContentSize();
+            }
+            
+            clusterWidth = this.width() * ratio;
+            cluster.setWidth(clusterWidth);
+            cluster.setLength(this.length()); //there will be an issue: must begin after state heading
+            
+            applet.translate(offset, 0);
+            cluster.draw(applet);
+            
+            offset += clusterWidth;
+        }
+        applet.popMatrix();
     }
     
     private void _preReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException

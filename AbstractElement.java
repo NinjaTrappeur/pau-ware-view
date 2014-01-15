@@ -20,8 +20,10 @@ public abstract class AbstractElement
     protected int _deepContentSize;
     protected AbstractElement _container;
     
-    static protected int _currentId;
+    protected static final float _coveredAreaRatio;
+    protected static int _currentId;
     static{
+        _coveredAreaRatio = 0.6F;
         _currentId = 0;
     }
     
