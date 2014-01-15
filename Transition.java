@@ -15,17 +15,21 @@ public class Transition
     
     public Transition(AbstractElement origin, AbstractElement target)
     {
+        _preReference(origin, "constructor", "origin");
+        _preReference(target, "constructor", "target");
         _origin = origin;
         _target = target;
     }
     
     public void setOrigin(AbstractElement origin)
     {
+        _preReference(origin, "setOrigin", "origin");
         _origin = origin;
     }
     
     public void setTarget(AbstractElement target)
     {
+        _preReference(target, "setOrigin", "target");
         _target = target;
     }
     
@@ -67,5 +71,15 @@ public class Transition
         hash = 53 * hash + this._origin.hashCode();
         hash = 53 * hash + this._target.hashCode();
         return hash;
+    }
+    
+    private void _preReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException
+    {
+        if(ref == null)
+        {
+            throw new IllegalArgumentException("Transition._preReference (for "
+                    + methodName
+                    + "): null pointer given for parameter of " + argName);
+        }
     }
 }

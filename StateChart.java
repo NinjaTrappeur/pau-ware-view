@@ -169,38 +169,76 @@ public class StateChart extends AbstractElement implements IChart
     @Override
     public void addElement(AbstractElement state)
     {
-        _elements.add(state);
+        _preReference(state, "addElement", "state");
+        boolean added = _elements.add(state);
+        if(added)
+        {
+            ++_shallowContentSize;
+            _deepContentSize += state.deepContentSize();
+        }
     }
 
     @Override
-    public void removeElement(AbstractElement state)
+    public boolean removeElement(AbstractElement state)
     {
-        _elements.remove(state);
-    }
-
-    @Override
-    public void addTransition(Transition trans)
-    {
-        _transitions.add(trans);
+        _preReference(state, "removeElement", "state");
+        boolean removed = _elements.remove(state);
+        
+        if(removed)
+        {
+            --_shallowContentSize;
+            _deepContentSize -= state.deepContentSize();
+        }
+        
+        return removed;
     }
 
     @Override
     public void addTransition(AbstractElement origin, AbstractElement target)
     {
+        _preReference(origin, "addTransition", "origin");
+        _preReference(target, "addTransition", "target");
+        
+        if(!this.hasElement(origin))
+        {
+            this.addElement(origin);
+        }
+        
+        if(!this.hasElement(target))
+        {
+            this.addElement(target);
+        }
+
+        //need a pre for prensence in chart (or just add the new elements)
         _transitions.add(new Transition(origin, target));
     }
 
     @Override
-    public void removeTransition(Transition trans)
+    public void addTransition(Transition trans)
     {
-        _transitions.remove(trans);
+        this.addTransition(trans.origin(), trans.target());
     }
 
     @Override
-    public void removeTransition(AbstractElement origin, AbstractElement target)
+    public boolean removeTransition(AbstractElement origin, AbstractElement target)
     {
+        _preReference(origin, "removeTransition", "origin");
+        _preReference(target, "removeTransition", "target");
+        
         Transition trans = new Transition(origin, target);
-        _transitions.remove(trans);
+        return _transitions.remove(trans);
+    }
+
+    @Override
+    public boolean removeTransition(Transition trans) throws IllegalArgumentException
+    {
+        if(trans == null)
+        {
+            throw new IllegalArgumentException("StateChart.removeTransition:"+
+                    "null pointer given for argument trans");
+        }
+
+        return _transitions.remove(trans);
     }
 
     @Override
@@ -225,5 +263,21 @@ public class StateChart extends AbstractElement implements IChart
     {
         Transition trans = new Transition(origin, target);
         return _transitions.contains(trans);
+    }
+
+    @Override
+    public boolean hasElement(AbstractElement state)
+    {
+        return _elements.contains(state);
+    }
+    
+    private void _preReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException
+    {
+        if(ref == null)
+        {
+            throw new IllegalArgumentException("StateChart._preReference (for "
+                    + methodName
+                    + "): null pointer given for parameter of " + argName);
+        }
     }
 }

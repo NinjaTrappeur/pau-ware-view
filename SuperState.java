@@ -43,9 +43,12 @@ public class SuperState extends State implements Drawable
             _clusters.add(new ConcurrencyCluster(this));
         }
         
-        _clusters.get(cluster).addState(state);
-        ++_shallowContentSize;
-        _deepContentSize += state.deepContentSize();
+        boolean added = _clusters.get(cluster).addState(state);
+        if(added)
+        {
+            ++_shallowContentSize;
+            _deepContentSize += state.deepContentSize();
+        }
     }
     
     public void addSubState(AbstractElement state, ConcurrencyCluster cluster)

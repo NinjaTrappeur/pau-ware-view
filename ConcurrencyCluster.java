@@ -6,8 +6,8 @@
 
 package com.PauWare.PauWare_view;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  *
@@ -16,7 +16,7 @@ import java.util.Collection;
 public class ConcurrencyCluster extends AbstractElement implements Drawable
 {
     protected AbstractElement _superstate;
-    protected ArrayList<AbstractElement> _subStates;
+    protected HashSet<AbstractElement> _subStates;
     
     public ConcurrencyCluster(AbstractElement superstate)
     {
@@ -24,17 +24,22 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
         _preInitReference(superstate, "constructor", "SuperState container");
         _superstate = superstate;
         
-        _subStates = new ArrayList();
+        _subStates = new HashSet();
         setName("cluster_"+String.valueOf(_id)+"_"+superstate.name());
     }
     
-    public void addState(AbstractElement state)
+    public boolean addState(AbstractElement state)
     {
         _preInitReference(state, "addState", "State to be added");
-        _subStates.add(state);
+        boolean added = _subStates.add(state);
 
-        ++_shallowContentSize;
-        _deepContentSize += state.deepContentSize();
+        if(added)
+        {
+            ++_shallowContentSize;
+            _deepContentSize += state.deepContentSize();
+        }
+        
+        return added;
     }
 
     public boolean removeState(AbstractElement state)

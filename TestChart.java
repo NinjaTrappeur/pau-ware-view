@@ -28,8 +28,8 @@ public class TestChart implements IChart {
     }
     
     @Override
-    public void removeElement(AbstractElement state){
-        _states.remove(state);
+    public boolean removeElement(AbstractElement state){
+        return _states.remove(state);
     }
     
     @Override
@@ -43,13 +43,15 @@ public class TestChart implements IChart {
     }
     
     @Override
-    public void removeTransition(Transition trans){
-        
+    public boolean removeTransition(Transition trans){
+        // à faire
+        return false;
     }
     
     @Override
-    public void removeTransition(AbstractElement origin, AbstractElement target){
-        
+    public boolean removeTransition(AbstractElement origin, AbstractElement target){
+        // à faire
+        return false;
     }
     
     @Override
@@ -71,4 +73,10 @@ public class TestChart implements IChart {
     public boolean isTransition(AbstractElement origin, AbstractElement target){
         return false;
     }
+
+    @Override
+    public boolean hasElement(AbstractElement state) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

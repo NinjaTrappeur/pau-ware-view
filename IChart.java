@@ -18,12 +18,12 @@ import java.util.HashMap;
 public interface IChart
 {
     void addElement(AbstractElement state);
-    void removeElement(AbstractElement state);
+    boolean removeElement(AbstractElement state);
     
-    void addTransition(Transition trans);
     void addTransition(AbstractElement origin, AbstractElement target);
-    void removeTransition(Transition trans);
-    void removeTransition(AbstractElement origin, AbstractElement target);
+    void addTransition(Transition trans);
+    boolean removeTransition(AbstractElement origin, AbstractElement target);
+    boolean removeTransition(Transition trans);
     
     public HashMap<Integer, HashSet<AbstractElement>> nestingLevels();
     
@@ -31,4 +31,5 @@ public interface IChart
     Collection<Transition> transitions();
     
     boolean isTransition(AbstractElement origin, AbstractElement target);
+    boolean hasElement(AbstractElement state);
 }
