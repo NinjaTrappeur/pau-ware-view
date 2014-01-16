@@ -132,27 +132,30 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
         dashMargin = 10F;
 
         applet.pushMatrix();
-        applet.fill(130,130,130);
+        applet.fill(130,0,0);
         if(_drawTop)
         {
+//            System.err.println("ConcurrencyCluster.draw: drawing top side");
             _drawDottedLine(applet, 0, 0, _width, 0, dashMargin);
         }
 
         if(_drawRight)
         {
+//            System.err.println("ConcurrencyCluster.draw: drawing right side");
             _drawDottedLine(applet, _width, 0, _width, _length, dashMargin);
         }
 
         if(_drawBottom)
         {
+//            System.err.println("ConcurrencyCluster.draw: drawing bottom side");
             _drawDottedLine(applet, 0, _length, _width, _length, dashMargin);
         }
 
         if(_drawLeft)
         {
+//            System.err.println("ConcurrencyCluster.draw: drawing left side");
             _drawDottedLine(applet, 0, 0, 0, _length, dashMargin);
         }
-
         applet.popMatrix();
     }
     
@@ -165,11 +168,15 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
 
         lineLength = (float)Math.sqrt(Math.pow(stopX-startX, 2)+ Math.pow(stopY-startY, 2));
         nbDash = (int)Math.floor(lineLength / dashMargin);
+//        System.err.println("ConcurrencyCluster._drawDottedLine: lineLength is "+lineLength);
+//        System.err.println("ConcurrencyCluster._drawDottedLine: nbDash is "+nbDash);
+
         for(int i=0; i < nbDash; ++i)
         {
-            x = PApplet.lerp(startX, stopX, dashMargin);
-            y = PApplet.lerp(startY, stopY, dashMargin);
+            x = PApplet.lerp(startX, stopX, ((float)i)/nbDash);
+            y = PApplet.lerp(startY, stopY, ((float)i)/nbDash);
             applet.point(x,y);
+//            System.err.println("ConcurrencyCluster._drawDottedLine: plotted at "+x+","+y);
         }
     }
     

@@ -48,8 +48,8 @@ public class FakeLayoutProcessor implements ILayoutProcessor
     public void processLayout()
     {
         AbstractElement chart = _states.get("Idle").container();
-        System.err.println("FakeLayoutProcessor.processLayout: Chart size is "+chart.width()+","+chart.length());
-        System.err.println("FakeLayoutProcessor.processLayout: deepContentSize of Chart is "+chart.deepContentSize());
+//        System.err.println("FakeLayoutProcessor.processLayout: Chart size is "+chart.width()+","+chart.length());
+//        System.err.println("FakeLayoutProcessor.processLayout: deepContentSize of Chart is "+chart.deepContentSize());
 
         _layIt("Idle", 620, 210);
         _layIt("Busy", 50, 50);
@@ -79,19 +79,19 @@ public class FakeLayoutProcessor implements ILayoutProcessor
         if(state.container().deepContentSize() != 0)
             ratio = ((float)(state.deepContentSize()+1))/state.container().deepContentSize();
 
-        System.err.println("FakeProcessor: deepContentSize for "+state.name()+" is "+state.deepContentSize());
-        System.err.println("FakeProcessor: ratio for "+state.name()+" is "+String.valueOf(state.deepContentSize()+1)+"/"+state.container().deepContentSize()+"="+ratio);
-        System.err.println("FakeProcessor: container of "+state.name()+" is "+state.container().name());
-        System.err.println("FakeProcessor: size of container "+state.container().name()+" is "+state.container().width()+","+state.container().length());
+//        System.err.println("FakeProcessor: deepContentSize for "+state.name()+" is "+state.deepContentSize());
+//        System.err.println("FakeProcessor: ratio for "+state.name()+" is "+String.valueOf(state.deepContentSize()+1)+"/"+state.container().deepContentSize()+"="+ratio);
+//        System.err.println("FakeProcessor: container of "+state.name()+" is "+state.container().name());
+//        System.err.println("FakeProcessor: size of container "+state.container().name()+" is "+state.container().width()+","+state.container().length());
 
         width  = ratio * AbstractElement._coveredAreaRatio * state.container().width();
         length = ratio * AbstractElement._coveredAreaRatio * state.container().length();
         
         if(! (state instanceof PseudoState))
             state.setSize(width, length);
-        System.err.println("FakeProcessor: Setting size of "+state.name()+" to "+String.valueOf(width)+","+String.valueOf(length));
+//        System.err.println("FakeProcessor: Setting size of "+state.name()+" to "+String.valueOf(width)+","+String.valueOf(length));
 
         _layout.addPosition(state, x, y);
-        System.err.println("FakeProcessor: Setting position of "+state.name()+" to "+String.valueOf(x)+","+String.valueOf(y));
+//        System.err.println("FakeProcessor: Setting position of "+state.name()+" to "+String.valueOf(x)+","+String.valueOf(y));
     }
 }

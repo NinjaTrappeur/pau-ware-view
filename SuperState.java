@@ -161,25 +161,25 @@ public class SuperState extends State implements Drawable
         {
             ratio = ((float)cluster.deepContentSize()) / this.deepContentSize();
         }
-        System.err.println("SuperState.computeAllClustersSize: computing size of cluster "+cluster.name());
-        System.err.println("SuperState.computeAllClustersSize: cluster "+cluster.name()+" deepContentSize is "+cluster.deepContentSize());
-        System.err.println("SuperState.computeAllClustersSize: computed ratio is "+ratio);
+//        System.err.println("SuperState.computeAllClustersSize: computing size of cluster "+cluster.name());
+//        System.err.println("SuperState.computeAllClustersSize: cluster "+cluster.name()+" deepContentSize is "+cluster.deepContentSize());
+//        System.err.println("SuperState.computeAllClustersSize: computed ratio is "+ratio);
 
         clusterWidth = this.width() * ratio;
         
         cluster.setWidth(clusterWidth);
         cluster.setLength(this.length()); //there will be an issue: must begin after state heading
         
-        System.err.println("SuperState.computeAllClustersSize: computed width is "+clusterWidth);
+//        System.err.println("SuperState.computeAllClustersSize: computed width is "+clusterWidth);
 
         return clusterWidth;
     }
     
     public void computeAllClustersSize()
     {
-        System.err.println("SuperState.computeAllClustersSize: computing clusters sizes for "+this.name());
-        System.err.println("SuperState.computeAllClustersSize: "+this.name()+" has "+_clusters.size()+" clusters");
-        System.err.println("SuperState.computeAllClustersSize: deepContentSize of "+this.name()+" is "+this.deepContentSize());
+//        System.err.println("SuperState.computeAllClustersSize: computing clusters sizes for "+this.name());
+//        System.err.println("SuperState.computeAllClustersSize: "+this.name()+" has "+_clusters.size()+" clusters");
+//        System.err.println("SuperState.computeAllClustersSize: deepContentSize of "+this.name()+" is "+this.deepContentSize());
         for(ConcurrencyCluster cluster : _clusters)
         {
             computeClusterSize(cluster);
@@ -225,7 +225,6 @@ public class SuperState extends State implements Drawable
     @Override
     public void draw(processing.core.PApplet applet)
     {
-        float clusterWidth;
         float offset = 0;
         
         super.draw(applet);
@@ -234,12 +233,10 @@ public class SuperState extends State implements Drawable
         applet.pushMatrix();
         for(ConcurrencyCluster cluster : _clusters)
         {
-            clusterWidth = cluster.width();
-            
             applet.translate(offset, 0);
             cluster.draw(applet);
             
-            offset += clusterWidth;
+            offset = cluster.width();
         }
         applet.popMatrix();
     }
