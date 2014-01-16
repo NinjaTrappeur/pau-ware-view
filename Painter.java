@@ -15,7 +15,7 @@ public class Painter {
     
     private void _displayElement(AbstractElement elem){
         Drawable drawableState;
-        if (elem != null) {
+        if (elem != null /*&& elem.name().equals("S1")*/ ) {
           Position pos  = _chartLayout.getPosition(elem);
             if (pos != null) {
                 _displayApplet.pushMatrix();

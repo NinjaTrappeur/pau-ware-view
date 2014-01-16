@@ -82,6 +82,8 @@ public class FakeLayoutProcessor implements ILayoutProcessor
 
         System.err.println("FakeProcessor: deepContentSize for "+state.name()+" is "+state.deepContentSize());
         System.err.println("FakeProcessor: ratio for "+state.name()+" is "+String.valueOf(state.deepContentSize()+1)+"/"+state.container().deepContentSize()+"="+ratio);
+        System.err.println("FakeProcessor: container of "+state.name()+" is "+state.container().name());
+        System.err.println("FakeProcessor: size of container "+state.container().name()+" is "+state.container().width()+","+state.container().length());
 
         width  = ratio * AbstractElement._coveredAreaRatio * state.container().width();
         length = ratio * AbstractElement._coveredAreaRatio * state.container().length();

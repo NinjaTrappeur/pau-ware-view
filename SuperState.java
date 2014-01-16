@@ -121,23 +121,31 @@ public class SuperState extends State implements Drawable
     public float computeClusterSize(ConcurrencyCluster cluster)
     {
         float clusterWidth;
-        float ratio = 1;
+        float ratio = 1F;
         
         if(this.deepContentSize() != 0)
         {
-            ratio = cluster.deepContentSize() / this.deepContentSize();
+            ratio = ((float)cluster.deepContentSize()) / this.deepContentSize();
         }
+        System.err.println("SuperState.computeAllClustersSize: computing size of cluster "+cluster.name());
+        System.err.println("SuperState.computeAllClustersSize: cluster "+cluster.name()+" deepContentSize is "+cluster.deepContentSize());
+        System.err.println("SuperState.computeAllClustersSize: computed ratio is "+ratio);
 
         clusterWidth = this.width() * ratio;
         
         cluster.setWidth(clusterWidth);
         cluster.setLength(this.length()); //there will be an issue: must begin after state heading
         
+        System.err.println("SuperState.computeAllClustersSize: computed width is "+clusterWidth);
+
         return clusterWidth;
     }
     
     public void computeAllClustersSize()
     {
+        System.err.println("SuperState.computeAllClustersSize: computing clusters sizes for "+this.name());
+        System.err.println("SuperState.computeAllClustersSize: "+this.name()+" has "+_clusters.size()+" clusters");
+        System.err.println("SuperState.computeAllClustersSize: deepContentSize of "+this.name()+" is "+this.deepContentSize());
         for(ConcurrencyCluster cluster : _clusters)
         {
             computeClusterSize(cluster);
