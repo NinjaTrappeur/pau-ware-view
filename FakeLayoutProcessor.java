@@ -6,7 +6,6 @@
 
 package com.PauWare.PauWare_view;
 
-import com.sun.org.apache.xpath.internal.compiler.PsuedoNames;
 import java.util.HashMap;
 
 /**
@@ -90,10 +89,10 @@ public class FakeLayoutProcessor implements ILayoutProcessor
         
         if(! (state instanceof PseudoState))
             state.setSize(width, length);
+        System.err.println("FakeProcessor: Setting size of "+state.name()+" to "+String.valueOf(width)+","+String.valueOf(length));
 
         if(state instanceof SuperState)
             ((SuperState)state).computeAllClustersSize();
-        System.err.println("FakeProcessor: Setting size of "+state.name()+" to "+String.valueOf(width)+","+String.valueOf(length));
 
         _layout.addPosition(state, x, y);
         System.err.println("FakeProcessor: Setting position of "+state.name()+" to "+String.valueOf(x)+","+String.valueOf(y));
