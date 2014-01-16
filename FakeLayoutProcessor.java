@@ -51,22 +51,22 @@ public class FakeLayoutProcessor implements ILayoutProcessor
 //        System.err.println("FakeLayoutProcessor.processLayout: Chart size is "+chart.width()+","+chart.length());
 //        System.err.println("FakeLayoutProcessor.processLayout: deepContentSize of Chart is "+chart.deepContentSize());
 
-        _layIt("Idle", 620, 210);
+        _layIt("Idle", 720, 250);
         _layIt("Busy", 50, 50);
-        _layIt("start_to_Idle", 720, 250);
+        _layIt("start_to_Idle", 800, 350);
         
-        _layIt("S1", 80, 150);
-        _layIt("S2", 410, 150);
-        _layIt("S3", 270, 150);
+        _layIt("S1", 220, 200);
+        _layIt("S2", 415, 200);
+        _layIt("S3", 65, 200);
         
-        _layIt("S11", 90, 250);
-        _layIt("S12", 180, 250);
-        _layIt("S21", 420, 250);
-        _layIt("S22", 480, 250);
-        _layIt("S31", 277, 250);
-        _layIt("S32", 337, 250);
-        _layIt("start_to_S11", 75, 220);
-        _layIt("start_to_S22", 400, 405);
+        _layIt("S11", 230, 280);
+        _layIt("S12", 330, 280);
+        _layIt("S21", 425, 280);
+        _layIt("S22", 520, 280);
+        _layIt("S31", 70, 280);
+        _layIt("S32", 130, 280);
+        _layIt("start_to_S11", 280, 400);
+        _layIt("start_to_S22", 500, 405);
     }
     
     private void _layIt(String stateName, float x, float y)
