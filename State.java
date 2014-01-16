@@ -29,24 +29,18 @@ public class State extends AbstractElement implements Drawable
      * 
      * @param length Length of the rectangle representing the state.
      * @param width Width of the rectangle representing the state.
-     * @param name Name of the state.
+     * @param state Pauware state.
      * @param container optional container (like superstate or statechart)
      */
-    public State(String name, float width, float length, AbstractElement container)
+    public State(AbstractStatechart state, float width, float length, AbstractElement container)
     {
-        super(name, width, length, container);
+        super(state.name(), width, length, container);
         _setDerived();
     }
     
-    public State(String name, float width, float length)
+    public State(AbstractStatechart state, float width, float length)
     {
-        super(name, width, length);
-        _setDerived();
-    }
-    
-    public State(String name, AbstractElement container)
-    {
-        super(name, 150, 100, container);
+        super(state.name(), width, length);
         _setDerived();
     }
     
@@ -56,9 +50,10 @@ public class State extends AbstractElement implements Drawable
         _setDerived();
     }
     
-    public State(String name)
+    public State(AbstractStatechart state)
     {
-        super(name, 150, 100);
+        super(state.name(), 150, 100);
+        _pauwareRef=state;
         _setDerived();
     }
     

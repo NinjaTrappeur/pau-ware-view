@@ -20,10 +20,8 @@ public class Painter {
             if (pos != null) {
                 _displayApplet.pushMatrix();
                 _displayApplet.translate(pos.x(), pos.y());
-                if(!(elem instanceof SuperState)){
-                    drawableState = (Drawable) elem;
-                    drawableState.draw(_displayApplet);
-                }
+                drawableState = (Drawable) elem;
+                drawableState.draw(_displayApplet);
                 _displayApplet.popMatrix();
             }
         }

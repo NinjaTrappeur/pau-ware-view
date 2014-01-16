@@ -75,7 +75,7 @@ public class StateChart extends AbstractElement implements IChart
             Integer childNestLevel = nestLevel + 1;
             Integer comp_cluster = 0;
 
-            composite = new SuperState(state.name(), container);
+            composite = new SuperState(state, container);
             // add CompositeState components : use left() and right()
             l = state.left();
             r = state.right();

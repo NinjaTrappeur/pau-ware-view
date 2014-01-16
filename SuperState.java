@@ -5,9 +5,13 @@
  */
 package com.PauWare.PauWare_view;
 
+import com.pauware.pauware_engine._Core.AbstractStatechart;
+
+
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 
 /**
  *
@@ -25,27 +29,27 @@ public class SuperState extends State implements Drawable
      * @param name Name of the state.
      * @param container optional container (like superstate or statechart)
      */
-    public SuperState(String name, float width, float length, AbstractElement container)
+    public SuperState(AbstractStatechart state, float width, float length, AbstractElement container)
     {
-        super(name, width, length, container);
+        super(state, width, length, container);
         this._clusters = new ArrayList();
     }
     
-    public SuperState(String name, float width, float length)
+    public SuperState(AbstractStatechart state, float width, float length)
     {
-        super(name, width, length);
+        super(state, width, length);
         this._clusters = new ArrayList();
     }
     
-    public SuperState(String name, AbstractElement container)
+    public SuperState(AbstractStatechart state, AbstractElement container)
     {
-        super(name, container);
+        super(state, container);
         this._clusters = new ArrayList();
     }
     
-    public SuperState(String name)
+    public SuperState(AbstractStatechart state)
     {
-        super(name);
+        super(state);
         this._clusters = new ArrayList();
     }
     
@@ -253,4 +257,5 @@ public class SuperState extends State implements Drawable
         _preReference(state, "_preRemoveSubState(AbstractElement,ConcurrencyCluster)", "state");
         _preReference(cluster, "_preRemoveSubState(AbstractElement,ConcurrencyCluster)", "cluster");
     }
+    
 }
