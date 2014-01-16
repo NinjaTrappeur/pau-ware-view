@@ -70,7 +70,7 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
             _layoutProcessor = new BasicLayoutProcessor();
             _layoutProcessor.init(_chart);
             _layoutProcessor.processLayout();
-            _layout = _layoutProcessor.getLayout();
+            _layout = new Layout();
             _painter = new Painter(_chart,_layout,this);
         }
         // Inutile de redessiner l'écran s'il ne se passe rien dans la machine à états :

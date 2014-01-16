@@ -19,7 +19,7 @@ public class Layout implements ILayout{
     {
         if(ref == null)
         {
-            throw new IllegalArgumentException("Transition._preReference (for "
+            throw new IllegalArgumentException("Layout._preReferencePosition (for "
                     + methodName
                     + "): null pointer given for parameter of " + argName);
         }
@@ -29,7 +29,7 @@ public class Layout implements ILayout{
     {
         if(ref == null)
         {
-            throw new IllegalArgumentException("Transition._preReference (for "
+            throw new IllegalArgumentException("Layout._preReferenceTransition (for "
                     + methodName
                     + "): null pointer given for parameter of " + argName);
         }

@@ -5,11 +5,14 @@
  */
 package com.PauWare.PauWare_view;
 
+import com.pauware.pauware_engine._Core.AbstractStatechart;
+
 public class State extends AbstractElement implements Drawable
 {
     float _boxRadius;
     float _textSize;
     float _headerInnerTopMargin;
+    AbstractStatechart _pauwareRef;
     
     private void _setDerived()
     {
@@ -47,6 +50,11 @@ public class State extends AbstractElement implements Drawable
         _setDerived();
     }
     
+    public State(AbstractStatechart state, AbstractElement container){
+        super(state.name(),150,100,container);
+        _setDerived();
+    }
+    
     public State(String name)
     {
         super(name, 150, 100);
@@ -72,5 +80,29 @@ public class State extends AbstractElement implements Drawable
         applet.text(_name, 0, 0+_headerInnerTopMargin,
                 _width, _boxRadius);
         applet.popMatrix();
+    }
+    
+    public Boolean isActive(){
+        _prePauwareAccess(_pauwareRef, "isActive");
+        return _pauwareRef.active();
+    }
+    
+    public AbstractStatechart getPauwareState()
+    {
+        return _pauwareRef;
+    }
+    
+    public void setPauwareState( AbstractStatechart state){
+        _pauwareRef = state;
+    }
+    
+        private void _prePauwareAccess(AbstractStatechart ref, String methodName) throws IllegalArgumentException
+    {
+         if(ref == null)
+        {
+            throw new IllegalArgumentException("SuperState._preReference (for "
+                    + methodName
+                    + "): null pointer given gor initilization of pauWare state");
+        }
     }
 }
