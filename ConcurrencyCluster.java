@@ -132,7 +132,7 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
         dashMargin = 10F;
 
         applet.pushMatrix();
-        applet.fill(30,30,30);
+        applet.fill(130,130,130);
         if(_drawTop)
         {
             _drawDottedLine(applet, 0, 0, _width, 0, dashMargin);
@@ -156,7 +156,8 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
         applet.popMatrix();
     }
     
-    private void _drawDottedLine(processing.core.PApplet applet, float startX, float startY, float stopX, float stopY, float dashMargin)
+    private void _drawDottedLine(processing.core.PApplet applet, float startX,
+            float startY, float stopX, float stopY, float dashMargin)
     {
         float x, y;
         float lineLength;

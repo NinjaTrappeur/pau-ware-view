@@ -23,7 +23,7 @@ public abstract class AbstractElement
     protected static final float _coveredAreaRatio;
     protected static int _currentId;
     static{
-        _coveredAreaRatio = 0.6F;
+        _coveredAreaRatio = 0.8F;
         _currentId = 0;
     }
     
@@ -98,6 +98,12 @@ public abstract class AbstractElement
     public void setLength(float length) {
         _preSetMetric(length, "setLength", "length");
         _length = length;
+    }
+    
+    public void setSize(float width, float length)
+    {
+        setWidth(width);
+        setLength(length);
     }
     
     public void setContainer(AbstractElement container)

@@ -7,6 +7,7 @@ package com.PauWare.PauWare_view;
 
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -116,6 +117,32 @@ public class SuperState extends State implements Drawable
         
         return removed;
     }
+    
+    public float computeClusterSize(ConcurrencyCluster cluster)
+    {
+        float clusterWidth;
+        float ratio = 1;
+        
+        if(this.deepContentSize() != 0)
+        {
+            ratio = cluster.deepContentSize() / this.deepContentSize();
+        }
+
+        clusterWidth = this.width() * ratio;
+        
+        cluster.setWidth(clusterWidth);
+        cluster.setLength(this.length()); //there will be an issue: must begin after state heading
+        
+        return clusterWidth;
+    }
+    
+    public void computeAllClustersSize()
+    {
+        for(ConcurrencyCluster cluster : _clusters)
+        {
+            computeClusterSize(cluster);
+        }
+    }
 
     public Collection<AbstractElement> substates()
     {
@@ -129,6 +156,24 @@ public class SuperState extends State implements Drawable
 
         return all;
     }
+    
+    public ConcurrencyCluster clusterOf(AbstractElement state)
+    {
+        ConcurrencyCluster cluster = null;
+        boolean found = false;
+        
+        Iterator<ConcurrencyCluster> it = _clusters.iterator();
+        while(it.hasNext() && !found)
+        {
+            cluster = it.next();
+            found = cluster.substates().contains(state);
+        }
+        
+        if(!found)
+            cluster = null;
+
+        return cluster;
+    }
 
     public Collection<ConcurrencyCluster> clusters()
     {
@@ -140,23 +185,14 @@ public class SuperState extends State implements Drawable
     {
         float clusterWidth;
         float offset = 0;
-        float ratio = 1;
         
         super.draw(applet);
         
         //Dessin des clusters
-        // Définir la taille des clusters et dessiner chacun d'eux
         applet.pushMatrix();
         for(ConcurrencyCluster cluster : _clusters)
         {
-            if(this.deepContentSize() != 0)
-            {
-                ratio = cluster.deepContentSize() / this.deepContentSize();
-            }
-            
-            clusterWidth = this.width() * ratio;
-            cluster.setWidth(clusterWidth);
-            cluster.setLength(this.length()); //there will be an issue: must begin after state heading
+            clusterWidth = computeClusterSize(cluster);
             
             applet.translate(offset, 0);
             cluster.draw(applet);

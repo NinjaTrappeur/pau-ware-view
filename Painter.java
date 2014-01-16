@@ -1,6 +1,8 @@
 
 package com.PauWare.PauWare_view;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *
@@ -10,14 +12,11 @@ public class Painter {
     IChart _chart;
     ILayout _chartLayout;
     processing.core.PApplet _displayApplet;
-    int _p; //TEST ONLY, DELETE ASAP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     private void _displayElement(AbstractElement elem){
         Drawable drawableState;
-        if (!(elem instanceof SuperState) && elem != null) {
-//          Position pos  = _chartLayout.getPosition(elem);
-            Position pos = new Position(_p, _p);
-            _p = _p + 150;
+        if (elem != null) {
+          Position pos  = _chartLayout.getPosition(elem);
             if (pos != null) {
                 _displayApplet.pushMatrix();
                 _displayApplet.translate(pos.x(), pos.y());
@@ -47,7 +46,6 @@ public class Painter {
     
     
     public void paint(){
-        _p=0;
         //transitions display
         for(Transition trans:_chart.transitions())
         {
@@ -55,9 +53,15 @@ public class Painter {
         }
         
         //states display
-        for(AbstractElement elem:_chart.elements())
+        HashMap<Integer, HashSet<AbstractElement> > nestingLevels = _chart.nestingLevels();
+        for(Integer level : nestingLevels.keySet())
         {
-            _displayElement(elem);
+            //System.err.println("Painter.paint: printing nesting level "+level);
+            for(AbstractElement elem : nestingLevels.get(level))
+            {
+                _displayElement(elem);
+                //System.err.println("\tPainter.paint: printing elem "+elem.name());
+            }
         }
     }
 }
