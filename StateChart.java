@@ -54,7 +54,6 @@ public class StateChart extends AbstractElement implements IChart
             Integer nestLevel, AbstractElement container, Integer cluster)
     {
         AbstractElement added;
-        System.out.println("Caramba! " + state.active());
         if (state.leaf())
         {
             added = new State(state, container);
