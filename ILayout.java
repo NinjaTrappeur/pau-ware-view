@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public interface ILayout {
     void addPosition(AbstractElement elem, Position pos);
     void addPosition(AbstractElement elem, float x, float y);
-    void removePosition(AbstractElement elem);
+    boolean removePosition(AbstractElement elem);
     void addTransitionPath(Transition transition, ArrayList<Point2D> path);
-    void removeTransitionPath(Transition transition);
+    boolean removeTransitionPath(Transition transition);
     
     ArrayList<Point2D> getTransitionPath(Transition transition);
     Position getPosition(AbstractElement elem);

@@ -15,6 +15,16 @@ public class Layout implements ILayout{
     HashMap<AbstractElement, Position> _statesMap;
     HashMap<Transition, ArrayList<Point2D>> _transitionsMap;
     
+    private void _preReferenceElem(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException
+    {
+        if(ref == null)
+        {
+            throw new IllegalArgumentException("Layout._preReferenceElem (for "
+                    + methodName
+                    + "): null pointer given for parameter of " + argName);
+        }
+    }
+    
     private void _preReferencePosition(Position ref, String methodName, String argName) throws IllegalArgumentException
     {
         if(ref == null)
@@ -42,19 +52,23 @@ public class Layout implements ILayout{
     }
     
     @Override
-    public void addPosition(AbstractElement elem, Position pos){
+    public void addPosition(AbstractElement elem, Position pos)
+    {
+        _preReferenceElem(elem, "addPosition", "elem");
+        _preReferencePosition(pos, "addPosition", "pos");
         _statesMap.put(elem, pos);
     }
     
     @Override
-    public void addPosition(AbstractElement elem, float x, float y){
+    public void addPosition(AbstractElement elem, float x, float y)
+    {
         Position pos= new Position(x,y);
-        _statesMap.put(elem, pos);
+        addPosition(elem, pos);
     }
     
     @Override
-    public void removePosition(AbstractElement elem){
-        _statesMap.remove(elem);
+    public boolean removePosition(AbstractElement elem){
+        return _statesMap.remove(elem) != null;
     }
     
     private void _preGetPosition(AbstractElement elem)
@@ -72,12 +86,12 @@ public class Layout implements ILayout{
         {
             if(!_statesMap.keySet().contains(elem))
             {
-                throw new IllegalArgumentException("Layout._postGetPsotion:"+
+                throw new IllegalArgumentException("Layout._postGetPosition:"+
                         "state "+elem.name()+" is not in the layout");
             }
             else
             {
-                throw new IllegalStateException("Layout._postGetPsotion:"+
+                throw new IllegalStateException("Layout._postGetPosition:"+
                         "null position contained in the layout");
 
             }
@@ -108,7 +122,7 @@ public class Layout implements ILayout{
     }
     
     @Override
-    public void removeTransitionPath(Transition trans){
-        _transitionsMap.remove(trans);
+    public boolean removeTransitionPath(Transition trans){
+        return _transitionsMap.remove(trans) != null;
     }
 }
