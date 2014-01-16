@@ -18,7 +18,7 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
 {
     protected HashSet<AbstractElement> _subStates;
     
-    public enum ClusterDrawSwitch {TOP, RIGHT, BOTTOM, LEFT, ALL};
+    public enum ClusterDrawSwitch {TOP, RIGHT, BOTTOM, LEFT, ALL, NONE};
     boolean _drawTop;
     boolean _drawRight;
     boolean _drawBottom;
@@ -79,6 +79,13 @@ public class ConcurrencyCluster extends AbstractElement implements Drawable
                 _drawRight = true;
                 _drawBottom = true;
                 _drawLeft = true;
+                break;
+
+            case NONE:
+                _drawTop = false;
+                _drawRight = false;
+                _drawBottom = false;
+                _drawLeft = false;
                 break;
 
             case TOP:

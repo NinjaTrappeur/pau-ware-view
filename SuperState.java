@@ -168,7 +168,7 @@ public class SuperState extends State implements Drawable
         clusterWidth = this.width() * ratio;
         
         cluster.setWidth(clusterWidth);
-        cluster.setLength(this.length()); //there will be an issue: must begin after state heading
+        cluster.setLength(this.length() - _boxRadius);
         
 //        System.err.println("SuperState.computeAllClustersSize: computed width is "+clusterWidth);
 
@@ -231,9 +231,17 @@ public class SuperState extends State implements Drawable
         
         //Dessin des clusters
         applet.pushMatrix();
-        for(ConcurrencyCluster cluster : _clusters)
+        applet.translate(0, _boxRadius);
+        Iterator<ConcurrencyCluster> it = _clusters.iterator();
+        while(it.hasNext())
         {
+            ConcurrencyCluster cluster = it.next();
             applet.translate(offset, 0);
+            
+            if(it.hasNext())
+                cluster.setDrawSwitch(ConcurrencyCluster.ClusterDrawSwitch.NONE,
+                        ConcurrencyCluster.ClusterDrawSwitch.RIGHT);
+
             cluster.draw(applet);
             
             offset = cluster.width();

@@ -9,10 +9,10 @@ import com.pauware.pauware_engine._Core.AbstractStatechart;
 
 public class State extends AbstractElement implements Drawable
 {
-    float _boxRadius;
-    float _textSize;
-    float _headerInnerTopMargin;
-    AbstractStatechart _pauwareRef;
+    protected float _boxRadius;
+    protected float _textSize;
+    protected float _headerInnerTopMargin;
+    protected AbstractStatechart _pauwareRef;
     
     private void _setDerived()
     {
