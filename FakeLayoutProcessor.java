@@ -48,8 +48,8 @@ public class FakeLayoutProcessor implements ILayoutProcessor
     public void processLayout()
     {
         AbstractElement chart = _states.get("Idle").container();
-        System.err.println("FakeLayoutProcessor.init: Chart size is "+chart.width()+","+chart.length());
-        System.err.println("FakeLayoutProcessor.init: deepContentSize of Chart size is "+chart.deepContentSize());
+        System.err.println("FakeLayoutProcessor.processLayout: Chart size is "+chart.width()+","+chart.length());
+        System.err.println("FakeLayoutProcessor.processLayout: deepContentSize of Chart is "+chart.deepContentSize());
 
         _layIt("Idle", 620, 210);
         _layIt("Busy", 50, 50);
@@ -57,14 +57,14 @@ public class FakeLayoutProcessor implements ILayoutProcessor
         
         _layIt("S1", 80, 150);
         _layIt("S2", 410, 150);
-        _layIt("S3", 80, 370);
+        _layIt("S3", 270, 150);
         
-        _layIt("S11", 90, 200);
-        _layIt("S12", 180, 200);
-        _layIt("S21", 420, 200);
-        _layIt("S22", 420, 310);
-        _layIt("S31", 90, 410);
-        _layIt("S32", 180, 410);
+        _layIt("S11", 90, 250);
+        _layIt("S12", 180, 250);
+        _layIt("S21", 420, 250);
+        _layIt("S22", 480, 250);
+        _layIt("S31", 277, 250);
+        _layIt("S32", 337, 250);
         _layIt("start_to_S11", 75, 220);
         _layIt("start_to_S22", 400, 405);
     }
@@ -90,9 +90,6 @@ public class FakeLayoutProcessor implements ILayoutProcessor
         if(! (state instanceof PseudoState))
             state.setSize(width, length);
         System.err.println("FakeProcessor: Setting size of "+state.name()+" to "+String.valueOf(width)+","+String.valueOf(length));
-
-        if(state instanceof SuperState)
-            ((SuperState)state).computeAllClustersSize();
 
         _layout.addPosition(state, x, y);
         System.err.println("FakeProcessor: Setting position of "+state.name()+" to "+String.valueOf(x)+","+String.valueOf(y));

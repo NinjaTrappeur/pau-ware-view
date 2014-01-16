@@ -21,6 +21,15 @@ public class SuperState extends State implements Drawable
 {
     protected ArrayList<ConcurrencyCluster> _clusters;
     
+    private void _clusterInit()
+    {
+        _clusters = new ArrayList();
+        //at least one cluster
+        ConcurrencyCluster cluster = new ConcurrencyCluster(this);
+        _clusters.add(cluster);
+        computeClusterSize(cluster);
+    }
+    
     /**
      * This class represents a graphic super state.
      * 
@@ -32,25 +41,25 @@ public class SuperState extends State implements Drawable
     public SuperState(AbstractStatechart state, float width, float length, AbstractElement container)
     {
         super(state, width, length, container);
-        this._clusters = new ArrayList();
+        _clusterInit();
     }
     
     public SuperState(AbstractStatechart state, float width, float length)
     {
         super(state, width, length);
-        this._clusters = new ArrayList();
+        _clusterInit();
     }
     
     public SuperState(AbstractStatechart state, AbstractElement container)
     {
         super(state, container);
-        this._clusters = new ArrayList();
+        _clusterInit();
     }
     
     public SuperState(AbstractStatechart state)
     {
         super(state);
-        this._clusters = new ArrayList();
+        _clusterInit();
     }
     
     public void addSubState(AbstractElement state, int cluster)
@@ -120,6 +129,27 @@ public class SuperState extends State implements Drawable
         }
         
         return removed;
+    }
+
+    @Override
+    public void setWidth(float width)
+    {
+        super.setWidth(width);
+        //computeAllClustersSize(); //raaa : possible issue
+    }
+
+    @Override
+    public void setLength(float length)
+    {
+        super.setLength(length);
+        //computeAllClustersSize(); //raaa : possible issue
+    }
+    
+    @Override
+    public void setSize(float width, float length)
+    {
+        super.setSize(width, length);
+        computeAllClustersSize();
     }
     
     public float computeClusterSize(ConcurrencyCluster cluster)
@@ -204,7 +234,7 @@ public class SuperState extends State implements Drawable
         applet.pushMatrix();
         for(ConcurrencyCluster cluster : _clusters)
         {
-            clusterWidth = computeClusterSize(cluster);
+            clusterWidth = cluster.width();
             
             applet.translate(offset, 0);
             cluster.draw(applet);
