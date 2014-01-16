@@ -1,6 +1,8 @@
 
 package com.PauWare.PauWare_view;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *
@@ -13,7 +15,7 @@ public class Painter {
     
     private void _displayElement(AbstractElement elem){
         Drawable drawableState;
-        if (!(elem instanceof SuperState) && elem != null) {
+        if (elem != null) {
           Position pos  = _chartLayout.getPosition(elem);
             if (pos != null) {
                 _displayApplet.pushMatrix();
@@ -51,9 +53,15 @@ public class Painter {
         }
         
         //states display
-        for(AbstractElement elem:_chart.elements())
+        HashMap<Integer, HashSet<AbstractElement> > nestingLevels = _chart.nestingLevels();
+        for(Integer level : nestingLevels.keySet())
         {
-            _displayElement(elem);
+            //System.err.println("Painter.paint: printing nesting level "+level);
+            for(AbstractElement elem : nestingLevels.get(level))
+            {
+                _displayElement(elem);
+                //System.err.println("\tPainter.paint: printing elem "+elem.name());
+            }
         }
     }
 }

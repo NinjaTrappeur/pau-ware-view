@@ -6,6 +6,7 @@
 
 package com.PauWare.PauWare_view;
 
+import com.sun.org.apache.xpath.internal.compiler.PsuedoNames;
 import java.util.HashMap;
 
 /**
@@ -53,6 +54,7 @@ public class FakeLayoutProcessor implements ILayoutProcessor
 
         _layIt("Idle", 620, 210);
         _layIt("Busy", 50, 50);
+        _layIt("start_to_Idle", 720, 250);
         
         _layIt("S1", 80, 150);
         _layIt("S2", 410, 150);
@@ -64,6 +66,8 @@ public class FakeLayoutProcessor implements ILayoutProcessor
         _layIt("S22", 420, 310);
         _layIt("S31", 90, 410);
         _layIt("S32", 180, 410);
+        _layIt("start_to_S11", 75, 220);
+        _layIt("start_to_S22", 400, 405);
     }
     
     private void _layIt(String stateName, float x, float y)
@@ -82,7 +86,9 @@ public class FakeLayoutProcessor implements ILayoutProcessor
         width  = ratio * AbstractElement._coveredAreaRatio * state.container().width();
         length = ratio * AbstractElement._coveredAreaRatio * state.container().length();
         
-        state.setSize(width, length);
+        if(! (state instanceof PseudoState))
+            state.setSize(width, length);
+
         if(state instanceof SuperState)
             ((SuperState)state).computeAllClustersSize();
         System.err.println("FakeProcessor: Setting size of "+state.name()+" to "+String.valueOf(width)+","+String.valueOf(length));

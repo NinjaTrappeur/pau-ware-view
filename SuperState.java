@@ -189,17 +189,17 @@ public class SuperState extends State implements Drawable
         super.draw(applet);
         
         //Dessin des clusters
-//        applet.pushMatrix();
-//        for(ConcurrencyCluster cluster : _clusters)
-//        {
-//            clusterWidth = computeClusterSize(cluster);
-//            
-//            applet.translate(offset, 0);
-//            cluster.draw(applet);
-//            
-//            offset += clusterWidth;
-//        }
-//        applet.popMatrix();
+        applet.pushMatrix();
+        for(ConcurrencyCluster cluster : _clusters)
+        {
+            clusterWidth = computeClusterSize(cluster);
+            
+            applet.translate(offset, 0);
+            cluster.draw(applet);
+            
+            offset += clusterWidth;
+        }
+        applet.popMatrix();
     }
     
     private void _preReference(AbstractElement ref, String methodName, String argName) throws IllegalArgumentException

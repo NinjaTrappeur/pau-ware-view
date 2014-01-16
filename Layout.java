@@ -19,7 +19,7 @@ public class Layout implements ILayout{
     {
         if(ref == null)
         {
-            throw new IllegalArgumentException("Transition._preReference (for "
+            throw new IllegalArgumentException("Layout._preReferencePosition (for "
                     + methodName
                     + "): null pointer given for parameter of " + argName);
         }
@@ -29,7 +29,7 @@ public class Layout implements ILayout{
     {
         if(ref == null)
         {
-            throw new IllegalArgumentException("Transition._preReference (for "
+            throw new IllegalArgumentException("Layout._preReferenceTransition (for "
                     + methodName
                     + "): null pointer given for parameter of " + argName);
         }
@@ -57,10 +57,40 @@ public class Layout implements ILayout{
         _statesMap.remove(elem);
     }
     
+    private void _preGetPosition(AbstractElement elem)
+    {
+        if(elem == null)
+        {
+            throw new IllegalArgumentException("Layout._preGetPosition:"+
+                    "null pointer given for parameter of elem");
+        }
+    }
+    
+    private void _postGetPsotion(AbstractElement elem, Position pos)
+    {
+        if(pos == null)
+        {
+            if(!_statesMap.keySet().contains(elem))
+            {
+                throw new IllegalArgumentException("Layout._postGetPsotion:"+
+                        "state "+elem.name()+" is not in the layout");
+            }
+            else
+            {
+                throw new IllegalStateException("Layout._postGetPsotion:"+
+                        "null position contained in the layout");
+
+            }
+        }
+    }
+    
     @Override
-    public Position getPosition(AbstractElement elem){
+    public Position getPosition(AbstractElement elem)
+    {
+        _preGetPosition(elem);
         Position pos = _statesMap.get(elem);
-        _preReferencePosition(pos, "getPosition", "elem");
+        _postGetPsotion(elem, pos);
+
         return pos;
     }
     
