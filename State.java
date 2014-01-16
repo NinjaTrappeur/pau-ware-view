@@ -67,7 +67,7 @@ public class State extends AbstractElement implements Drawable
     public void draw(processing.core.PApplet applet)
     {
         applet.pushMatrix();
-        if(this.isActive())
+        if(this.isActive() && (!(this instanceof SuperState)))
             applet.fill(255,104,51);
         else
             applet.fill(255,255,255);
