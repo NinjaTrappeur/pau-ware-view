@@ -52,6 +52,7 @@ public class State extends AbstractElement implements Drawable
     
     public State(AbstractStatechart state, AbstractElement container){
         super(state.name(),150,100,container);
+        _pauwareRef=state;
         _setDerived();
     }
     
