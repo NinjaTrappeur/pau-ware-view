@@ -153,10 +153,10 @@ public class JungLayoutTest
 //        subLayout.setInitializer(vv.getGraphLayout());
 
         Point2D center = new Point2D.Double(0,0);
-        _clusteringLayout.put(busySubLayout, center);
-        _clusteringLayout.put(s1SubLayout, center);
-        _clusteringLayout.put(s2SubLayout, center);
-        _clusteringLayout.put(s3SubLayout, center);
+//        _clusteringLayout.put(busySubLayout, center);
+//        _clusteringLayout.put(s1SubLayout, center);
+//        _clusteringLayout.put(s2SubLayout, center);
+//        _clusteringLayout.put(s3SubLayout, center);
         
         _clusteringLayout.setDelegate(busySubLayout);
         _clusteringLayout.setDelegate(s1SubLayout);

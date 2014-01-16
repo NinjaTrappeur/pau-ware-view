@@ -17,7 +17,7 @@ public class State extends AbstractElement implements Drawable
     private void _setDerived()
     {
         _boxRadius = _length/5;
-        _textSize = 12 * (_length/100);
+        _textSize = 12 * (_width/100);
         /* Why this formula for textsize is just I found
             textsize=12 fine for length=100, so just keep the ratio
         */

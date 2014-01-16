@@ -33,9 +33,9 @@ public class SuperState extends State implements Drawable
     /**
      * This class represents a graphic super state.
      * 
+     * @param state the original chart element this superstate is created from
      * @param length Length of the rectangle representing the state.
      * @param width Width of the rectangle representing the state.
-     * @param name Name of the state.
      * @param container optional container (like superstate or statechart)
      */
     public SuperState(AbstractStatechart state, float width, float length, AbstractElement container)
