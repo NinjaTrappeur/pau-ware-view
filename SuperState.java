@@ -238,9 +238,10 @@ public class SuperState extends State implements Drawable
             ConcurrencyCluster cluster = it.next();
             applet.translate(offset, 0);
             
+            cluster.setDrawSwitch(ConcurrencyCluster.ClusterDrawSwitch.NONE);
+            
             if(it.hasNext())
-                cluster.setDrawSwitch(ConcurrencyCluster.ClusterDrawSwitch.NONE,
-                        ConcurrencyCluster.ClusterDrawSwitch.RIGHT);
+                cluster.setDrawSwitch(ConcurrencyCluster.ClusterDrawSwitch.RIGHT);
 
             cluster.draw(applet);
             
