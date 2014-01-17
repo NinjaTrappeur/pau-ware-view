@@ -7,6 +7,8 @@
 package com.PauWare.PauWare_view;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -48,6 +50,8 @@ public class FakeLayoutProcessor implements ILayoutProcessor
     public void processLayout()
     {
         AbstractElement chart = _states.get("Idle").container();
+        ArrayList<Point2D> path;
+        Transition trans;
 //        System.err.println("FakeLayoutProcessor.processLayout: Chart size is "+chart.width()+","+chart.length());
 //        System.err.println("FakeLayoutProcessor.processLayout: deepContentSize of Chart is "+chart.deepContentSize());
 
@@ -67,6 +71,80 @@ public class FakeLayoutProcessor implements ILayoutProcessor
         _layIt("S32", 130, 280);
         _layIt("start_to_S11", 280, 400);
         _layIt("start_to_S22", 500, 405);
+        
+        trans = new Transition(_states.get("Idle"),_states.get("Busy"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(720,270));
+        path.add(new Point2D.Double(599,270));
+        _layout.addTransitionPath(trans, path);
+        
+        trans = new Transition(_states.get("S12"),_states.get("S11"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(330,320));
+        path.add(new Point2D.Double(273,320));
+        _layout.addTransitionPath(trans, path);
+        
+        trans= new Transition(_states.get("Busy"),_states.get("S12"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(399,320));
+        path.add(new Point2D.Double(373,320));
+        _layout.addTransitionPath(trans, path);
+        
+        trans= new Transition(_states.get("Busy"),_states.get("S21"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(200,320));
+        path.add(new Point2D.Double(230,320));
+        _layout.addTransitionPath(trans, path);
+        
+        trans= new Transition(_states.get("S2"),_states.get("Idle"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(575,290));
+        path.add(new Point2D.Double(720,290));
+        _layout.addTransitionPath(trans, path);
+        
+        trans = new Transition(_states.get("S21"), _states.get("Idle"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(450, 355));
+        path.add(new Point2D.Double(450, 450));
+        path.add(new Point2D.Double(750, 450));
+        path.add(new Point2D.Double(750, 295));
+        _layout.addTransitionPath(trans, path);
+        
+        trans = new Transition(_states.get("S1"), _states.get("S12"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(379, 380));
+        path.add(new Point2D.Double(350, 380));
+        path.add(new Point2D.Double(350, 355));
+        _layout.addTransitionPath(trans, path);
+        
+        trans= new Transition(_states.get("S32"),_states.get("S32"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(143,502));
+        path.add(new Point2D.Double(143,530));
+        path.add(new Point2D.Double(163,530));
+        path.add(new Point2D.Double(163,502));
+        _layout.addTransitionPath(trans, path);
+        
+        trans= new Transition(_states.get("start_to_S22"),_states.get("S22"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(510,420));
+        path.add(new Point2D.Double(540,420));
+        path.add(new Point2D.Double(540,355));
+        _layout.addTransitionPath(trans, path);
+        
+        trans= new Transition(_states.get("start_to_Idle"),_states.get("Idle"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(815,350));
+        path.add(new Point2D.Double(815,275));
+        path.add(new Point2D.Double(765,275));
+        _layout.addTransitionPath(trans, path);
+        
+        trans= new Transition(_states.get("start_to_S11"),_states.get("S11"));
+        path = new ArrayList();
+        path.add(new Point2D.Double(295,415));
+        path.add(new Point2D.Double(250,415));
+        path.add(new Point2D.Double(250,355));
+        _layout.addTransitionPath(trans, path);
     }
     
     private void _layIt(String stateName, float x, float y)

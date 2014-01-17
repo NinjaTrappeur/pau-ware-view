@@ -112,7 +112,8 @@ public class Layout implements ILayout{
     public ArrayList<Point2D> getTransitionPath(Transition transition){
         ArrayList<Point2D> path;
         path=_transitionsMap.get(transition);
-        _preReferenceTransition(path, "getTransitionPath", "transition");
+        _preReferenceTransition(path, "getTransitionPath", 
+                "Transition: "+transition.origin().name()+"->"+transition.target().name());
         return path;
     }
     

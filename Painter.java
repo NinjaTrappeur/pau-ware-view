@@ -27,13 +27,12 @@ public class Painter {
         }
     }
     
-    private void _displayTransition(Transition trans){
-        for(int i=0; i<_chartLayout.getTransitionPath(trans).size()-1 ;++i){
+    private void _displayTransition(Transition trans) {
+        for (int i = 0; i < _chartLayout.getTransitionPath(trans).size() - 1; ++i) {
             Point2D startPoint = _chartLayout.getTransitionPath(trans).get(i);
-            Point2D endPoint = _chartLayout.getTransitionPath(trans).get(i+1);
-
-            _displayApplet.line((float)startPoint.getX(), (float)startPoint.getY(),
-                    (float)endPoint.getX(), (float)endPoint.getY());
+            Point2D endPoint = _chartLayout.getTransitionPath(trans).get(i + 1);
+            _displayApplet.line((float) startPoint.getX(), (float) startPoint.getY(),
+                    (float) endPoint.getX(), (float) endPoint.getY());
         }
     }
     
@@ -46,22 +45,16 @@ public class Painter {
     
     
     public void paint(){
-        //transitions display
-        for(Transition trans:_chart.transitions())
-        {
-            //_displayTransition(trans);
-        }
-        
         //states display
         HashMap<Integer, HashSet<AbstractElement> > nestingLevels = _chart.nestingLevels();
         for(Integer level : nestingLevels.keySet())
-        {
             //System.err.println("Painter.paint: printing nesting level "+level);
             for(AbstractElement elem : nestingLevels.get(level))
-            {
                 _displayElement(elem);
                 //System.err.println("\tPainter.paint: printing elem "+elem.name());
-            }
-        }
+        
+        //transitions display
+        for(Transition trans:_chart.transitions())
+            _displayTransition(trans);
     }
 }
