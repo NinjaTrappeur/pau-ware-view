@@ -21,9 +21,11 @@ public abstract class AbstractElement
     protected AbstractElement _container;
     
     protected static final float _coveredAreaRatio;
+    protected static final float _innerMarginRatio;
     protected static int _currentId;
     static{
         _coveredAreaRatio = 0.8F;
+        _innerMarginRatio = 0.5F;
         _currentId = 0;
     }
     
