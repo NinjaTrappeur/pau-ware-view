@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package com.PauWare.PauWare_view;
-
+import java.awt.geom.Point2D;
 /**
  *
  * @author jaron
@@ -38,5 +38,9 @@ public class Position
     
     public float y(){
         return _y;
+    }
+    
+    public Point2D getPoint2D(){
+        return new Point2D.Double(_x,_y);
     }
 }

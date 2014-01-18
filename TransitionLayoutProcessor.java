@@ -81,11 +81,21 @@ public class TransitionLayoutProcessor {
         ArrayList<Point2D> path;
         
         for(Transition trans: _chart.transitions()){
-            handleOrigin = _getHandle(trans.origin(), trans);
-            handleTarget = _getHandle(trans.target(),trans);
-            posHandleOrigin = _getHandlePos(trans.origin(), handleOrigin);
-            posHandleTarget = _getHandlePos(trans.target(), handleTarget);
             path = new ArrayList();
+            if(trans.origin() instanceof State){
+                handleOrigin = _getHandle(trans.origin(), trans);
+                posHandleOrigin = _getHandlePos(trans.origin(), handleOrigin);
+            }
+            else
+                posHandleOrigin = _layout.getPosition(trans.origin()).getPoint2D();
+            
+            if(trans.target() instanceof State){
+                handleTarget = _getHandle(trans.target(),trans);
+                posHandleTarget = _getHandlePos(trans.target(), handleTarget);
+            }
+            else
+                posHandleTarget = _layout.getPosition(trans.target()).getPoint2D();
+            
             path.add(posHandleOrigin);
             path.add(posHandleTarget);
             _layout.addTransitionPath(trans, path);
