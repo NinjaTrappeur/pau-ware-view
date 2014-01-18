@@ -72,9 +72,9 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         size(600, 800);
         background(200);
         if (_state_machine != null) {
-            _chart = new StateChart(_state_machine,"StateChart",800,800);
+            _chart = new StateChart(_state_machine,"StateChart",900,700);
 //            _layoutProcessor = new BasicLayoutProcessor();
-            _layoutProcessor = new FakeLayoutProcessor();
+            _layoutProcessor = new CircleLayoutProcessor();
             _layoutProcessor.init(_chart);
             _layoutProcessor.processLayout();
             _layout = _layoutProcessor.getLayout();

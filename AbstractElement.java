@@ -25,7 +25,7 @@ public abstract class AbstractElement
     protected static int _currentId;
     static{
         _coveredAreaRatio = 0.8F;
-        _innerMarginRatio = 0.5F;
+        _innerMarginRatio = 0.05F;
         _currentId = 0;
     }
     

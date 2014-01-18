@@ -17,6 +17,11 @@ import java.util.Iterator;
  */
 public class CircleLayoutProcessor extends AbstractLayoutProcessor
 {    
+    public CircleLayoutProcessor()
+    {
+        super();
+    }
+    
     @Override
     public void processLayout()
     {
@@ -27,6 +32,7 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
         _setAllSizes();
         
         //top nesting level computing
+        System.err.println("CircleLayoutProcessor.processLayout: chart size is "+_chartAsAabstractElement.width()+","+_chartAsAabstractElement.length());
         _computePositionsInContext(_chartAsAabstractElement);
         
         //all other nesting levels
@@ -44,6 +50,50 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
                 }
             }
         }
+    }
+    
+    protected float _computeRadius(AbstractElement container, AbstractElement substate, float maxX, float maxY, float angle, float marginX, float marginY)
+    {
+        float radiusCos = 0;
+        float radiusSin = 0;
+        float radius = 0;
+        float maxRadius;
+        
+        maxRadius = (float) Math.sqrt(Math.pow(maxX-marginX, 2) + Math.pow(maxY-marginY, 2));
+        
+        //compute the values
+        if(Math.cos(angle) != 0) //avoid dividing by zero
+        {
+            radiusCos = (float) ((container.width()/2 - (substate.width()/2 + marginX)) / Math.cos(angle));
+            radiusCos = Math.abs(radiusCos);
+        }
+
+        if(Math.sin(angle) != 0)
+        {
+            radiusSin = (float) ((container.length()/2 - (substate.length()/2 + marginY)) / Math.sin(angle));
+            radiusSin = Math.abs(radiusSin);
+        }
+        
+        System.err.println("CircleLayoutProcessor._computeRadius: cos("+angle+") is "+Math.cos(angle));
+        System.err.println("CircleLayoutProcessor._computeRadius: radiusCos is "+radiusCos);
+        System.err.println("CircleLayoutProcessor._computeRadius: sin("+angle+") is "+Math.sin(angle));
+        System.err.println("CircleLayoutProcessor._computeRadius: radiusSin is "+radiusSin);
+        
+        //choose the good value
+        if(0 <= angle && angle <= 0.785398163 ||
+           2.35619449 <= angle && angle <= 3.926990817 ||
+           5.497787144 <= angle && angle <= 6.283185307
+                )
+        {
+            radius = radiusCos;
+        }
+        
+        else
+        {
+            radius = radiusSin;
+        }
+        
+        return radius;
     }
     
     protected void _computePositionsInContext(AbstractElement container)
@@ -78,13 +128,16 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
             containerPos = (container instanceof StateChart) ? new Position(0,0) : _layout.getPosition(container);
             transX = containerPos.x() + (container.width() / 2);
             transY = containerPos.y() + (container.length() / 2);
+            System.err.println("CircleLayoutProcessor._computePositionsInContext: computed translation is "+transX+","+transY);
 
             //angle step
             angleStep = (float) (2F*3.1415 / substates.size());
+            System.err.println("CircleLayoutProcessor._computePositionsInContext: computed angle step is "+angleStep);
 
             // inner margins
             marginX = AbstractElement._innerMarginRatio * container.width();
             marginY = AbstractElement._innerMarginRatio * container.length();
+            System.err.println("CircleLayoutProcessor._computePositionsInContext: computed margin are "+marginX+","+marginY);
 
             //process each substate
             int i = 0;
@@ -92,32 +145,31 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
             while(it.hasNext() && i < substates.size())
             {
                 state = it.next();
+                System.err.println("CircleLayoutProcessor._computePositionsInContext: computing position of "+state.name());
+                System.err.println("CircleLayoutProcessor._computePositionsInContext: size of "+state.name()+" is "+state.width()+","+state.length());
+
                 alpha = i * angleStep;
+                System.err.println("CircleLayoutProcessor._computePositionsInContext: angle at step "+i+" is "+alpha);
                 
                 //radius
-                if(Math.cos(alpha) == 0) //avoid dividing by zero
-                {
-                    radius = (float) ((state.length() - (state.length()/2 + marginY)) / Math.sin(alpha));
-                }
+                radius = _computeRadius(container, state, container.width()/2, container.length()/2, alpha, marginX, marginY);
                 
-                else
-                {
-                    radius = (float) ((state.width() - (state.width()/2 + marginX)) / Math.cos(alpha));
-                }
-                
-                radius = Math.abs(radius);
+                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed radius is "+radius);
 
                 //coordinates
                 x = (float) (radius * Math.cos(alpha));
                 y = (float) (radius * Math.sin(alpha));
+                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed centered coordinates are "+x+","+y);
 
                 //translate to origin
                 x += transX;
                 y += transY;
+                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed tranlated coordinates are "+x+","+y);
 
                 //coordinates from objet's centre to left top corner
                 x -= state.width()/2;
                 y -= state.length()/2;
+                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed corned coordinates are "+x+","+y);
                 
                 //add to layout
                 _layout.addPosition(state, new Position(x,y));
