@@ -18,7 +18,7 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
     protected ILayout _layout;
     protected IChart _chart;
     
-    private void _init(ILayout initializedBySubclass)
+    private void _construct(ILayout initializedBySubclass)
     {
         if(initializedBySubclass == null)
         {
@@ -33,12 +33,12 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
     
     public AbstractLayoutProcessor(ILayout initializedBySubclass)
     {
-        _init(initializedBySubclass);
+        _construct(initializedBySubclass);
     }
     
     public AbstractLayoutProcessor()
     {
-        _init(null);
+        _construct(null);
     }
 
     @Override
