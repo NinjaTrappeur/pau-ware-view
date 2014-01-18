@@ -17,6 +17,7 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
 {
     protected ILayout _layout;
     protected IChart _chart;
+    protected AbstractElement _chartAsAabstractElement;
     
     private void _construct(ILayout initializedBySubclass)
     {
@@ -44,13 +45,58 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
     @Override
     public void init(IChart chart)
     {
+        // pre: _chart instanceof AbstractElement
+        
         _chart = chart;
+        if(_chart instanceof AbstractElement)
+            _chartAsAabstractElement = (AbstractElement)chart;
     }
     
     @Override
     public ILayout getLayout()
     {
         return _layout;
+    }
+    
+    //for use in _setSize()
+    protected void _setClustersSizes(SuperState superState)
+    {
+        float clusterWidth;
+        float ratio = 1F;
+        
+        for(ConcurrencyCluster cluster : superState.clusters())
+        {
+            if(superState.deepContentSize() != 0)
+            {
+                ratio = ((float)cluster.deepContentSize()) / superState.deepContentSize();
+            }
+
+            clusterWidth = superState.width() * ratio;
+
+            cluster.setWidth(clusterWidth);
+            cluster.setLength(superState.length() - superState.roundedCornerRadius());
+        }
+    }
+
+    protected void _setClustersPositions(SuperState superState)
+    {
+        //pre : _layout already has position of superState
+        
+        float x, y;
+        Position superstatePosition;
+        float offset = 0;
+        
+        superstatePosition = _layout.getPosition(superState);
+        y = superstatePosition.y() + superState.roundedCornerRadius();
+        
+        for(ConcurrencyCluster cluster : superState.clusters())
+        {
+            x = superstatePosition.x() + offset;
+            
+            _layout.addPosition(cluster, new Position(x,y));
+
+            offset += cluster.width();
+        }
     }
 
     protected void _setSize(AbstractElement state)
@@ -66,6 +112,9 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
         
         if(! (state instanceof PseudoState))
             state.setSize(width, length);
+        
+        if(state instanceof SuperState)
+            _setClustersSizes((SuperState)state);
     }
     
     protected void _setAllSizes()

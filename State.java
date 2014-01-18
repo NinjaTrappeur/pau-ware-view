@@ -86,6 +86,11 @@ public class State extends AbstractElement implements Drawable
         return _pauwareRef.active();
     }
     
+    public float roundedCornerRadius()
+    {
+        return _boxRadius;
+    }
+    
     public AbstractStatechart getPauwareState()
     {
         return _pauwareRef;
