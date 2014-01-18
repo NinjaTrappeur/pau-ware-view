@@ -68,7 +68,7 @@ public class TransitionLayoutProcessor {
         TOP, LEFT, RIGHT, BOTTOM;
     }
     
-    public void TransitionLayoutProcessor(ILayout layout, IChart chart){
+    public TransitionLayoutProcessor(ILayout layout, IChart chart){
         _layout = layout;
         _chart = chart;
     }
@@ -79,23 +79,35 @@ public class TransitionLayoutProcessor {
         Point2D posHandleOrigin;
         Point2D posHandleTarget;
         ArrayList<Point2D> path;
-        
-        for(Transition trans: _chart.transitions()){
+
+        for (Transition trans : _chart.transitions()) {
             path = new ArrayList();
-            if(trans.origin() instanceof State){
-                handleOrigin = _getHandle(trans.origin(), trans);
+            if (trans.origin() instanceof State) {
+                if(trans.origin() instanceof SuperState)
+                    handleOrigin = HandlePos.BOTTOM;
+                else
+                    handleOrigin = _getHandle(trans.origin(), trans);
                 posHandleOrigin = _getHandlePos(trans.origin(), handleOrigin);
-            }
-            else
+            } 
+            else {
                 posHandleOrigin = _layout.getPosition(trans.origin()).getPoint2D();
-            
-            if(trans.target() instanceof State){
-                handleTarget = _getHandle(trans.target(),trans);
-                posHandleTarget = _getHandlePos(trans.target(), handleTarget);
+                posHandleOrigin.setLocation(posHandleOrigin.getX() + trans.origin().width() / 2,
+                        posHandleOrigin.getY() + trans.origin().length() / 2);
             }
-            else
+
+            if (trans.target() instanceof State) {                
+                if(trans.target() instanceof SuperState)
+                    handleTarget = HandlePos.BOTTOM;
+                else
+                    handleTarget = _getHandle(trans.target(), trans);
+                posHandleTarget = _getHandlePos(trans.target(), handleTarget);
+            } 
+            else {
                 posHandleTarget = _layout.getPosition(trans.target()).getPoint2D();
-            
+                posHandleTarget.setLocation(posHandleTarget.getX() + trans.target().width() / 2,
+                        posHandleTarget.getY() + trans.target().length() / 2);
+            }
+
             path.add(posHandleOrigin);
             path.add(posHandleTarget);
             _layout.addTransitionPath(trans, path);
