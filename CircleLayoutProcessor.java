@@ -152,7 +152,10 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
                 System.err.println("CircleLayoutProcessor._computePositionsInContext: angle at step "+i+" is "+alpha);
                 
                 //radius
-                radius = _computeRadius(container, state, container.width()/2, container.length()/2, alpha, marginX, marginY);
+                if(substates.size() > 1)
+                    radius = _computeRadius(container, state, container.width()/2, container.length()/2, alpha, marginX, marginY);
+                else // if only one, center it
+                    radius = 0;
                 
                 System.err.println("CircleLayoutProcessor._computePositionsInContext: computed radius is "+radius);
 
