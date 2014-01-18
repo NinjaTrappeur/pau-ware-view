@@ -52,6 +52,25 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
     {
         return _layout;
     }
+    
+    protected void _setClustersSizes(SuperState superState)
+    {
+        float clusterWidth;
+        float ratio = 1F;
+        
+        for(ConcurrencyCluster cluster : superState.clusters())
+        {
+            if(superState.deepContentSize() != 0)
+            {
+                ratio = ((float)cluster.deepContentSize()) / superState.deepContentSize();
+            }
+
+            clusterWidth = superState.width() * ratio;
+
+            cluster.setWidth(clusterWidth);
+            cluster.setLength(superState.length() - superState.roundedCornerRadius());
+        }
+    }
 
     protected void _setSize(AbstractElement state)
     {
@@ -66,6 +85,9 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
         
         if(! (state instanceof PseudoState))
             state.setSize(width, length);
+        
+        if(state instanceof SuperState)
+            _setClustersSizes((SuperState)state);
     }
     
     protected void _setAllSizes()
