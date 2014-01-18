@@ -17,6 +17,7 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
 {
     protected ILayout _layout;
     protected IChart _chart;
+    protected AbstractElement _chartAsAabstractElement;
     
     private void _construct(ILayout initializedBySubclass)
     {
@@ -44,7 +45,11 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
     @Override
     public void init(IChart chart)
     {
+        // pre: _chart instanceof AbstractElement
+        
         _chart = chart;
+        if(_chart instanceof AbstractElement)
+            _chartAsAabstractElement = (AbstractElement)chart;
     }
     
     @Override
@@ -53,6 +58,7 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
         return _layout;
     }
     
+    //for use in _setSize()
     protected void _setClustersSizes(SuperState superState)
     {
         float clusterWidth;
@@ -69,6 +75,27 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
 
             cluster.setWidth(clusterWidth);
             cluster.setLength(superState.length() - superState.roundedCornerRadius());
+        }
+    }
+
+    protected void _setClustersPositions(SuperState superState)
+    {
+        //pre : _layout already has position of superState
+        
+        float x, y;
+        Position superstatePosition;
+        float offset = 0;
+        
+        superstatePosition = _layout.getPosition(superState);
+        y = superstatePosition.y() + superState.roundedCornerRadius();
+        
+        for(ConcurrencyCluster cluster : superState.clusters())
+        {
+            x = superstatePosition.x() + offset;
+            
+            _layout.addPosition(cluster, new Position(x,y));
+
+            offset += cluster.width();
         }
     }
 

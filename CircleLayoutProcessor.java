@@ -7,6 +7,8 @@
 package com.PauWare.PauWare_view;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -18,13 +20,33 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
     @Override
     public void processLayout()
     {
+        HashMap<Integer, HashSet<AbstractElement>> nestings;
+        HashSet<AbstractElement> elems;
+        
         //calcul des tailles
         _setAllSizes();
         
-        //
+        //top nesting level computing
+        _computePositionsInContext(_chartAsAabstractElement);
+        
+        //all other nesting levels
+        for(Integer level : _chart.nestingLevels().keySet())
+        {
+            for(AbstractElement state : _chart.nestingLevels().get(level))
+            {
+                if(state instanceof SuperState)
+                {
+                    SuperState superState = (SuperState)state;
+                    for(ConcurrencyCluster cluster : superState.clusters())
+                    {
+                        _computePositionsInContext(cluster);
+                    }
+                }
+            }
+        }
     }
     
-    protected void _computeSizesInContext(AbstractElement container)
+    protected void _computePositionsInContext(AbstractElement container)
     {
         //pre: container is a container (statechart, cluster   ... but not SuperState)
         //pre: container is already layed, ie _layout.getPosition(container) fonctionne  --> C'est aussi le post de getPosition (pas besoin ? ou try catch?)
@@ -47,11 +69,12 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
         else
         {
             substates = ((ConcurrencyCluster)container).substates();
+            // safe because of precondition
         }
         
         if(!substates.isEmpty())
         {
-            //Translation from origin
+            //Translation factor to get from center to top left corner
             containerPos = (container instanceof StateChart) ? new Position(0,0) : _layout.getPosition(container);
             transX = containerPos.x() + (container.width() / 2);
             transY = containerPos.y() + (container.length() / 2);
@@ -63,7 +86,7 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
             marginX = AbstractElement._innerMarginRatio * container.width();
             marginY = AbstractElement._innerMarginRatio * container.length();
 
-            //treat each substate
+            //process each substate
             int i = 0;
             Iterator<AbstractElement> it = substates.iterator();
             while(it.hasNext() && i < substates.size())
@@ -96,13 +119,14 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
                 x -= state.width()/2;
                 y -= state.length()/2;
                 
-                //adde to layout
+                //add to layout
                 _layout.addPosition(state, new Position(x,y));
 
-                //clusters positions for SuperStates
+                //for SuperStates, compute clusters positions
                 if(state instanceof SuperState)
                 {
                     superState = (SuperState)state;
+                    _setClustersPositions(superState);
                 }
 
                 ++i;
