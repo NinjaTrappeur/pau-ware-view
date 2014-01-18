@@ -54,7 +54,7 @@ public class Painter {
                 //System.err.println("\tPainter.paint: printing elem "+elem.name());
         
         //transitions display
-//        for(Transition trans:_chart.transitions())
-//            _displayTransition(trans);
+        for(Transition trans:_chart.transitions())
+           _displayTransition(trans);
     }
 }
