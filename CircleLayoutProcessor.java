@@ -1,7 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * PauWare view software (http://www.PauWare.com). Use of this software is
+ * subject to the restrictions of the LGPL license version 3
+ * http://www.gnu.org/licenses/lgpl-3.0.en.html
+ * 
+ * Code by Aron Josuah and Baylac-Jacque Felix.
  */
 
 package com.PauWare.PauWare_view;
@@ -11,10 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-/**
- *
- * @author josuah
- */
+
 public class CircleLayoutProcessor extends AbstractLayoutProcessor
 {    
     public CircleLayoutProcessor()
