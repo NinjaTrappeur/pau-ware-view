@@ -14,10 +14,12 @@ public class Transition
     
     public static final float ArrowMedian;
     public static final float ArrowBase;
+    public static final float HandleDelta;
     static
     {
         ArrowMedian = 10F;
         ArrowBase = 10F;
+        HandleDelta = 10F;
     }
     
     public Transition(AbstractElement origin, AbstractElement target)

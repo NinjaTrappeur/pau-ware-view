@@ -10,10 +10,22 @@ package com.PauWare.PauWare_view;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class TransitionLayoutProcessor {
+public class TransitionLayoutProcessor
+{
+    
+    public enum HandlePos
+    {
+        TOP, LEFT, RIGHT, BOTTOM;
+    }
+    
+    public enum DrawingOptions
+    {
+        BREAK_LINE, NO_BREAK_LINE;
+    }
     
     private ILayout _layout;
     private IChart _chart;
+    private DrawingOptions _drawingOption; 
     
     private HandlePos _getHandle(AbstractElement elem, Transition trans){
         //Calculing center of the 2 elements of the transition + bottom left 
@@ -84,18 +96,61 @@ public class TransitionLayoutProcessor {
         return handle;
     }
     
-    public enum HandlePos{
-        TOP, LEFT, RIGHT, BOTTOM;
-    }
-    
     public TransitionLayoutProcessor(ILayout layout, IChart chart){
         _layout = layout;
         _chart = chart;
+        _drawingOption = DrawingOptions.NO_BREAK_LINE;
+    }
+    
+    public void setDrawingOption(DrawingOptions option)
+    {
+        _drawingOption = option;
+    }
+    
+    public DrawingOptions drawingOption()
+    {
+        return _drawingOption;
+    }
+    
+    private Point2D _getHandleExtension(HandlePos handle, Point2D pos)
+    {
+        Point2D p = new Point2D.Double();
+        switch(handle)
+        {
+            case TOP:
+                p.setLocation(pos.getX(), pos.getY()-Transition.HandleDelta);
+                break;
+            case RIGHT:
+                p.setLocation(pos.getX()+Transition.HandleDelta, pos.getY());
+                break;
+            case BOTTOM:
+                p.setLocation(pos.getX(), pos.getY()+Transition.HandleDelta);
+                break;
+            case LEFT:
+                p.setLocation(pos.getX()-Transition.HandleDelta, pos.getY());
+        }
+        return p;
+    }
+    
+    private void _breakLine(ArrayList<Point2D> path, HandlePos handleOrigin, Point2D posHandleOrigin, HandlePos handleTarget, Point2D posHandleTarget)
+    {
+        Point2D middlePoint, handleExtensionOrigin, handleExtensionTarget;
+            //Breaking transitions line
+            handleExtensionOrigin = _getHandleExtension(handleOrigin, posHandleOrigin);
+            handleExtensionTarget = _getHandleExtension(handleTarget, posHandleTarget);
+            if(handleExtensionOrigin != null && handleExtensionTarget != null)
+            {
+                middlePoint = new Point2D.Double(Math.max(handleExtensionOrigin.getX(), handleExtensionTarget.getX()),
+                        Math.max(handleExtensionOrigin.getY(), handleExtensionTarget.getY()));
+                path.add(handleExtensionOrigin);
+                path.add(middlePoint);
+                path.add(handleExtensionTarget);
+            }
     }
     
     public void computeTransitionsLayout(){
-        HandlePos handleOrigin;
-        HandlePos handleTarget;
+        HandlePos handleOrigin = HandlePos.BOTTOM; //arbitrary default value
+        HandlePos handleTarget = HandlePos.BOTTOM;
         Point2D posHandleOrigin;
         Point2D posHandleTarget;
         ArrayList<Point2D> path;
@@ -121,8 +176,10 @@ public class TransitionLayoutProcessor {
                 posHandleTarget.setLocation(posHandleTarget.getX() + trans.target().width() / 2,
                         posHandleTarget.getY() + trans.target().length() / 2);
             }
-
+            
             path.add(posHandleOrigin);
+            if(_drawingOption == DrawingOptions.BREAK_LINE)
+                _breakLine(path, handleOrigin, posHandleOrigin, handleTarget, posHandleTarget);
             path.add(posHandleTarget);
             _layout.addTransitionPath(trans, path);
             System.out.println("Taille du path: " + path.size());

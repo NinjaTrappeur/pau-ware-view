@@ -52,6 +52,7 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
         
         //Computing transitions
         TransitionLayoutProcessor transitionProcessor= new TransitionLayoutProcessor(_layout,_chart);
+        transitionProcessor.setDrawingOption(TransitionLayoutProcessor.DrawingOptions.BREAK_LINE);
         transitionProcessor.computeTransitionsLayout();
     }
     
