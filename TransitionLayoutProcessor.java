@@ -125,6 +125,7 @@ public class TransitionLayoutProcessor {
             path.add(posHandleOrigin);
             path.add(posHandleTarget);
             _layout.addTransitionPath(trans, path);
+            System.out.println("Taille du path: " + path.size());
         }
     }
     
