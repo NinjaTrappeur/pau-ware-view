@@ -16,8 +16,8 @@ public class Transition
     public static final float ArrowBase;
     static
     {
-        ArrowMedian = 30F;
-        ArrowBase = 30F;
+        ArrowMedian = 10F;
+        ArrowBase = 10F;
     }
     
     public Transition(AbstractElement origin, AbstractElement target)
