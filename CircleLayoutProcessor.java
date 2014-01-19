@@ -31,7 +31,6 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
         _setAllSizes();
         
         //top nesting level computing
-        System.err.println("CircleLayoutProcessor.processLayout: chart size is "+_chartAsAabstractElement.width()+","+_chartAsAabstractElement.length());
         _computePositionsInContext(_chartAsAabstractElement);
         
         //all other nesting levels
@@ -78,10 +77,6 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
             radiusSin = Math.abs(radiusSin);
         }
         
-        System.err.println("CircleLayoutProcessor._computeRadius: cos("+angle+") is "+Math.cos(angle));
-        System.err.println("CircleLayoutProcessor._computeRadius: radiusCos is "+radiusCos);
-        System.err.println("CircleLayoutProcessor._computeRadius: sin("+angle+") is "+Math.sin(angle));
-        System.err.println("CircleLayoutProcessor._computeRadius: radiusSin is "+radiusSin);
         
         //choose the good value
         if(0 <= angle && angle <= 0.785398163 ||
@@ -132,16 +127,13 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
             containerPos = (container instanceof StateChart) ? new Position(0,0) : _layout.getPosition(container);
             transX = containerPos.x() + (container.width() / 2);
             transY = containerPos.y() + (container.length() / 2);
-            System.err.println("CircleLayoutProcessor._computePositionsInContext: computed translation is "+transX+","+transY);
 
             //angle step
             angleStep = (float) (2F*3.1415 / substates.size());
-            System.err.println("CircleLayoutProcessor._computePositionsInContext: computed angle step is "+angleStep);
 
             // inner margins
             marginX = AbstractElement._innerMarginRatio * container.width();
             marginY = AbstractElement._innerMarginRatio * container.length();
-            System.err.println("CircleLayoutProcessor._computePositionsInContext: computed margin are "+marginX+","+marginY);
 
             //process each substate
             int i = 0;
@@ -149,34 +141,26 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
             while(it.hasNext() && i < substates.size())
             {
                 state = it.next();
-                System.err.println("CircleLayoutProcessor._computePositionsInContext: computing position of "+state.name());
-                System.err.println("CircleLayoutProcessor._computePositionsInContext: size of "+state.name()+" is "+state.width()+","+state.length());
 
                 alpha = i * angleStep;
-                System.err.println("CircleLayoutProcessor._computePositionsInContext: angle at step "+i+" is "+alpha);
                 
                 //radius
                 if(substates.size() > 1)
                     radius = _computeRadius(container, state, container.width()/2, container.length()/2, alpha, marginX, marginY);
                 else // if only one, center it
                     radius = 0;
-                
-                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed radius is "+radius);
 
                 //coordinates
                 x = (float) (radius * Math.cos(alpha));
                 y = (float) (radius * Math.sin(alpha));
-                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed centered coordinates are "+x+","+y);
 
                 //translate to origin
                 x += transX;
                 y += transY;
-                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed tranlated coordinates are "+x+","+y);
 
                 //coordinates from objet's centre to left top corner
                 x -= state.width()/2;
                 y -= state.length()/2;
-                System.err.println("CircleLayoutProcessor._computePositionsInContext: computed corned coordinates are "+x+","+y);
                 
                 //add to layout
                 _layout.addPosition(state, new Position(x,y));
