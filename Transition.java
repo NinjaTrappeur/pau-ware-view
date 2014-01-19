@@ -12,6 +12,14 @@ public class Transition
     private AbstractElement _origin;
     private AbstractElement _target;
     
+    public static final float ArrowMedian;
+    public static final float ArrowBase;
+    static
+    {
+        ArrowMedian = 30F;
+        ArrowBase = 30F;
+    }
+    
     public Transition(AbstractElement origin, AbstractElement target)
     {
         _preReference(origin, "constructor", "origin");
