@@ -37,6 +37,7 @@ public class Painter
             Point2D endPoint = _chartLayout.getTransitionPath(trans).get(i + 1);
             _displayApplet.line((float) startPoint.getX(), (float) startPoint.getY(),
                     (float) endPoint.getX(), (float) endPoint.getY());
+            System.err.println("Painter._displayTransition: treating transition "+trans.origin().name()+"-->"+trans.target().name());
             _displayArrow(_chartLayout.getTransitionPath(trans));
         }
     }
@@ -47,27 +48,32 @@ public class Painter
         {
             Point2D M = path.get(path.size()-2);
             Point2D N = path.get(path.size()-1);
-            System.out.println("Taille du path de la transition: " + path.size());
-            System.out.println("M.x = " + M.getX() + " N.x= "+N.getY() + " M.y= " + M.getY() + " N.y= " + N.getY());
-            Point2D K, A, B, BA, MN, s;
-            double normMN, lambda;
-            double d = Transition.ArrowMedian;
-            double l = Transition.ArrowBase;
+            if(! M.equals(N))
+            {
+                Point2D K, A, B, BA, MN, s;
+                double normMN, lambda;
+                double d = Transition.ArrowMedian;
+                double l = Transition.ArrowBase;
 
-            MN = new Point2D.Double(N.getX() - M.getX(), N.getY() - M.getY());
-            normMN = Math.sqrt(MN.getX()*MN.getX() + MN.getY()*MN.getY());
-            lambda = d / normMN;
-            
-            K = new Point2D.Double(N.getX() + lambda*MN.getX(), N.getY() + lambda*MN.getY());
-            s = new Point2D.Double(MN.getX()/normMN, MN.getX()/normMN);
-            BA = new Point2D.Double(-l*s.getY(), l*s.getX());
-            
-            A = new Point2D.Double(K.getX() + BA.getX()/2, K.getY() + BA.getY()/2);
-            B = new Point2D.Double(K.getX() - BA.getX()/2, K.getY() - BA.getY()/2);
+                MN = new Point2D.Double(N.getX() - M.getX(), N.getY() - M.getY());
+                normMN = Math.sqrt(MN.getX()*MN.getX() + MN.getY()*MN.getY());
+                lambda = d / normMN;
 
-            _displayApplet.line((float)A.getX(), (float)A.getY(), (float)N.getX(), (float)N.getY());
-            _displayApplet.line((float)B.getX(), (float)B.getY(), (float)N.getX(), (float)N.getY());
-           
+                K = new Point2D.Double(N.getX() - lambda*MN.getX(), N.getY() - lambda*MN.getY());
+                s = new Point2D.Double(MN.getX()/normMN, MN.getY()/normMN);
+                BA = new Point2D.Double(-l*s.getY(), l*s.getX());
+
+                A = new Point2D.Double(K.getX() + BA.getX()/2, K.getY() + BA.getY()/2);
+                B = new Point2D.Double(K.getX() - BA.getX()/2, K.getY() - BA.getY()/2);
+
+                _displayApplet.line((float)A.getX(), (float)A.getY(), (float)N.getX(), (float)N.getY());
+                _displayApplet.line((float)B.getX(), (float)B.getY(), (float)N.getX(), (float)N.getY());
+                System.err.println("Painter._displayArrow: M("+M.getX()+","+M.getY()+")\tN("+N.getX()+","+N.getY()+")\tMN("+MN.getX()+","+MN.getY()+")\tnormMN="+normMN);
+                System.err.println("Painter._displayArrow: lambda="+lambda);
+                System.err.println("Painter._displayArrow: K("+K.getX()+","+K.getY()+")\ts("+s.getX()+","+s.getY()+")\tBA("+BA.getX()+","+BA.getY()+")");
+                System.err.println("Painter._displayArrow: A("+A.getX()+","+A.getY()+")\tB("+B.getX()+","+B.getY()+")");
+
+            }
         }
     }
     
