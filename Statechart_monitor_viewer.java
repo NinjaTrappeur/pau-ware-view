@@ -12,7 +12,8 @@ import com.pauware.pauware_engine._Exception.Statechart_state_based_exception;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Statechart_monitor_viewer extends processing.core.PApplet implements com.pauware.pauware_engine._Core.Statechart_monitor_listener {
+public class Statechart_monitor_viewer extends processing.core.PApplet implements com.pauware.pauware_engine._Core.Statechart_monitor_listener
+{
 
     /**
      * PauWare
@@ -34,12 +35,14 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
     }
     
     @Override
-    public void initialize(com.pauware.pauware_engine._Core.AbstractStatechart_monitor state_machine) {
+    public void initialize(com.pauware.pauware_engine._Core.AbstractStatechart_monitor state_machine)
+    {
         // Cette méthode est appelée une seule fois à l'initialisation de la 'state machine'.
         // Ce qui est à faire, c'est de balayer l'arbre binaire de représentation de la 'state machine'
         // et le dessiner à l'écran dans la méthode 'setup' ci-dessous.
         _state_machine = state_machine;
-        if (_state_machine != null) {
+        if (_state_machine != null)
+        {
             _state_machine_view = new javax.swing.JFrame(_state_machine.name());
             _state_machine_view.setSize(900, 900);
             _state_machine_view.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,18 +56,30 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
     }
 
     @Override
-    public void run_to_completion(String trace) {
+    public void run_to_completion(String trace)
+    {
         // A chaque cycle de la 'state machine', on récupère la 'trace' de l'exécution
         _trace = trace;
     }
 
     @Override
-    public void run_to_completion(java.util.Hashtable transitions) {
+    public void run_to_completion(java.util.Hashtable transitions)
+    {
         // A chaque cycle de la 'state machine', on récupère les transitions qui ont été déclenchées.
         // Chaque clef de la table de hachage est de type 'com.pauware.pauware_engine._Core.Transition'.
 
         // On rafraichit l'écran que s'il se passe quelque chose dans la machine à états :
         redraw();
+    }
+    
+    public void setLayoutProcessor(ILayoutProcessor layoutProcessor)
+    {
+        _layoutProcessor = layoutProcessor;
+    }
+    
+    public ILayoutProcessor layoutProcessor()
+    {
+        return _layoutProcessor;
     }
 
     @Override
@@ -73,10 +88,11 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
         // Cette méthode est appelée à la création de la fenêtre Processing.
         size(600, 800);
         background(200);
-        if (_state_machine != null) {
+        if (_state_machine != null)
+        {
             _chart = new StateChart(_state_machine,"StateChart",900,700);
-//            _layoutProcessor = new BasicLayoutProcessor();
-            _layoutProcessor = new CircleLayoutProcessor();
+            if(_layoutProcessor == null)
+                _layoutProcessor = new CircleLayoutProcessor();
             _layoutProcessor.init(_chart);
             _layoutProcessor.processLayout();
             _layout = _layoutProcessor.getLayout();
@@ -85,10 +101,12 @@ public class Statechart_monitor_viewer extends processing.core.PApplet implement
     }
 
     @Override
-    public void draw() {
+    public void draw()
+    {
         // Cette méthode est appelée en boucle par Processing.
         background(200);
-        if (_trace != null) {
+        if (_trace != null)
+        {
             if(_painter!=null)
             _painter.paint();
         }

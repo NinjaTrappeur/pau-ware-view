@@ -16,9 +16,15 @@ package com.PauWare.PauWare_view;
  */
 public interface ILayoutProcessor
 {
+    void init(IChart chart, ITransitionLayoutProcessor transitionProcessor);
     void init(IChart chart);
     
-    ILayout getLayout();
-    
     void processLayout();
+    
+    void setTransitionLayoutProcessor(ITransitionLayoutProcessor transitionProcessor);
+    void setLayout(ILayout layout);
+    void setChart(IChart chart);
+
+    ILayout getLayout();
+    IChart getChart();
 }

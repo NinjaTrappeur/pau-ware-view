@@ -15,11 +15,9 @@ import java.awt.geom.Point2D;
 import java.awt.Dimension;
 import java.util.HashSet;
 
-public class JungLayoutProcessor implements ILayoutProcessor
+public class JungLayoutProcessor extends AbstractLayoutProcessor
 {
-    private ILayout _layout;
     private Graph<AbstractElement, Integer> _graph;
-    private IChart _chart;
     private AggregateLayout<AbstractElement,Integer> _clusteringLayout;
     
     private void _verticesFrom(IChart chart)
@@ -101,8 +99,8 @@ public class JungLayoutProcessor implements ILayoutProcessor
         _clusteringLayout.setDelegate(layout);
     }
 
-    public JungLayoutProcessor() {
-        _layout = new Layout();
+    public JungLayoutProcessor()
+    {
         _graph = new DirectedSparseGraph();
         _clusteringLayout = new AggregateLayout(new FRLayout(_graph));
         _clusteringLayout.setSize(new Dimension(900,900));
@@ -111,7 +109,7 @@ public class JungLayoutProcessor implements ILayoutProcessor
     @Override
     public void init(IChart chart)
     {
-        _chart = chart;
+        super.init(chart);
         _verticesFrom(chart);
         _edgesFrom(chart);
         _subLayoutsFrom(chart);

@@ -10,7 +10,7 @@ package com.PauWare.PauWare_view;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-public class TransitionLayoutProcessor
+public class BasicTransitionLayoutProcessor extends AbstractTransitionLayoutProcessor
 {
     
     public enum HandlePos
@@ -23,11 +23,10 @@ public class TransitionLayoutProcessor
         BREAK_LINE, NO_BREAK_LINE;
     }
     
-    private ILayout _layout;
-    private IChart _chart;
     private DrawingOptions _drawingOption; 
     
-    private HandlePos _getHandle(AbstractElement elem, Transition trans){
+    private HandlePos _getHandle(AbstractElement elem, Transition trans)
+    {
         //Calculing center of the 2 elements of the transition + bottom left 
         Position elemPos = _layout.getPosition(elem);
         AbstractElement otherElem;
@@ -66,7 +65,8 @@ public class TransitionLayoutProcessor
             return HandlePos.RIGHT;
     }
     
-    private Point2D _getHandlePos(AbstractElement elem, HandlePos pos, Transition trans) {
+    private Point2D _getHandlePos(AbstractElement elem, HandlePos pos)
+    {
         Point2D handle = new Point2D.Double();
         Position elemPos = _layout.getPosition(elem);
         if ((!(elem instanceof SuperState))) {
@@ -96,10 +96,21 @@ public class TransitionLayoutProcessor
         return handle;
     }
     
-    public TransitionLayoutProcessor(ILayout layout, IChart chart){
-        _layout = layout;
-        _chart = chart;
+    private void _construct()
+    {
         _drawingOption = DrawingOptions.NO_BREAK_LINE;
+    }
+    
+    public BasicTransitionLayoutProcessor(ILayout layout, IChart chart)
+    {
+        super(layout, chart);
+        _construct();
+    }
+    
+    public BasicTransitionLayoutProcessor(ILayoutProcessor processorThatUsesMe)
+    {
+        super(processorThatUsesMe.getLayout(), processorThatUsesMe.getChart());
+        _construct();
     }
     
     public void setDrawingOption(DrawingOptions option)
@@ -148,30 +159,37 @@ public class TransitionLayoutProcessor
             }
     }
     
-    public void computeTransitionsLayout(){
+    @Override
+    public void computeTransitionsLayout()
+    {
         HandlePos handleOrigin = HandlePos.BOTTOM; //arbitrary default value
         HandlePos handleTarget = HandlePos.BOTTOM;
         Point2D posHandleOrigin;
         Point2D posHandleTarget;
         ArrayList<Point2D> path;
 
-        for (Transition trans : _chart.transitions()) {
+        for (Transition trans : _chart.transitions())
+        {
             path = new ArrayList();
-            if (trans.origin() instanceof State) {
+            if (trans.origin() instanceof State)
+            {
                 handleOrigin = _getHandle(trans.origin(), trans);
-                posHandleOrigin = _getHandlePos(trans.origin(), handleOrigin, trans);
+                posHandleOrigin = _getHandlePos(trans.origin(), handleOrigin);
             } 
-            else {
+            else
+            {
                 posHandleOrigin = _layout.getPosition(trans.origin()).getPoint2D();
                 posHandleOrigin.setLocation(posHandleOrigin.getX() + trans.origin().width() / 2,
                         posHandleOrigin.getY() + trans.origin().length() / 2);
             }
 
-            if (trans.target() instanceof State) {                
+            if (trans.target() instanceof State)
+            {                
                 handleTarget = _getHandle(trans.target(), trans);
-                posHandleTarget = _getHandlePos(trans.target(), handleTarget, trans);
+                posHandleTarget = _getHandlePos(trans.target(), handleTarget);
             } 
-            else {
+            else
+            {
                 posHandleTarget = _layout.getPosition(trans.target()).getPoint2D();
                 posHandleTarget.setLocation(posHandleTarget.getX() + trans.target().width() / 2,
                         posHandleTarget.getY() + trans.target().length() / 2);
@@ -183,13 +201,5 @@ public class TransitionLayoutProcessor
             path.add(posHandleTarget);
             _layout.addTransitionPath(trans, path);
         }
-    }
-    
-    public ILayout getLayout(){
-        return _layout;
-    }
-    
-    public IChart getChart(){
-        return _chart;
     }
 }

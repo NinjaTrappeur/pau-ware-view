@@ -16,6 +16,8 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
     protected ILayout _layout;
     protected IChart _chart;
     protected AbstractElement _chartAsAabstractElement;
+    ITransitionLayoutProcessor _transitionProcessor;
+
     
     private void _construct(ILayout initializedBySubclass)
     {
@@ -39,21 +41,70 @@ public abstract class AbstractLayoutProcessor implements ILayoutProcessor
     {
         _construct(null);
     }
-
+    
     @Override
-    public void init(IChart chart)
+    public void init(IChart chart, ITransitionLayoutProcessor transitionProcessor)
     {
         // pre: _chart instanceof AbstractElement
-        
         _chart = chart;
         if(_chart instanceof AbstractElement)
             _chartAsAabstractElement = (AbstractElement)chart;
+        this.setTransitionLayoutProcessor(transitionProcessor);
+    }
+    
+    @Override
+    public void init(IChart chart)
+    {
+        if(_transitionProcessor == null)
+        {
+            BasicTransitionLayoutProcessor btlp = new BasicTransitionLayoutProcessor(_layout, chart);
+            btlp.setDrawingOption(BasicTransitionLayoutProcessor.DrawingOptions.BREAK_LINE);
+            _transitionProcessor = btlp;
+        }
+        
+        this.init(chart, _transitionProcessor);
+    }
+    
+    @Override
+    public void setTransitionLayoutProcessor(ITransitionLayoutProcessor transitionProcessor)
+    {
+        _transitionProcessor = transitionProcessor;
+        _transitionProcessor.setLayout(_layout);
+        _transitionProcessor.setChart(_chart);
+    }
+
+    @Override
+    public void setLayout(ILayout layout)
+    {
+        _layout = layout;
+        
+        if(_transitionProcessor != null)
+        {
+            _transitionProcessor.setLayout(_layout);
+        }
+    }
+
+    @Override
+    public void setChart(IChart chart)
+    {
+        _chart = chart;
+        
+        if(_transitionProcessor != null)
+        {
+            _transitionProcessor.setChart(_chart);
+        }
     }
     
     @Override
     public ILayout getLayout()
     {
         return _layout;
+    }
+    
+    @Override
+    public IChart getChart()
+    {
+        return _chart;
     }
     
     //for use in _setSize()

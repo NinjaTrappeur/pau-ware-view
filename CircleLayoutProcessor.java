@@ -50,9 +50,7 @@ public class CircleLayoutProcessor extends AbstractLayoutProcessor
         }
         
         //Computing transitions
-        TransitionLayoutProcessor transitionProcessor= new TransitionLayoutProcessor(_layout,_chart);
-        transitionProcessor.setDrawingOption(TransitionLayoutProcessor.DrawingOptions.BREAK_LINE);
-        transitionProcessor.computeTransitionsLayout();
+        _transitionProcessor.computeTransitionsLayout();
     }
     
     protected float _computeRadius(AbstractElement container, AbstractElement substate, float maxX, float maxY, float angle, float marginX, float marginY)
